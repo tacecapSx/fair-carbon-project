@@ -3,6 +3,8 @@ import 'package:provider/provider.dart';
 import 'async_provider.dart';
 import 'constants.dart';
 
+import 'higher_lower_page.dart';
+
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -65,10 +67,10 @@ class HomePageWidgetState extends State<HomePageWidget> {
             TextButton(
               onPressed: () {
                 //TODO Uncomment when HigherLowerPage exists!
-                /*Navigator.push(
+                Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => HigherLowerPage()),
-                );*/
+                );
               },
               style: ButtonStyle(
                 backgroundColor: MaterialStateColor.resolveWith((states) => AppColors.secondaryColor),
