@@ -1,3 +1,4 @@
+import 'package:carbon_footprint/questionnaire%20.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'async_provider.dart';
@@ -27,7 +28,7 @@ class MainApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const HomePageWidget(),
+      home: QuestionnairePage(),
     );
   }
 }
