@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class HigherLowerPage extends StatelessWidget {
+    const HigherLowerPage({super.key});
+
     @override
     Widget build(BuildContext context) {
     double windowHeight = MediaQuery.of(context).size.height;
@@ -9,7 +11,7 @@ class HigherLowerPage extends StatelessWidget {
     return Container(
 
     //Display images
-    padding: EdgeInsets.only(top: 75.0),
+    padding: const EdgeInsets.only(top: 75.0),
         child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
@@ -65,7 +67,7 @@ class HigherLowerPage extends StatelessWidget {
                                             Colors.white.withOpacity(0.6),
                                         ),
 
-                                        side: MaterialStateProperty.all(BorderSide(
+                                        side: MaterialStateProperty.all(const BorderSide(
                                         color: Colors.black,
                                         width: 4.0, 
                                         )),
@@ -74,7 +76,7 @@ class HigherLowerPage extends StatelessWidget {
                                             Colors.green,
                                         ),
                                     ),
-                                    child: Text(
+                                    child: const Text(
                                             'Higher ▲',
                                             style: TextStyle(
                                                 fontWeight: FontWeight.bold,
@@ -85,7 +87,7 @@ class HigherLowerPage extends StatelessWidget {
                                 ),
                             
                             //Lower button
-                            SizedBox(height: 20),
+                            const SizedBox(height: 20),
                             SizedBox(
                                 width: 150,
                                 height: 60, 
@@ -98,7 +100,7 @@ class HigherLowerPage extends StatelessWidget {
                                             Colors.white.withOpacity(0.6), 
                                         ),
 
-                                        side: MaterialStateProperty.all(BorderSide(
+                                        side: MaterialStateProperty.all(const BorderSide(
                                         color: Colors.black,
                                         width: 4.0, 
                                         )),
@@ -107,7 +109,7 @@ class HigherLowerPage extends StatelessWidget {
                                             Colors.red,
                                         ),
                                     ),
-                                    child: Text(
+                                    child: const Text(
                                         'Lower ▼',
                                         style: TextStyle(
                                         fontWeight: FontWeight.bold,

@@ -1,29 +1,13 @@
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'CO2 Calculator',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      home: QuestionnairePage(),
-    );
-  }
-}
-
 class QuestionnairePage extends StatefulWidget {
+  const QuestionnairePage({super.key});
+
   @override
-  _QuestionnairePageState createState() => _QuestionnairePageState();
+  QuestionnairePageState createState() => QuestionnairePageState();
 }
 
-class _QuestionnairePageState extends State<QuestionnairePage> {
+class QuestionnairePageState extends State<QuestionnairePage> {
   final List<Map<String, dynamic>> _questionnaire = [
     {
       'question': 'How would you best describe your diet?',
@@ -79,7 +63,7 @@ class _QuestionnairePageState extends State<QuestionnairePage> {
       appBar: AppBar(
         leading: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Image.asset('images/logo.png'),
+          child: Image.asset('assets/Logo.png'),
         ),
         title: const Text('FOOTPRINT CALCULATOR'),
         actions: [
@@ -89,9 +73,9 @@ class _QuestionnairePageState extends State<QuestionnairePage> {
         ],
       ),
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('images/background.png'), // Replace with your actual path to the background image
+            image: AssetImage('assets/Background.png'), // Replace with your actual path to the background image
             fit: BoxFit.cover,
           ),
         ),
@@ -105,13 +89,13 @@ class _QuestionnairePageState extends State<QuestionnairePage> {
                 LinearProgressIndicator(
                   value: (_currentQuestionIndex + 1) / _questionnaire.length,
                   backgroundColor: Colors.white,
-                  valueColor: AlwaysStoppedAnimation<Color>(Colors.green),
+                  valueColor: const AlwaysStoppedAnimation<Color>(Colors.green),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Text(
                     currentQuestion,
-                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),
+                    style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),
                     textAlign: TextAlign.center,
                   ),
                 ),
@@ -142,11 +126,11 @@ class _QuestionnairePageState extends State<QuestionnairePage> {
                   children: [
                     TextButton(
                       onPressed: _previousQuestion,
-                      child: Text('BACK', style: TextStyle(color: Colors.white)),
+                      child: const Text('BACK', style: TextStyle(color: Colors.white)),
                     ),
                     TextButton(
                       onPressed: _nextQuestion,
-                      child: Text('NEXT QUESTION', style: TextStyle(color: Colors.white)),
+                      child: const Text('NEXT QUESTION', style: TextStyle(color: Colors.white)),
                     ),
                   ],
                 ),

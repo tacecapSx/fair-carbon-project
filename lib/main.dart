@@ -1,4 +1,4 @@
-import 'package:carbon_footprint/questionnaire%20.dart';
+import 'questionnaire.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'async_provider.dart';
@@ -28,7 +28,7 @@ class MainApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: QuestionnairePage(),
+      home: const HomePageWidget(),
     );
   }
 }
@@ -50,11 +50,10 @@ class HomePageWidgetState extends State<HomePageWidget> {
           children: [
             TextButton(
               onPressed: () {
-                //TODO Uncomment when FootprintPage exists!
-                /*Navigator.push(
+                Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => FootprintPage()),
-                );*/
+                  MaterialPageRoute(builder: (context) => const QuestionnairePage()),
+                );
               },
               style: ButtonStyle(
                 backgroundColor: MaterialStateColor.resolveWith((states) => AppColors.secondaryColor),
@@ -67,7 +66,6 @@ class HomePageWidgetState extends State<HomePageWidget> {
             ),
             TextButton(
               onPressed: () {
-                //TODO Uncomment when HigherLowerPage exists!
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => HigherLowerPage()),
