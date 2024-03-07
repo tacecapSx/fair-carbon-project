@@ -1,9 +1,9 @@
+import 'package:carbon_footprint/custom_widgets.dart';
 import 'questionnaire.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'async_provider.dart';
 import 'constants.dart';
-
 import 'higher_lower_page.dart';
 
 void main() {
@@ -44,6 +44,7 @@ class HomePageWidgetState extends State<HomePageWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: const HeaderWidget(),
       body: Center(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,

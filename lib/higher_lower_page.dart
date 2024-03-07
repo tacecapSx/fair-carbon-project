@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'custom_widgets.dart';
 
 class HigherLowerPage extends StatelessWidget {
     const HigherLowerPage({super.key});
@@ -8,11 +9,11 @@ class HigherLowerPage extends StatelessWidget {
     double windowHeight = MediaQuery.of(context).size.height;
     double windowWidth = MediaQuery.of(context).size.width;
 
-    return Container(
+    return Scaffold(
 
-    //Display images
-    padding: const EdgeInsets.only(top: 75.0),
-        child: Row(
+      //Display images
+      appBar: const HeaderWidget(),
+      body: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
             Expanded(

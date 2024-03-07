@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'custom_widgets.dart';
 
 class QuestionnairePage extends StatefulWidget {
   const QuestionnairePage({super.key});
@@ -60,18 +61,7 @@ class QuestionnairePageState extends State<QuestionnairePage> {
     final List<String> currentAnswers = _questionnaire[_currentQuestionIndex]['answers'];
 
     return Scaffold(
-      appBar: AppBar(
-        leading: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Image.asset('assets/Logo.png'),
-        ),
-        title: const Text('FOOTPRINT CALCULATOR'),
-        actions: [
-          TextButton(onPressed: () {}, child: const Text('Your footprint', style: TextStyle(color: Colors.black))),
-          TextButton(onPressed: () {}, child: const Text('Higher/Lower', style: TextStyle(color: Colors.black))),
-          TextButton(onPressed: () {}, child: const Text('About', style: TextStyle(color: Colors.black))),
-        ],
-      ),
+      appBar: const HeaderWidget(),
       body: Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
