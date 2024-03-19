@@ -1,4 +1,7 @@
+import 'package:carbon_footprint/higher_lower_page.dart';
+import 'package:carbon_footprint/questionnaire.dart';
 import 'package:flutter/material.dart';
+
 import 'constants.dart';
 
 class HeaderWidget extends StatelessWidget implements PreferredSizeWidget {
@@ -16,16 +19,34 @@ class HeaderWidget extends StatelessWidget implements PreferredSizeWidget {
       ),
       title: const Text('FOOTPRINT CALCULATOR'),
       actions: [
-        TextButton(onPressed: () {}, child: const Text('Your footprint', style: TextStyle(color: Colors.black))),
-        TextButton(onPressed: () {}, child: const Text('Higher/Lower', style: TextStyle(color: Colors.black))),
-        TextButton(onPressed: () {}, child: const Text('About', style: TextStyle(color: Colors.black))),
+        TextButton(
+            onPressed: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => QuestionnairePage()));
+            },
+            child: const Text('Your footprint',
+                style: TextStyle(color: Colors.black))),
+        TextButton(
+            onPressed: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => HigherLowerPage()));
+            },
+            child: const Text('Higher/Lower',
+                style: TextStyle(color: Colors.black))),
+        TextButton(
+            onPressed: () {},
+            child: const Text('About', style: TextStyle(color: Colors.black))),
       ],
     );
   }
 }
 
 class ImageButtonWidget extends StatefulWidget {
-  const ImageButtonWidget({super.key, required this.page, required this.text, required this.imagePath});
+  const ImageButtonWidget(
+      {super.key,
+      required this.page,
+      required this.text,
+      required this.imagePath});
 
   final Widget page;
   final String text;
@@ -44,7 +65,7 @@ class ImageButtonWidgetState extends State<ImageButtonWidget> {
         onEnter: (_) => setState(() => _isHovered = true),
         onExit: (_) => setState(() => _isHovered = false),
         child: InkWell(
-            onTap: () {
+          onTap: () {
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => widget.page),
@@ -52,7 +73,7 @@ class ImageButtonWidgetState extends State<ImageButtonWidget> {
           },
           child: LayoutBuilder(
             builder: (BuildContext context, BoxConstraints constraints) {
-                return Stack(
+              return Stack(
                 children: [
                   OverflowBox(
                     alignment: Alignment.topRight,
@@ -65,14 +86,16 @@ class ImageButtonWidgetState extends State<ImageButtonWidget> {
                         ),
                         AnimatedContainer(
                           duration: const Duration(milliseconds: 300),
-                          color: Colors.black.withOpacity(_isHovered ? 0.5 : 0.75),
+                          color:
+                              Colors.black.withOpacity(_isHovered ? 0.5 : 0.75),
                         )
                       ],
                     ),
                   ),
                   Center(
-                    child: Text(widget.text, style: const TextStyle(fontSize: 36, color: AppColors.whiteTextColor))
-                  )
+                      child: Text(widget.text,
+                          style: const TextStyle(
+                              fontSize: 36, color: AppColors.whiteTextColor)))
                 ],
               );
             },
