@@ -1,3 +1,7 @@
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
+import 'package:firebase_database/firebase_database.dart';
+
 import 'package:carbon_footprint/custom_widgets.dart';
 import 'questionnaire.dart';
 import 'package:flutter/material.dart';
@@ -5,8 +9,13 @@ import 'package:provider/provider.dart';
 import 'async_provider.dart';
 import 'higher_lower_page.dart';
 
-void main() {
+void main() async{
   WidgetsFlutterBinding.ensureInitialized();
+
+  // Initializing Firebase
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 
   runApp(
     ChangeNotifierProvider(

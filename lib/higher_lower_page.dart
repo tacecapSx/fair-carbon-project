@@ -1,5 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'custom_widgets.dart';
+
+void sendDataToFirebase() {
+  // Get a reference to the database
+  DatabaseReference databaseReference = FirebaseDatabase.instance.reference();
+
+  // Set data to a specific location in the database
+  databaseReference.child('Testing message').push().set({
+    'message': 'Testing database',
+  }).catchError((error) {
+    print('Failed to send data to Firebase: $error');
+  });
+}
 
 class HigherLowerPage extends StatelessWidget {
     const HigherLowerPage({super.key});
@@ -57,6 +70,7 @@ class HigherLowerPage extends StatelessWidget {
                             child: TextButton(
                                 onPressed: () {
                                     //   when button is pressed
+                                    sendDataToFirebase();
                                 },
 
                                 style: ButtonStyle(
