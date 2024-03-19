@@ -3,7 +3,6 @@ import 'questionnaire.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'async_provider.dart';
-import 'constants.dart';
 import 'higher_lower_page.dart';
 
 void main() {
@@ -43,47 +42,15 @@ class HomePageWidget extends StatefulWidget {
 class HomePageWidgetState extends State<HomePageWidget> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: const HeaderWidget(),
-      body: Center(
-        child: Row(
+    return const Scaffold(
+      appBar: HeaderWidget(),
+        body: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            TextButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const QuestionnairePage()),
-                );
-              },
-              style: ButtonStyle(
-                backgroundColor: MaterialStateColor.resolveWith((states) => AppColors.secondaryColor),
-                overlayColor: MaterialStateColor.resolveWith((states) => AppColors.primaryColor)
-              ),
-              child: const Text(
-                "My Footprint",
-                style: TextStyle(color: AppColors.whiteTextColor, fontSize: 32)
-              ),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => HigherLowerPage()),
-                );
-              },
-              style: ButtonStyle(
-                backgroundColor: MaterialStateColor.resolveWith((states) => AppColors.secondaryColor),
-                overlayColor: MaterialStateColor.resolveWith((states) => AppColors.primaryColor)
-              ),
-              child: const Text(
-                "Higher / Lower",
-                style: TextStyle(color: AppColors.whiteTextColor, fontSize: 32)
-              ),
-            ),
+            ImageButtonWidget(text: "Footprint Calculator", imagePath: "assets/calculator.jpg", page: QuestionnairePage()),
+            ImageButtonWidget(text: "Higher / Lower", imagePath: "assets/higherlowerpage.png", page: HigherLowerPage())
           ]
         ),
-      ),
     );
   }
 }
