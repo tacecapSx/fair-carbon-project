@@ -1,3 +1,5 @@
+import 'package:carbon_footprint/higher_lower_page.dart';
+import 'package:carbon_footprint/questionnaire.dart';
 import 'package:flutter/material.dart';
 
 class HeaderWidget extends StatelessWidget implements PreferredSizeWidget {
@@ -15,9 +17,23 @@ class HeaderWidget extends StatelessWidget implements PreferredSizeWidget {
       ),
       title: const Text('FOOTPRINT CALCULATOR'),
       actions: [
-        TextButton(onPressed: () {}, child: const Text('Your footprint', style: TextStyle(color: Colors.black))),
-        TextButton(onPressed: () {}, child: const Text('Higher/Lower', style: TextStyle(color: Colors.black))),
-        TextButton(onPressed: () {}, child: const Text('About', style: TextStyle(color: Colors.black))),
+        TextButton(
+            onPressed: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => QuestionnairePage()));
+            },
+            child: const Text('Your footprint',
+                style: TextStyle(color: Colors.black))),
+        TextButton(
+            onPressed: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => HigherLowerPage()));
+            },
+            child: const Text('Higher/Lower',
+                style: TextStyle(color: Colors.black))),
+        TextButton(
+            onPressed: () {},
+            child: const Text('About', style: TextStyle(color: Colors.black))),
       ],
     );
   }
