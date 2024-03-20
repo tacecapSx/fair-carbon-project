@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "982254527659",
+    "firebase_url": "https://fair-carbon-project-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "fair-carbon-project",
+    "storage_bucket": "fair-carbon-project.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:982254527659:android:0348d5373f9ade9c2e43ee",
+        "android_client_info": {
+          "package_name": "com.example.carbon_footprint"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDZNCzShkP9G4pYjBEaZ7SVker1Wtj8IsM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
