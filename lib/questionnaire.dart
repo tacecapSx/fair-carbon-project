@@ -100,6 +100,12 @@ class _QuestionnairePageState extends State<QuestionnairePage> {
             padding: const EdgeInsets.all(16),
             child: Column(
               children: <Widget>[
+                // Header
+                Text(
+                  'What is your meat consumption within a year?',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+
                 ..._consumptionControllers.keys.map((key) {
                   return TextField(
                     controller: _consumptionControllers[key]!,
@@ -125,6 +131,10 @@ class _QuestionnairePageState extends State<QuestionnairePage> {
             padding: const EdgeInsets.all(16),
             child: Column(
               children: <Widget>[
+                Text(
+                  'How many kilometers do you fly in a year?',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
                 TextField(
                   controller: _flightController,
                   decoration: const InputDecoration(
