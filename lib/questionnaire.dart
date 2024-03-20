@@ -1,118 +1,155 @@
 import 'package:flutter/material.dart';
 
-import 'custom_widgets.dart';
+import 'Overview.dart';
 
 class QuestionnairePage extends StatefulWidget {
   const QuestionnairePage({Key? key}) : super(key: key);
 
   @override
-  State<QuestionnairePage> createState() => _QuestionnairePageState();
+  _QuestionnairePageState createState() => _QuestionnairePageState();
 }
 
 class _QuestionnairePageState extends State<QuestionnairePage> {
-  final List<Map<String, String>> _questionnaire = [
-    {
-      'question': 'How would you best describe your diet?',
-    },
-    {
-      'question': 'How many kilometers have you flown in the last year?',
-    },
-  ];
-
-  int _currentQuestionIndex = 0;
-  final TextEditingController _answerController = TextEditingController();
-
-  void _nextQuestion() {
-    if (_currentQuestionIndex < _questionnaire.length - 1) {
-      setState(() {
-        _currentQuestionIndex++;
-        _answerController.clear();
-      });
-    }
-  }
-
-  void _previousQuestion() {
-    if (_currentQuestionIndex > 0) {
-      setState(() {
-        _currentQuestionIndex--;
-        _answerController.clear();
-      });
-    }
-  }
+  final PageController _pageController = PageController();
+  final Map<String, TextEditingController> _consumptionControllers = {
+    'Beef': TextEditingController(),
+    'Chicken': TextEditingController(),
+    'Fish': TextEditingController(),
+    'Pork': TextEditingController(),
+  };
+  final TextEditingController _flightController = TextEditingController();
 
   @override
   void dispose() {
-    _answerController.dispose();
+    _pageController.dispose();
+    _consumptionControllers.values
+        .forEach((controller) => controller.dispose());
+    _flightController.dispose();
     super.dispose();
+  }
+
+  void nextPage() {
+    _pageController.nextPage(
+      duration: Duration(milliseconds: 500),
+      curve: Curves.ease,
+    );
+  }
+
+  void navigateToOverview() {
+    final Map<String, double> meatCo2PerKg = {
+      'Beef': 27.0,
+      'Chicken': 6.9,
+      'Fish': 4.5,
+      'Pork': 12.1,
+    };
+
+    double beefCo2Impact =
+        (double.tryParse(_consumptionControllers['Beef']?.text ?? '0') ?? 0.0) *
+            meatCo2PerKg['Beef']!;
+    double chickenCo2Impact =
+        (double.tryParse(_consumptionControllers['Chicken']?.text ?? '0') ??
+                0.0) *
+            meatCo2PerKg['Chicken']!;
+    double fishCo2Impact =
+        (double.tryParse(_consumptionControllers['Fish']?.text ?? '0') ?? 0.0) *
+            meatCo2PerKg['Fish']!;
+    double porkCo2Impact =
+        (double.tryParse(_consumptionControllers['Pork']?.text ?? '0') ?? 0.0) *
+            meatCo2PerKg['Pork']!;
+    double flightCo2Impact =
+        (double.tryParse(_flightController.text) ?? 0.0) * 0.115;
+
+// calculting the total co2
+    double totalCo2Impact = beefCo2Impact +
+        chickenCo2Impact +
+        fishCo2Impact +
+        porkCo2Impact +
+        flightCo2Impact;
+
+// pushing data to overview page
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => OverviewPage(
+          beefCo2Impact: beefCo2Impact,
+          flyCo2Impact: flightCo2Impact,
+          totalCo2Impact: totalCo2Impact,
+          chickenCo2Impact: chickenCo2Impact,
+          fishCo2Impact: fishCo2Impact,
+          porkCo2Impact: porkCo2Impact,
+          flightCo2Impact: flightCo2Impact,
+          userAnswers: [],
+          co2Impact: totalCo2Impact,
+        ),
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    final currentQuestion = _questionnaire[_currentQuestionIndex]['question'] ??
-        'No question available';
-
     return Scaffold(
-      appBar: const HeaderWidget(),
-      body: Container(
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('assets/Background.png'),
-            fit: BoxFit.cover,
-          ),
-        ),
-        child: Center(
-          child: Container(
-            padding: const EdgeInsets.all(8.0),
-            color: Colors.black.withOpacity(0.6),
+      appBar: AppBar(
+        title: const Text('Questionnaire'),
+      ),
+      body: PageView(
+        controller: _pageController,
+        physics: NeverScrollableScrollPhysics(),
+        children: [
+          // the first page for meat question
+          SingleChildScrollView(
+            padding: const EdgeInsets.all(16),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                LinearProgressIndicator(
-                  value: (_currentQuestionIndex + 1) / _questionnaire.length,
-                  backgroundColor: Colors.white,
-                  valueColor: const AlwaysStoppedAnimation<Color>(Colors.green),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Text(
-                    currentQuestion,
-                    style: const TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: TextField(
-                    controller: _answerController,
-                    decoration: const InputDecoration(
-                      hintText: "Enter your answer here",
+                ..._consumptionControllers.keys.map((key) {
+                  return TextField(
+                    controller: _consumptionControllers[key]!,
+                    decoration: InputDecoration(
+                      labelText: '$key consumption (kg)',
                       fillColor: Colors.white,
                       filled: true,
                     ),
-                  ),
-                ),
-                ButtonBar(
-                  alignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    TextButton(
-                      onPressed: _previousQuestion,
-                      child: const Text('BACK',
-                          style: TextStyle(color: Colors.white)),
-                    ),
-                    TextButton(
-                      onPressed: _nextQuestion,
-                      child: const Text('NEXT QUESTION',
-                          style: TextStyle(color: Colors.white)),
-                    ),
-                  ],
+                    keyboardType:
+                        TextInputType.numberWithOptions(decimal: true),
+                  );
+                }).toList(),
+                const SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: nextPage,
+                  child: const Text('Next'),
                 ),
               ],
             ),
           ),
-        ),
+          // the secound page for fly question
+          SingleChildScrollView(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              children: <Widget>[
+                TextField(
+                  controller: _flightController,
+                  decoration: const InputDecoration(
+                    labelText: 'Flight kilometers last year',
+                    fillColor: Colors.white,
+                    filled: true,
+                  ),
+                  keyboardType: TextInputType.numberWithOptions(decimal: true),
+                ),
+                const SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: navigateToOverview,
+                  child: const Text('Calculate and View Overview'),
+                ),
+                ElevatedButton(
+                  onPressed: () => _pageController.previousPage(
+                    duration: Duration(milliseconds: 500),
+                    curve: Curves.ease,
+                  ),
+                  child: const Text('Previous'),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
