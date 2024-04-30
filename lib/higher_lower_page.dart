@@ -1,17 +1,21 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:firebase_database/firebase_database.dart';
-import 'custom_widgets.dart';
+import 'package:flutter/services.dart';
 
-void sendDataToFirebase() {
-  // Get a reference to the database
-  DatabaseReference databaseReference = FirebaseDatabase.instance.reference();
+class CO2ComparisonItem {
+  final String description;
+  final double co2Impact;
+  final String imagePath;
 
-  // Set data to a specific location in the database
-  databaseReference.child('Testing message').push().set({
-    'message': 'Testing database',
-  }).catchError((error) {
-    print('Failed to send data to Firebase: $error');
-  });
+  CO2ComparisonItem({required this.description, required this.co2Impact, required this.imagePath});
+
+  factory CO2ComparisonItem.fromJson(Map<String, dynamic> json) {
+    return CO2ComparisonItem(
+      description: json['description'],
+      co2Impact: (json['co2Impact'] as num).toDouble(),
+      imagePath: json['imagePath'],
+    );
+  }
 }
 
 class HigherLowerPage extends StatefulWidget {
@@ -21,185 +25,145 @@ class HigherLowerPage extends StatefulWidget {
   _HigherLowerPageState createState() => _HigherLowerPageState();
 }
 
-void animatePage(AnimationController _controller){
-  if (_controller.status == AnimationStatus.completed) {
-    _controller.reverse();
-  } else {
-    _controller.forward();
-  }
-}
-
-class _HigherLowerPageState extends State<HigherLowerPage>
-    with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
-  late Animation<Offset> _animation;
-
-  double windowWidth = 0;
+class _HigherLowerPageState extends State<HigherLowerPage> {
+  List<CO2ComparisonItem> items = [];
+  int currentIndex = 0;
+  int score = 0;
 
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 500),
-    );
-    _controller.addStatusListener((status) {
-      if (status == AnimationStatus.completed) {
-        _controller.reset();
-      }
+    loadQuestions().then((loadedItems) {
+      setState(() {
+        items = loadedItems;
+      });
     });
+  }
+// load json spørgsmål
+  Future<List<CO2ComparisonItem>> loadQuestions() async {
+    final String response = await rootBundle.loadString('assets/questions.json');
+    final data = await json.decode(response);
+    return List<CO2ComparisonItem>.from(
+      data.map((item) => CO2ComparisonItem.fromJson(item))
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    windowWidth = MediaQuery.of(context).size.width;
+    if (items.isEmpty) {
+      return Scaffold(
+        appBar: AppBar(title: Text("Loading questions...")),
+        body: Center(child: CircularProgressIndicator()),
+      );
+    }
 
-    _animation = Tween<Offset>(
-      begin: const Offset(0.0, 0.0),
-      end: Offset(windowWidth / 2, 0.0),
-    ).animate(CurvedAnimation(
-      parent: _controller,
-      curve: Curves.easeInOut,
-    ));
+    CO2ComparisonItem current = items[currentIndex];
+    CO2ComparisonItem next = items[(currentIndex + 1) % items.length];
 
     return Scaffold(
-  appBar: const HeaderWidget(),
-  body: AnimatedBuilder(
-    animation: _controller,
-    builder: (context, child) {
-      return Stack(
+      body: Column(
         children: [
-          Positioned(
-            left: 0,
-            child: Image.asset(
-              'assets/private_jet.jpg',
-              height: MediaQuery.of(context).size.height,
-              fit: BoxFit.cover,
-            ),
-          ),
-          Transform.translate(
-            offset: _animation.value,
+          Expanded(
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Expanded(
-                  child: AspectRatio(
-                    aspectRatio: 0.01,
-                    child: ClipRect(
-                      child: OverflowBox(
-                        alignment: Alignment.topLeft,
-                        child: Image.asset(
-                          'assets/forest_fire.jpg',
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-
-                Expanded(
-                  child: LayoutBuilder(
-                    builder: (BuildContext context, BoxConstraints constraints) {
-                      return Stack(
-                        children: [
-                          OverflowBox(
-                            alignment: Alignment.topRight,
-                            child: Image.asset(
-                              'assets/apple_macbook_pro_16_2.jpg',
-                              fit: BoxFit.cover,
-                              height: constraints.maxHeight,
-                            ),
-                          ),
-                          Center(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                SizedBox(
-                                  width: 150,
-                                  height: 60,
-                                  child: TextButton(
-                                    onPressed: () {
-                                      sendDataToFirebase();
-                                      if (_controller.status != AnimationStatus.forward &&
-                                          _controller.status != AnimationStatus.completed) {
-                                        _controller.forward();
-                                      } else {
-                                        _controller.reverse();
-                                      }
-                                    },
-                                    style: ButtonStyle(
-                                      backgroundColor: MaterialStateProperty.all<Color>(
-                                        Colors.white.withOpacity(0.6),
-                                      ),
-                                      side: MaterialStateProperty.all(
-                                        const BorderSide(
-                                          color: Colors.black,
-                                          width: 4.0,
-                                        ),
-                                      ),
-                                      foregroundColor: MaterialStateProperty.all<Color>(
-                                        Colors.green,
-                                      ),
-                                    ),
-                                    child: const Text(
-                                      'Higher ▲',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 20,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(height: 20),
-                                SizedBox(
-                                  width: 170,
-                                  height: 60,
-                                  child: TextButton(
-                                    onPressed: () {},
-                                    style: ButtonStyle(
-                                      backgroundColor: MaterialStateProperty.all<Color>(
-                                        Colors.white.withOpacity(0.6),
-                                      ),
-                                      side: MaterialStateProperty.all(
-                                        const BorderSide(
-                                          color: Colors.black,
-                                          width: 4.0,
-                                        ),
-                                      ),
-                                      foregroundColor: MaterialStateProperty.all<Color>(
-                                        Colors.red,
-                                      ),
-                                    ),
-                                    child: const Text(
-                                      'Lower ▼',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 20,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      );
-                    },
-                  ),
-                ),
+                _buildItemPanel(current, context, showCO2: true),
+                _buildItemPanel(next, context, showCO2: false),
               ],
             ),
           ),
+          Container(
+            padding: EdgeInsets.symmetric(vertical: 10.0),
+            color: Colors.black87,
+            child: Center(
+              child: Text(
+                'Score: $score',
+                style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold, color: Colors.white),
+              ),
+            ),
+          ),
         ],
-      );
-    },
-  ),
-);
+      ),
+    );
   }
 
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
+  Widget _buildItemPanel(CO2ComparisonItem item, BuildContext context, {required bool showCO2}) {
+    return Expanded(
+      child: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage(item.imagePath),
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              item.description,
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),
+            ),
+            if (showCO2) Text(
+              '${item.co2Impact.toStringAsFixed(2)} kg CO2',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.yellow),
+            ),
+            if (!showCO2) ElevatedButton(
+              onPressed: () => evaluateAnswer(true, item.co2Impact),
+              child: Text('Higher'),
+              style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
+            ),
+            if (!showCO2) ElevatedButton(
+              onPressed: () => evaluateAnswer(false, item.co2Impact),
+              child: Text('Lower'),
+              style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+// checker scvar 
+  void evaluateAnswer(bool higher, double nextImpact) {
+    CO2ComparisonItem current = items[currentIndex];
+    bool correct = (higher && nextImpact > current.co2Impact) ||
+                   (!higher && nextImpact < current.co2Impact);
+
+    if (correct) {
+      setState(() {
+        score++;
+        currentIndex = (currentIndex + 1) % items.length;
+      });
+    } else {
+      setState(() {
+        score = 0; // Reset hvis forkert svar
+      });
+      showIncorrectDialog(nextImpact);
+    }
+  }
+ // lav dialog boks 
+  void showIncorrectDialog(double nextImpact) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Incorrect!'),
+          content: Text('The correct answer was ${nextImpact > items[currentIndex].co2Impact ? "Higher" : "Lower"} CO2 impact.'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); 
+                evaluateNext(); 
+              },
+              child: const Text('Continue'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+// opdater index
+  void evaluateNext() {
+    setState(() {
+      currentIndex = (currentIndex + 1) % items.length; 
+    });
   }
 }

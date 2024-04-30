@@ -1,0 +1,23 @@
+[
+    {
+      "description": "Buying a plastic bag",
+      "co2Impact": 0.03,
+      "imagePath": "assets/PlasticBag.jpg"
+    },
+    {
+      "description": "Flying 10 miles",
+      "co2Impact": 66.0,
+      "imagePath": "assets/Flying.jpg"
+    },
+    {
+        "description": "Buying 1 kg of meat",
+        "co2Impact": 2.0,
+        "imagePath": "assets/Meat.jpg"
+    },
+    {
+        "description": "Flying 2 miles",
+        "co2Impact": 12.0,
+        "imagePath": "assets/forest_fire.jpg"
+    }
+  ]
+  
