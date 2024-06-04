@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'higher_lower_loss_page.dart';
 
 class CO2ComparisonItem {
   final String description;
@@ -133,33 +134,18 @@ class _HigherLowerPageState extends State<HigherLowerPage> {
         currentIndex = (currentIndex + 1) % items.length;
       });
     } else {
-      setState(() {
-        score = 0; // Reset hvis forkert svar
-      });
-      showIncorrectDialog(nextImpact);
+      Navigator.push( //go to loss page
+        context,
+        MaterialPageRoute(
+          builder: (context) => HigherLowerLossPage(
+            finalScore: score,
+            correctAnswer: nextImpact > items[currentIndex].co2Impact ? "Higher" : "Lower",
+          ),
+        ),
+      );
     }
   }
- // lav dialog boks 
-  void showIncorrectDialog(double nextImpact) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Incorrect!'),
-          content: Text('The correct answer was ${nextImpact > items[currentIndex].co2Impact ? "Higher" : "Lower"} CO2 impact.'),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop(); 
-                evaluateNext(); 
-              },
-              child: const Text('Continue'),
-            ),
-          ],
-        );
-      },
-    );
-  }
+ 
 // opdater index
   void evaluateNext() {
     setState(() {
