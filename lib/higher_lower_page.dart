@@ -8,7 +8,11 @@ class CO2ComparisonItem {
   final double co2Impact;
   final String imagePath;
 
-  CO2ComparisonItem({required this.description, required this.co2Impact, required this.imagePath});
+  CO2ComparisonItem({
+    required this.description,
+    required this.co2Impact,
+    required this.imagePath,
+  });
 
   factory CO2ComparisonItem.fromJson(Map<String, dynamic> json) {
     return CO2ComparisonItem(
@@ -26,10 +30,14 @@ class HigherLowerPage extends StatefulWidget {
   _HigherLowerPageState createState() => _HigherLowerPageState();
 }
 
-class _HigherLowerPageState extends State<HigherLowerPage> {
+class _HigherLowerPageState extends State<HigherLowerPage>
+    with SingleTickerProviderStateMixin {
   List<CO2ComparisonItem> items = [];
   int currentIndex = 0;
   int score = 0;
+  bool animationActive = false;
+
+  late AnimationController _animationController;
 
   @override
   void initState() {
@@ -39,14 +47,35 @@ class _HigherLowerPageState extends State<HigherLowerPage> {
         items = loadedItems;
       });
     });
+
+    _animationController = AnimationController(
+      vsync: this,
+      duration: Duration(milliseconds: 500),
+    );
+
+    _animationController.addStatusListener((status) {
+      if (status == AnimationStatus.completed) {
+        _animationController.reset();
+        setState(() {
+          animationActive = false;
+        });
+        evaluateNext();
+      }
+    });
   }
-// load json spørgsmål
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
+  }
+
   Future<List<CO2ComparisonItem>> loadQuestions() async {
-    final String response = await rootBundle.loadString('assets/questions.json');
+    final String response =
+        await rootBundle.loadString('assets/questions.json');
     final data = await json.decode(response);
     return List<CO2ComparisonItem>.from(
-      data.map((item) => CO2ComparisonItem.fromJson(item))
-    );
+        data.map((item) => CO2ComparisonItem.fromJson(item)));
   }
 
   @override
@@ -60,6 +89,7 @@ class _HigherLowerPageState extends State<HigherLowerPage> {
 
     CO2ComparisonItem current = items[currentIndex];
     CO2ComparisonItem next = items[(currentIndex + 1) % items.length];
+    CO2ComparisonItem future = items[(currentIndex + 2) % items.length];
 
     return Scaffold(
       body: Column(
@@ -67,8 +97,8 @@ class _HigherLowerPageState extends State<HigherLowerPage> {
           Expanded(
             child: Row(
               children: [
-                _buildItemPanel(current, context, showCO2: true),
-                _buildItemPanel(next, context, showCO2: false),
+                _buildItemPanel(current, future, context, showCO2: true),
+                _buildItemPanel(next, future, context, showCO2: false),
               ],
             ),
           ),
@@ -78,7 +108,10 @@ class _HigherLowerPageState extends State<HigherLowerPage> {
             child: Center(
               child: Text(
                 'Score: $score',
-                style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold, color: Colors.white),
+                style: TextStyle(
+                    fontSize: 24.0,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white),
               ),
             ),
           ),
@@ -87,69 +120,143 @@ class _HigherLowerPageState extends State<HigherLowerPage> {
     );
   }
 
-  Widget _buildItemPanel(CO2ComparisonItem item, BuildContext context, {required bool showCO2}) {
+  Widget _buildItemPanel(CO2ComparisonItem item, CO2ComparisonItem futureItem,
+      BuildContext context,
+      {required bool showCO2}) {
     return Expanded(
       child: Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage(item.imagePath),
-            fit: BoxFit.cover,
-          ),
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              item.description,
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),
-            ),
-            if (showCO2) Text(
-              '${item.co2Impact.toStringAsFixed(2)} kg CO2',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.yellow),
-            ),
-            if (!showCO2) ElevatedButton(
-              onPressed: () => evaluateAnswer(true, item.co2Impact),
-              child: Text('Higher'),
-              style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
-            ),
-            if (!showCO2) ElevatedButton(
-              onPressed: () => evaluateAnswer(false, item.co2Impact),
-              child: Text('Lower'),
-              style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
-            ),
-          ],
+        child: LayoutBuilder(
+          builder: (BuildContext context, BoxConstraints constraints) {
+            double containerWidth = constraints.maxWidth;
+            return Stack(
+              children: [
+                SlideTransition(
+                  position: Tween<Offset>(
+                    begin: const Offset(0.0, 0.0),
+                    end: const Offset(-1.0, 0.0),
+                  ).animate(CurvedAnimation(
+                    parent: _animationController,
+                    curve: Curves.easeInOut,
+                  )),
+                  child: Container(
+                    child: Stack(
+                      children: [
+                        Positioned.fill(
+                          child: AspectRatio(
+                            aspectRatio: 1.0,
+                            child: Image.asset(
+                              item.imagePath,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                        Positioned.fill(
+                          child: AspectRatio(
+                            aspectRatio: 1.0,
+                            child: Transform.translate(
+                              offset: Offset(containerWidth * 1, 0.0),
+                              child: Image.asset(
+                                futureItem.imagePath,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        item.description,
+                        style: TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white),
+                        textAlign: TextAlign.center,
+                      ),
+                      if (showCO2)
+                        Text(
+                          '${item.co2Impact.toStringAsFixed(2)} kg CO2',
+                          style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.yellow),
+                        ),
+                      if (!showCO2)
+                        ElevatedButton(
+                          onPressed: animationActive ? null : () =>
+                                  evaluateAnswer(true, item.co2Impact),
+                          child: Text('Higher'),
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.green),
+                        ),
+                      if (!showCO2)
+                        ElevatedButton(
+                          onPressed: animationActive ? null : () =>
+                                  evaluateAnswer(false, item.co2Impact),
+                          child: Text('Lower'),
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.red),
+                        ),
+
+                      if (animationActive & !showCO2)
+                        Text(
+                          '${item.co2Impact.toStringAsFixed(2)} kg CO2',
+                          style: TextStyle(
+                              fontSize: 35,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.yellow),
+                        ),
+                    ],
+                  ),
+                ),
+              ],
+            );
+          },
         ),
       ),
     );
   }
-// checker scvar 
+
   void evaluateAnswer(bool higher, double nextImpact) {
     CO2ComparisonItem current = items[currentIndex];
     bool correct = (higher && nextImpact > current.co2Impact) ||
-                   (!higher && nextImpact < current.co2Impact);
+        (!higher && nextImpact < current.co2Impact);
 
     if (correct) {
       setState(() {
-        score++;
-        currentIndex = (currentIndex + 1) % items.length;
+        animationActive = true; // Set animationActive to true immediately
+      });
+
+      // Delay the animation by 2 seconds
+      Future.delayed(Duration(seconds: 2), () {
+        setState(() {
+          score++;
+          _animationController.forward();
+        });
       });
     } else {
-      Navigator.push( //go to loss page
+      Navigator.push(
         context,
         MaterialPageRoute(
           builder: (context) => HigherLowerLossPage(
             finalScore: score,
-            correctAnswer: nextImpact > items[currentIndex].co2Impact ? "Higher" : "Lower",
+            correctAnswer: nextImpact > items[currentIndex].co2Impact
+                ? "Higher"
+                : "Lower",
           ),
         ),
       );
     }
   }
- 
-// opdater index
+
   void evaluateNext() {
     setState(() {
-      currentIndex = (currentIndex + 1) % items.length; 
+      currentIndex = (currentIndex + 1) % items.length;
     });
   }
 }
