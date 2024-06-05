@@ -1,30 +1,37 @@
+
+
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 class OverviewPage extends StatelessWidget {
   final double beefCo2Impact;
-  final double flyCo2Impact;
+  final double chickenCo2Impact;
+  final double porkCo2Impact;
+  final double flightCo2Impact;
+  final double vehicleCo2Impact;
+  final double electricityCo2Impact;
+  final double gasCo2Impact;
+  final double totalCo2Impact;
 
   const OverviewPage({
     Key? key,
-    required this.beefCo2Impact,
-    required this.flyCo2Impact,
-    required double totalCo2Impact,
-    required double chickenCo2Impact,
-    required double fishCo2Impact,
-    required double porkCo2Impact,
-    required double flightCo2Impact,
-    required List<String> userAnswers,
-    required double co2Impact,
+    this.beefCo2Impact = 0,
+    this.chickenCo2Impact = 0,
+    this.porkCo2Impact = 0,
+    this.flightCo2Impact = 0,
+    this.vehicleCo2Impact = 0,
+    this.electricityCo2Impact = 0,
+    this.gasCo2Impact = 0,
+    required this.totalCo2Impact,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    double totalCo2Emission = beefCo2Impact + flyCo2Impact;
-    double averageCo2Emission = 8800;
-    double difference = totalCo2Emission - averageCo2Emission;
+    double averageCo2Emission = 4000;
+    double difference = totalCo2Impact - averageCo2Emission;
     double percentageDifference = (difference / averageCo2Emission) * 100;
 
+//scafold with the piechat form the fl_chart.dart package 
     return Scaffold(
       appBar: AppBar(
         title: const Text('CO2 Impact Overview'),
@@ -46,7 +53,35 @@ class OverviewPage extends StatelessWidget {
                     PieChartSectionData(
                       color: Colors.red,
                       value: beefCo2Impact,
-                      title: '${beefCo2Impact.toStringAsFixed(2)} kg CO2',
+                      title: beefCo2Impact > 0
+                          ? '${beefCo2Impact.toStringAsFixed(2)} kg CO2'
+                          : '',
+                      radius: 100,
+                      titleStyle: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white),
+                      badgePositionPercentageOffset: .98,
+                    ),
+                    PieChartSectionData(
+                      color: Colors.orange,
+                      value: chickenCo2Impact,
+                      title: chickenCo2Impact > 0
+                          ? '${chickenCo2Impact.toStringAsFixed(2)} kg CO2'
+                          : '',
+                      radius: 100,
+                      titleStyle: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white),
+                      badgePositionPercentageOffset: .98,
+                    ),
+                    PieChartSectionData(
+                      color: Colors.pink,
+                      value: porkCo2Impact,
+                      title: porkCo2Impact > 0
+                          ? '${porkCo2Impact.toStringAsFixed(2)} kg CO2'
+                          : '',
                       radius: 100,
                       titleStyle: const TextStyle(
                           fontSize: 16,
@@ -56,8 +91,49 @@ class OverviewPage extends StatelessWidget {
                     ),
                     PieChartSectionData(
                       color: Colors.blue,
-                      value: flyCo2Impact,
-                      title: '${flyCo2Impact.toStringAsFixed(2)} kg CO2',
+                      value: flightCo2Impact,
+                      title: flightCo2Impact > 0
+                          ? '${flightCo2Impact.toStringAsFixed(2)} kg CO2'
+                          : '',
+                      radius: 100,
+                      titleStyle: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white),
+                      badgePositionPercentageOffset: .98,
+                    ),
+                    PieChartSectionData(
+                      color: Colors.green,
+                      value: vehicleCo2Impact,
+                      title: vehicleCo2Impact > 0
+                          ? '${vehicleCo2Impact.toStringAsFixed(2)} kg CO2'
+                          : '',
+                      radius: 100,
+                      titleStyle: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white),
+                      badgePositionPercentageOffset: .98,
+                    ),
+                    PieChartSectionData(
+                      color: Colors.yellow,
+                      value: electricityCo2Impact,
+                      title: electricityCo2Impact > 0
+                          ? '${electricityCo2Impact.toStringAsFixed(2)} kg CO2'
+                          : '',
+                      radius: 100,
+                      titleStyle: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white),
+                      badgePositionPercentageOffset: .98,
+                    ),
+                    PieChartSectionData(
+                      color: Colors.purple,
+                      value: gasCo2Impact,
+                      title: gasCo2Impact > 0
+                          ? '${gasCo2Impact.toStringAsFixed(2)} kg CO2'
+                          : '',
                       radius: 100,
                       titleStyle: const TextStyle(
                           fontSize: 16,
@@ -76,11 +152,26 @@ class OverviewPage extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const LegendWidget(
+                  LegendWidget(
                       color: Colors.red, text: 'Beef CO2 Impact'),
                   const SizedBox(height: 4),
-                  const LegendWidget(
+                  LegendWidget(
+                      color: Colors.orange, text: 'Chicken CO2 Impact'),
+                  const SizedBox(height: 4),
+                  LegendWidget(
+                      color: Colors.pink, text: 'Pork CO2 Impact'),
+                  const SizedBox(height: 4),
+                  LegendWidget(
                       color: Colors.blue, text: 'Flight CO2 Impact'),
+                  const SizedBox(height: 4),
+                  LegendWidget(
+                      color: Colors.green, text: 'Vehicle CO2 Impact'),
+                  const SizedBox(height: 4),
+                  LegendWidget(
+                      color: Colors.yellow, text: 'Electricity CO2 Impact'),
+                  const SizedBox(height: 4),
+                  LegendWidget(
+                      color: Colors.purple, text: 'Gas CO2 Impact'),
                   const SizedBox(height: 20),
                   Container(
                     padding: const EdgeInsets.all(8),
@@ -138,3 +229,5 @@ class LegendWidget extends StatelessWidget {
     );
   }
 }
+
+
