@@ -1,24 +1,41 @@
 import 'dart:convert';
+import 'dart:math';
+import 'package:carbon_footprint/co2_comparison_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'higher_lower_loss_page.dart';
 
 class CO2ComparisonItem {
-  final String description;
-  final double co2Impact;
-  final String imagePath;
+  final String preDescription; //the string before the randomized amount
+  final String postDescription; //the string after the randomized amount
+  final double eCO2; //the amount of equivalent CO2 pr amount
+  final int minQuant; //the smallest possible amount
+  final int maxQuant; //the largest possible ammount
+  final String imagePath; //the image for the background
+  final int amount; //the amount, between minQuant and maxQuant, that gives co2impact when multipliplied with eCO2
+  double co2Impact; //amount multiplied with eCO2
 
   CO2ComparisonItem({
-    required this.description,
-    required this.co2Impact,
+    required this.preDescription,
+    required this.postDescription,
+    required this.eCO2,
+    required this.minQuant,
+    required this.maxQuant,
     required this.imagePath,
+    required this.amount,
+    required this.co2Impact
   });
 
   factory CO2ComparisonItem.fromJson(Map<String, dynamic> json) {
     return CO2ComparisonItem(
-      description: json['description'],
-      co2Impact: (json['co2Impact'] as num).toDouble(),
+      preDescription: json['preDescription'],
+      postDescription: json['postDescription'],
+      eCO2: (json['eCO2'] as num).toDouble(),
+      minQuant: (json['minQuant'] as num).toInt(),
+      maxQuant: (json['maxQuant'] as num).toInt(),
       imagePath: json['imagePath'],
+      amount: Random().nextInt((json['maxQuant'] as num).toInt()-(json['minQuant'] as num).toInt())+(json['minQuant'] as num).toInt(),
+      co2Impact: 0
     );
   }
 }
@@ -35,6 +52,7 @@ class _HigherLowerPageState extends State<HigherLowerPage>
   List<CO2ComparisonItem> items = [];
   int currentIndex = 0;
   int score = 0;
+  final int maxQuestions = 20;
   bool animationActive = false;
 
   late AnimationController _animationController;
@@ -74,8 +92,13 @@ class _HigherLowerPageState extends State<HigherLowerPage>
     final String response =
         await rootBundle.loadString('assets/questions.json');
     final data = await json.decode(response);
-    return List<CO2ComparisonItem>.from(
+    final temp = List<CO2ComparisonItem>.from(
         data.map((item) => CO2ComparisonItem.fromJson(item)));
+    for (CO2ComparisonItem tempitem in temp) {
+      tempitem.co2Impact = tempitem.amount*tempitem.eCO2;
+    }
+    temp.shuffle();
+    return temp;
   }
 
   @override
@@ -171,7 +194,7 @@ class _HigherLowerPageState extends State<HigherLowerPage>
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        item.description,
+                        item.preDescription+item.amount.toString()+item.postDescription,
                         style: TextStyle(
                             fontSize: 24,
                             fontWeight: FontWeight.bold,
