@@ -94,6 +94,38 @@
     "minQuant": 1,
     "maxQuant": 14,
     "imagePath": "assets/nuclear.jpg"
+  },
+  {
+    "preDescription": "Producing ",
+    "postDescription": " day(s) of household power with hydroelectric",
+    "eCO2": 0.72,
+    "minQuant": 1,
+    "maxQuant": 14,
+    "imagePath": "assets/hydro.jpg"
+  },
+  {
+    "preDescription": "Producing ",
+    "postDescription": " day(s) of household power with wind",
+    "eCO2": 0.36,
+    "minQuant": 1,
+    "maxQuant": 14,
+    "imagePath": "assets/wind.jpg"
+  },
+  {
+    "preDescription": "Buying ",
+    "postDescription": " grams of cheese",
+    "eCO2": 0.0279,
+    "minQuant": 100,
+    "maxQuant": 4000,
+    "imagePath": "assets/cheese.jpg"
+  },
+  {
+    "preDescription": "Washing and drying ",
+    "postDescription": " load(s) of laundry",
+    "eCO2": 2.4,
+    "minQuant": 1,
+    "maxQuant": 10,
+    "imagePath": "assets/washer.jpg"
   }
 ]
   

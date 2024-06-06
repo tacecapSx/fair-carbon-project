@@ -153,6 +153,7 @@ class _HigherLowerPageState extends State<HigherLowerPage>
             double containerWidth = constraints.maxWidth;
             return Stack(
               children: [
+                
                 SlideTransition(
                   position: Tween<Offset>(
                     begin: const Offset(0.0, 0.0),
@@ -164,6 +165,7 @@ class _HigherLowerPageState extends State<HigherLowerPage>
                   child: Container(
                     child: Stack(
                       children: [
+                        
                         Positioned.fill(
                           child: AspectRatio(
                             aspectRatio: 1.0,
@@ -173,6 +175,9 @@ class _HigherLowerPageState extends State<HigherLowerPage>
                             ),
                           ),
                         ),
+                        Container(
+                  color: Colors.black.withOpacity(0.6),
+                ),
                         Positioned.fill(
                           child: AspectRatio(
                             aspectRatio: 1.0,
