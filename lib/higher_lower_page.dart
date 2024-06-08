@@ -5,29 +5,45 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'higher_lower_loss_page.dart';
 
+//Copenhagen;Paris;Tokyo;New York;Los Angeles;Sydney;London;Madrid
+List<String> airports = ["Copenhagen","Paris","Tokyo","New York","Los Angeles","Sydney","London","Madrid"];
+List<List<String>> flights = [];
 class CO2ComparisonItem {
+  final int id; // the unique id of the question
   final String preDescription; //the string before the randomized amount
   final String postDescription; //the string after the randomized amount
   final double eCO2; //the amount of equivalent CO2 pr amount
   final int minQuant; //the smallest possible amount
   final int maxQuant; //the largest possible ammount
   final String imagePath; //the image for the background
-  final int amount; //the amount, between minQuant and maxQuant, that gives co2impact when multipliplied with eCO2
+  int amount; //the amount, between minQuant and maxQuant, that gives co2impact when multipliplied with eCO2
   double co2Impact; //amount multiplied with eCO2
+  int flight1;
+  int flight2;
 
   CO2ComparisonItem({
+    required this.id,
     required this.preDescription,
     required this.postDescription,
     required this.eCO2,
     required this.minQuant,
     required this.maxQuant,
     required this.imagePath,
-    required this.amount,
-    required this.co2Impact
+    this.amount = 0,
+    required this.co2Impact,
+    this.flight1 = 0,
+    this.flight2 = 0
   });
-
+  void flightAmount() async{
+    int tempInt = (flights[this.flight1][this.flight2] as num).toInt();
+    this.amount = tempInt;
+    //if(tempInt != null){
+     // this.amount = 1;
+    //}
+  }
   factory CO2ComparisonItem.fromJson(Map<String, dynamic> json) {
     return CO2ComparisonItem(
+      id: json['id'],
       preDescription: json['preDescription'],
       postDescription: json['postDescription'],
       eCO2: (json['eCO2'] as num).toDouble(),
@@ -35,7 +51,9 @@ class CO2ComparisonItem {
       maxQuant: (json['maxQuant'] as num).toInt(),
       imagePath: json['imagePath'],
       amount: Random().nextInt((json['maxQuant'] as num).toInt()-(json['minQuant'] as num).toInt())+(json['minQuant'] as num).toInt(),
-      co2Impact: 0
+      co2Impact: 0,
+      flight1: Random().nextInt(airports.length),
+      flight2: Random().nextInt(airports.length)
     );
   }
 }
@@ -50,6 +68,7 @@ class HigherLowerPage extends StatefulWidget {
 class _HigherLowerPageState extends State<HigherLowerPage>
     with SingleTickerProviderStateMixin {
   List<CO2ComparisonItem> items = [];
+  List<List<String>> flights= [];
   int currentIndex = 0;
   int score = 0;
   final int maxQuestions = 20;
@@ -60,11 +79,19 @@ class _HigherLowerPageState extends State<HigherLowerPage>
   @override
   void initState() {
     super.initState();
+    loadFlights().then((loadedFlights) {
+      setState(() {
+        flights = loadedFlights;
+        
+      });
+      
+    });
     loadQuestions().then((loadedItems) {
       setState(() {
         items = loadedItems;
       });
     });
+    
 
     _animationController = AnimationController(
       vsync: this,
@@ -87,15 +114,51 @@ class _HigherLowerPageState extends State<HigherLowerPage>
     _animationController.dispose();
     super.dispose();
   }
-
+  String getQuestionString(CO2ComparisonItem item) {
+    if(item.id == 2) {
+      return item.preDescription+airports[item.flight1]+" and "+airports[item.flight2]+" ("+item.amount.toString()+" km) "+item.postDescription;
+    }
+    else{
+      return item.preDescription+item.amount.toString()+item.postDescription;
+    }
+  }
+  Future<List<List<String>>> loadFlights() async {
+    final String flightString = 
+      await rootBundle.loadString('assets/flights.txt');
+      
+    List<String> flightArr = flightString.split('\n');
+    
+    for(String line in flightArr) {
+      flights.add(line.split(' '));
+    }
+    return flights;
+  }
+    int getFlightAmount(CO2ComparisonItem item, List<List<String>> flights) {
+    return (flights[item.flight1][item.flight2] as num).toInt();
+  }
   Future<List<CO2ComparisonItem>> loadQuestions() async {
+
     final String response =
         await rootBundle.loadString('assets/questions.json');
     final data = await json.decode(response);
     final temp = List<CO2ComparisonItem>.from(
         data.map((item) => CO2ComparisonItem.fromJson(item)));
     for (CO2ComparisonItem tempitem in temp) {
+      if(tempitem.id == 2){
+        while(tempitem.flight1 == tempitem.flight2){
+          tempitem.flight2 = Random().nextInt(airports.length);
+        }
+        //int tempAmount = getFlightAmount(tempitem,flights);
+        
+        tempitem.flightAmount();
+        //tempitem.amount = 1;
+        tempitem.co2Impact = tempitem.amount*tempitem.eCO2;
+        
+        
+      }
+      else{
       tempitem.co2Impact = tempitem.amount*tempitem.eCO2;
+    }
     }
     temp.shuffle();
     return temp;
@@ -198,8 +261,8 @@ class _HigherLowerPageState extends State<HigherLowerPage>
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(
-                        item.preDescription+item.amount.toString()+item.postDescription,
+                      Text(  
+                            getQuestionString(item),
                         style: TextStyle(
                             fontSize: 24,
                             fontWeight: FontWeight.bold,
