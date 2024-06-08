@@ -41,7 +41,7 @@ class CO2ComparisonItem {
      // this.amount = 1;
     //}
   }
-  factory CO2ComparisonItem.fromJson(Map<String, dynamic> json) {
+  factory CO2ComparisonItem.fromJson(Map<String, dynamic> json, Random random) {
     return CO2ComparisonItem(
       id: json['id'],
       preDescription: json['preDescription'],
@@ -50,16 +50,18 @@ class CO2ComparisonItem {
       minQuant: (json['minQuant'] as num).toInt(),
       maxQuant: (json['maxQuant'] as num).toInt(),
       imagePath: json['imagePath'],
-      amount: Random().nextInt((json['maxQuant'] as num).toInt()-(json['minQuant'] as num).toInt())+(json['minQuant'] as num).toInt(),
+      amount: random.nextInt((json['maxQuant'] as num).toInt()-(json['minQuant'] as num).toInt())+(json['minQuant'] as num).toInt(),
       co2Impact: 0,
-      flight1: Random().nextInt(airports.length),
-      flight2: Random().nextInt(airports.length)
+      flight1: random.nextInt(airports.length),
+      flight2: random.nextInt(airports.length)
     );
   }
 }
 
 class HigherLowerPage extends StatefulWidget {
-  const HigherLowerPage({Key? key}) : super(key: key);
+  const HigherLowerPage({super.key, required this.isDaily});
+
+  final bool isDaily;
 
   @override
   _HigherLowerPageState createState() => _HigherLowerPageState();
@@ -86,7 +88,7 @@ class _HigherLowerPageState extends State<HigherLowerPage>
       });
       
     });
-    loadQuestions().then((loadedItems) {
+    loadQuestions(widget.isDaily).then((loadedItems) {
       setState(() {
         items = loadedItems;
       });
@@ -114,6 +116,7 @@ class _HigherLowerPageState extends State<HigherLowerPage>
     _animationController.dispose();
     super.dispose();
   }
+
   String getQuestionString(CO2ComparisonItem item) {
     if(item.id == 2) {
       return item.preDescription+airports[item.flight1]+" and "+airports[item.flight2]+" ("+item.amount.toString()+" km) "+item.postDescription;
@@ -122,6 +125,7 @@ class _HigherLowerPageState extends State<HigherLowerPage>
       return item.preDescription+item.amount.toString()+item.postDescription;
     }
   }
+
   Future<List<List<String>>> loadFlights() async {
     final String flightString = 
       await rootBundle.loadString('assets/flights.txt');
@@ -136,17 +140,20 @@ class _HigherLowerPageState extends State<HigherLowerPage>
     int getFlightAmount(CO2ComparisonItem item, List<List<String>> flights) {
     return (flights[item.flight1][item.flight2] as num).toInt();
   }
-  Future<List<CO2ComparisonItem>> loadQuestions() async {
+
+  Future<List<CO2ComparisonItem>> loadQuestions(isDaily) async {
+    //create the Random to use based on if daily
+    Random random = createRandom(isDaily);
 
     final String response =
         await rootBundle.loadString('assets/questions.json');
     final data = await json.decode(response);
     final temp = List<CO2ComparisonItem>.from(
-        data.map((item) => CO2ComparisonItem.fromJson(item)));
+        data.map((item) => CO2ComparisonItem.fromJson(item, random)));
     for (CO2ComparisonItem tempitem in temp) {
       if(tempitem.id == 2){
         while(tempitem.flight1 == tempitem.flight2){
-          tempitem.flight2 = Random().nextInt(airports.length);
+          tempitem.flight2 = random.nextInt(airports.length);
         }
         //int tempAmount = getFlightAmount(tempitem,flights);
         
@@ -160,8 +167,21 @@ class _HigherLowerPageState extends State<HigherLowerPage>
       tempitem.co2Impact = tempitem.amount*tempitem.eCO2;
     }
     }
-    temp.shuffle();
+    temp.shuffle(random);
     return temp;
+  }
+
+  Random createRandom(isDaily) {
+    if(isDaily) {
+      DateTime now = DateTime.now();
+      
+      // hash the time to a seed
+      int seed = now.year * 10000 + now.month * 100 + now.day;
+
+      return Random(seed);
+    }
+    
+    return Random();
   }
 
   @override
@@ -319,6 +339,20 @@ class _HigherLowerPageState extends State<HigherLowerPage>
         (!higher && nextImpact < current.co2Impact);
 
     if (correct) {
+      // check if the player has finished the daily
+      if(widget.isDaily && score + 1 == 10) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => HigherLowerLossPage(
+              isDaily: widget.isDaily,
+              finalScore: 10,
+              correctAnswer: ""
+            ),
+          ),
+        );
+      }
+
       setState(() {
         animationActive = true; // Set animationActive to true immediately
       });
@@ -335,6 +369,7 @@ class _HigherLowerPageState extends State<HigherLowerPage>
         context,
         MaterialPageRoute(
           builder: (context) => HigherLowerLossPage(
+            isDaily: widget.isDaily,
             finalScore: score,
             correctAnswer: nextImpact > items[currentIndex].co2Impact
                 ? "Higher"

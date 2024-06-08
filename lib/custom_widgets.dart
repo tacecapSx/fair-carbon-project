@@ -1,6 +1,7 @@
 import 'package:carbon_footprint/higher_lower_page.dart';
 import 'package:carbon_footprint/questionnaire.dart';
 import 'package:flutter/material.dart';
+import 'higher_lower_mode_page.dart';
 
 import 'constants.dart';
 
@@ -29,7 +30,7 @@ class HeaderWidget extends StatelessWidget implements PreferredSizeWidget {
         TextButton(
             onPressed: () {
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => HigherLowerPage()));
+                  MaterialPageRoute(builder: (context) => HigherLowerModePage()));
             },
             child: const Text('Higher/Lower',
                 style: TextStyle(color: Colors.black))),

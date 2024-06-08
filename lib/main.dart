@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'async_provider.dart';
 import 'higher_lower_page.dart';
+import 'higher_lower_mode_page.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -57,7 +58,7 @@ class HomePageWidgetState extends State<HomePageWidget> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             ImageButtonWidget(text: "Footprint Calculator", imagePath: "assets/calculator.jpg", page: QuestionnairePage()),
-            ImageButtonWidget(text: "Higher / Lower", imagePath: "assets/higherlowerpage.png", page: HigherLowerPage())
+            ImageButtonWidget(text: "Higher / Lower", imagePath: "assets/higherlowerpage.png", page: HigherLowerModePage())
           ]
         ),
     );

@@ -8,10 +8,11 @@ import 'custom_widgets.dart';
 import 'dart:math';
 
 class HigherLowerLossPage extends StatefulWidget {
-  const HigherLowerLossPage({super.key, required this.finalScore, required this.correctAnswer});
+  const HigherLowerLossPage({super.key, required this.finalScore, required this.correctAnswer, required this.isDaily});
 
   final int finalScore;
   final String correctAnswer;
+  final bool isDaily;
 
   @override
   HigherLowerLossPageState createState() => HigherLowerLossPageState();
@@ -57,7 +58,14 @@ class HigherLowerLossPageState extends State<HigherLowerLossPage> {
                     fontSize: 36,
                   ),
                 ),
-                Text("The correct answer was: ${widget.correctAnswer}!", style: const TextStyle(color: AppColors.whiteTextColor, fontSize: 16),),
+                Text(
+                  "${widget.isDaily && widget.finalScore == 10 ? "You completed the daily challenge! Go brag to your friends!" : "The correct answer was: ${widget.correctAnswer}!"}${widget.isDaily ? "\nTry again tomorrow!" : ""}",
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    color: AppColors.whiteTextColor,
+                    fontSize: 16,
+                  ),
+                ),
                 const SizedBox(height: 50,),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -79,12 +87,14 @@ class HigherLowerLossPageState extends State<HigherLowerLossPage> {
                       ),
                                             child: const Text("Back to home"),
                     ),
+                    if(!widget.isDaily)
                     const SizedBox(width: 50,),
+                    if(!widget.isDaily)
                     TextButton(
                       onPressed: () {
                         Navigator.pushReplacement( //push replacement to make sure the score reinitializes as 0
                           context,
-                          MaterialPageRoute(builder: (context) => const HigherLowerPage(),),
+                          MaterialPageRoute(builder: (context) => const HigherLowerPage(isDaily: false,),),
                         );
                       },
                       style: TextButton.styleFrom(
