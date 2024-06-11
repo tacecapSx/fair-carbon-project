@@ -107,44 +107,59 @@ class QuestionnairePageState extends State<QuestionnairePage> {
   }
 
 //predefined values such as how much co2 1 kg of beef produces
-  void navigateToOverview() {
+ void navigateToOverview() {
   final Map<String, double> meatCo2PerKg = {
     'Beef': 27.0,
     'Chicken': 6.9,
     'Pork': 12.1,
   };
 
-  //yearly co2 calculation from daily values
-  double dailyBeef = double.tryParse(_dailyControllers['Beef']?.text ?? '0') ?? 0.0;
-  double dailyChicken = double.tryParse(_dailyControllers['Chicken']?.text ?? '0') ?? 0.0;
-  double dailyPork = double.tryParse(_dailyControllers['Pork']?.text ?? '0') ?? 0.0;
+  // Check if all the required fields are filled because else error whcich locks the mouse :(
+  for (var key in _yearlyControllers.keys) {
+    if (_yearlyControllers[key]!.text.isEmpty) {
 
-  double yearlyBeef = dailyBeef * 365;
-  double yearlyChicken = dailyChicken * 365;
-  double yearlyPork = dailyPork * 365;
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Error'),
+            content: Text('Please fill all of the fields.'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text('OK'),
+              ),
+            ],
+          );
+        },
+      );
+      return; // Exit the function if validation fails
+    }
+  }
 
-  // Calculate CO2 impact question
-  double beefCo2Impact = yearlyBeef * meatCo2PerKg['Beef']!;
-  double chickenCo2Impact = yearlyChicken * meatCo2PerKg['Chicken']!;
-  double porkCo2Impact = yearlyPork * meatCo2PerKg['Pork']!;
-  double flightCo2Impact = (double.tryParse(_yearlyControllers['Flight']?.text ?? '0') ?? 0.0) * 0.18;
-  double vehicleCo2Impact = (double.tryParse(_yearlyControllers['Vehicle']?.text ?? '0') ?? 0.0) * 0.1;
-  double electricityCo2Impact = (double.tryParse(_yearlyControllers['Electricity']?.text ?? '0') ?? 0.0) * 2;
-  double gasCo2Impact = (double.tryParse(_yearlyControllers['Gas']?.text ?? '0') ?? 0.0) * 4;
+  // Calculate CO2 impact for each category
+  double beefCo2Impact = (double.tryParse(_yearlyControllers['Beef']?.text ?? '0') ?? 0.0) * meatCo2PerKg['Beef']!;
+  double chickenCo2Impact = (double.tryParse(_yearlyControllers['Chicken']?.text ?? '0') ?? 0.0) * meatCo2PerKg['Chicken']!;
+  double porkCo2Impact = (double.tryParse(_yearlyControllers['Pork']?.text ?? '0') ?? 0.0) * meatCo2PerKg['Pork']!;
+  double flightCo2Impact = (double.tryParse(_yearlyControllers['Flight']?.text ?? '0') ?? 0.0) * 0.115;
+  double vehicleCo2Impact = (double.tryParse(_yearlyControllers['Vehicle']?.text ?? '0') ?? 0.0) * 0.192;
+  double electricityCo2Impact = (double.tryParse(_yearlyControllers['Electricity']?.text ?? '0') ?? 0.0) * 0.527;
+  double gasCo2Impact = (double.tryParse(_yearlyControllers['Gas']?.text ?? '0') ?? 0.0) * 2.204;
 
-  // For the pie chart
-  double beefImpact = yearlyBeef;
-  double chickenImpact = yearlyChicken;
-  double porkImpact = yearlyPork;
+  double beefImpact = (double.tryParse(_yearlyControllers['Beef']?.text ?? '0') ?? 0.0);
+  double chickenImpact = (double.tryParse(_yearlyControllers['Chicken']?.text ?? '0') ?? 0.0);
+  double porkImpact = (double.tryParse(_yearlyControllers['Pork']?.text ?? '0') ?? 0.0);
   double flightImpact = (double.tryParse(_yearlyControllers['Flight']?.text ?? '0') ?? 0.0);
   double vehicleImpact = (double.tryParse(_yearlyControllers['Vehicle']?.text ?? '0') ?? 0.0);
   double electricityImpact = (double.tryParse(_yearlyControllers['Electricity']?.text ?? '0') ?? 0.0);
   double gasImpact = (double.tryParse(_yearlyControllers['Gas']?.text ?? '0') ?? 0.0);
 
-  // sum the totl co2
+  // Total sum of all CO2 usage
   double totalCo2Impact = beefCo2Impact + chickenCo2Impact + porkCo2Impact + flightCo2Impact + vehicleCo2Impact + electricityCo2Impact + gasCo2Impact;
 
-  // send calculated data to overview page
+  // sends data to overview page with the calculated data
   Navigator.push(
     context,
     MaterialPageRoute(
@@ -168,7 +183,6 @@ class QuestionnairePageState extends State<QuestionnairePage> {
     ),
   );
 }
-
 
   @override
   Widget build(BuildContext context) {
