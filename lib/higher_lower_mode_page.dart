@@ -1,11 +1,7 @@
-import 'dart:convert';
 import 'package:carbon_footprint/constants.dart';
 import 'package:carbon_footprint/higher_lower_page.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'main.dart';
 import 'custom_widgets.dart';
-import 'dart:math';
 
 class HigherLowerModePage extends StatefulWidget {
   const HigherLowerModePage({super.key});

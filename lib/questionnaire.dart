@@ -1,14 +1,16 @@
+// ignore_for_file: avoid_function_literals_in_foreach_calls
+
 import 'package:flutter/material.dart';
 import 'Overview.dart';
 
 class QuestionnairePage extends StatefulWidget {
-  const QuestionnairePage({Key? key}) : super(key: key);
+  const QuestionnairePage({super.key});
 
   @override
-  _QuestionnairePageState createState() => _QuestionnairePageState();
+  QuestionnairePageState createState() => QuestionnairePageState();
 }
 
-class _QuestionnairePageState extends State<QuestionnairePage> {
+class QuestionnairePageState extends State<QuestionnairePage> {
   final PageController _pageController = PageController();
   
   // making controllers for the different categories 
@@ -46,6 +48,9 @@ class _QuestionnairePageState extends State<QuestionnairePage> {
   void dispose() {
     // remove controllers with no use anymore
     _pageController.dispose();
+
+
+    
     _dailyControllers.values.forEach((controller) => controller.dispose());
     _weeklyControllers.values.forEach((controller) => controller.dispose());
     _yearlyControllers.values.forEach((controller) => controller.dispose());
@@ -99,7 +104,7 @@ class _QuestionnairePageState extends State<QuestionnairePage> {
   // Function to navigate to the next page
   void nextPage() {
     _pageController.nextPage(
-      duration: Duration(milliseconds: 500),
+      duration: const Duration(milliseconds: 500),
       curve: Curves.ease,
     );
   }
@@ -150,7 +155,7 @@ class _QuestionnairePageState extends State<QuestionnairePage> {
       ),
       body: PageView(
         controller: _pageController,
-        physics: NeverScrollableScrollPhysics(),
+        physics: const NeverScrollableScrollPhysics(),
         children: [
           // Page one questions about meat
           SingleChildScrollView(
@@ -169,7 +174,7 @@ class _QuestionnairePageState extends State<QuestionnairePage> {
                     children: [
                       Text(
                         '$key eaten',
-                        style: TextStyle(fontSize: 18),
+                        style: const TextStyle(fontSize: 18),
                       ),
                       TextField(
                         controller: _dailyControllers[key]!,
@@ -178,7 +183,7 @@ class _QuestionnairePageState extends State<QuestionnairePage> {
                           fillColor: Colors.white,
                           filled: true,
                         ),
-                        keyboardType: TextInputType.numberWithOptions(decimal: true),
+                        keyboardType: const TextInputType.numberWithOptions(decimal: true),
                       ),
                       const SizedBox(height: 10),
                       TextField(
@@ -188,7 +193,7 @@ class _QuestionnairePageState extends State<QuestionnairePage> {
                           fillColor: Colors.white,
                           filled: true,
                         ),
-                        keyboardType: TextInputType.numberWithOptions(decimal: true),
+                        keyboardType: const TextInputType.numberWithOptions(decimal: true),
                       ),
                       const SizedBox(height: 10),
                       TextField(
@@ -198,7 +203,7 @@ class _QuestionnairePageState extends State<QuestionnairePage> {
                           fillColor: Colors.white,
                           filled: true,
                         ),
-                        keyboardType: TextInputType.numberWithOptions(decimal: true),
+                        keyboardType: const TextInputType.numberWithOptions(decimal: true),
                       ),
                       const SizedBox(height: 20),
                     ],
@@ -232,7 +237,7 @@ class _QuestionnairePageState extends State<QuestionnairePage> {
                     fillColor: Colors.white,
                     filled: true,
                   ),
-                  keyboardType: TextInputType.numberWithOptions(decimal: true),
+                  keyboardType: const TextInputType.numberWithOptions(decimal: true),
                 ),
                 const SizedBox(height: 10),
                 TextField(
@@ -242,7 +247,7 @@ class _QuestionnairePageState extends State<QuestionnairePage> {
                     fillColor: Colors.white,
                     filled: true,
                   ),
-                  keyboardType: TextInputType.numberWithOptions(decimal: true),
+                  keyboardType: const TextInputType.numberWithOptions(decimal: true),
                 ),
                 const SizedBox(height: 10),
                 TextField(
@@ -252,7 +257,7 @@ class _QuestionnairePageState extends State<QuestionnairePage> {
                     fillColor: Colors.white,
                     filled: true,
                   ),
-                  keyboardType: TextInputType.numberWithOptions(decimal: true),
+                  keyboardType: const TextInputType.numberWithOptions(decimal: true),
                 ),
                 const SizedBox(height: 20),
                 const Text(
@@ -266,7 +271,7 @@ class _QuestionnairePageState extends State<QuestionnairePage> {
                     fillColor: Colors.white,
                     filled: true,
                   ),
-                  keyboardType: TextInputType.numberWithOptions(decimal: true),
+                  keyboardType: const TextInputType.numberWithOptions(decimal: true),
                 ),
                 const SizedBox(height: 10),
                 TextField(
@@ -276,7 +281,7 @@ class _QuestionnairePageState extends State<QuestionnairePage> {
                     fillColor: Colors.white,
                     filled: true,
                   ),
-                  keyboardType: TextInputType.numberWithOptions(decimal: true),
+                  keyboardType: const TextInputType.numberWithOptions(decimal: true),
                 ),
                 const SizedBox(height: 10),
                 TextField(
@@ -286,7 +291,7 @@ class _QuestionnairePageState extends State<QuestionnairePage> {
                     fillColor: Colors.white,
                     filled: true,
                   ),
-                  keyboardType: TextInputType.numberWithOptions(decimal: true),
+                  keyboardType: const TextInputType.numberWithOptions(decimal: true),
                 ),
                 const SizedBox(height: 20),
                 ElevatedButton(
@@ -295,7 +300,7 @@ class _QuestionnairePageState extends State<QuestionnairePage> {
                 ),
                 ElevatedButton(
                   onPressed: () => _pageController.previousPage(
-                    duration: Duration(milliseconds: 500),
+                    duration: const Duration(milliseconds: 500),
                     curve: Curves.ease,
                   ),
                   child: const Text('Previous'),
@@ -324,7 +329,7 @@ class _QuestionnairePageState extends State<QuestionnairePage> {
                     fillColor: Colors.white,
                     filled: true,
                   ),
-                  keyboardType: TextInputType.numberWithOptions(decimal: true),
+                  keyboardType: const TextInputType.numberWithOptions(decimal: true),
                 ),
                 const SizedBox(height: 10),
                 TextField(
@@ -334,7 +339,7 @@ class _QuestionnairePageState extends State<QuestionnairePage> {
                     fillColor: Colors.white,
                     filled: true,
                   ),
-                  keyboardType: TextInputType.numberWithOptions(decimal: true),
+                  keyboardType: const TextInputType.numberWithOptions(decimal: true),
                 ),
                 const SizedBox(height: 10),
                 TextField(
@@ -344,7 +349,7 @@ class _QuestionnairePageState extends State<QuestionnairePage> {
                     fillColor: Colors.white,
                     filled: true,
                   ),
-                  keyboardType: TextInputType.numberWithOptions(decimal: true),
+                  keyboardType: const TextInputType.numberWithOptions(decimal: true),
                 ),
                 const SizedBox(height: 20),
                 const Text(
@@ -358,7 +363,7 @@ class _QuestionnairePageState extends State<QuestionnairePage> {
                     fillColor: Colors.white,
                     filled: true,
                   ),
-                  keyboardType: TextInputType.numberWithOptions(decimal: true),
+                  keyboardType: const TextInputType.numberWithOptions(decimal: true),
                 ),
                 const SizedBox(height: 10),
                 TextField(
@@ -368,7 +373,7 @@ class _QuestionnairePageState extends State<QuestionnairePage> {
                     fillColor: Colors.white,
                     filled: true,
                   ),
-                  keyboardType: TextInputType.numberWithOptions(decimal: true),
+                  keyboardType: const TextInputType.numberWithOptions(decimal: true),
                 ),
                 const SizedBox(height: 10),
                 TextField(
@@ -378,7 +383,7 @@ class _QuestionnairePageState extends State<QuestionnairePage> {
                     fillColor: Colors.white,
                     filled: true,
                   ),
-                  keyboardType: TextInputType.numberWithOptions(decimal: true),
+                  keyboardType: const TextInputType.numberWithOptions(decimal: true),
                 ),
                 const SizedBox(height: 20),
                 ElevatedButton(
@@ -387,7 +392,7 @@ class _QuestionnairePageState extends State<QuestionnairePage> {
                 ),
                 ElevatedButton(
                   onPressed: () => _pageController.previousPage(
-                    duration: Duration(milliseconds: 500),
+                    duration: const Duration(milliseconds: 500),
                     curve: Curves.ease,
                   ),
                   child: const Text('Previous'),

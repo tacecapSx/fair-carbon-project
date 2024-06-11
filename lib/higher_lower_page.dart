@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:math';
-import 'package:carbon_footprint/co2_comparison_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'higher_lower_loss_page.dart';
@@ -34,13 +33,12 @@ class CO2ComparisonItem {
     this.flight1 = 0,
     this.flight2 = 0
   });
+
   void flightAmount() async{
-    int tempInt = (flights[this.flight1][this.flight2] as num).toInt();
-    this.amount = tempInt;
-    //if(tempInt != null){
-     // this.amount = 1;
-    //}
+    int tempInt = (flights[flight1][flight2] as num).toInt();
+    amount = tempInt;
   }
+
   factory CO2ComparisonItem.fromJson(Map<String, dynamic> json, Random random) {
     return CO2ComparisonItem(
       id: json['id'],
@@ -64,10 +62,10 @@ class HigherLowerPage extends StatefulWidget {
   final bool isDaily;
 
   @override
-  _HigherLowerPageState createState() => _HigherLowerPageState();
+  HigherLowerPageState createState() => HigherLowerPageState();
 }
 
-class _HigherLowerPageState extends State<HigherLowerPage>
+class HigherLowerPageState extends State<HigherLowerPage>
     with SingleTickerProviderStateMixin {
   List<CO2ComparisonItem> items = [];
   List<List<String>> flights= [];
@@ -97,7 +95,7 @@ class _HigherLowerPageState extends State<HigherLowerPage>
 
     _animationController = AnimationController(
       vsync: this,
-      duration: Duration(milliseconds: 500),
+      duration: const Duration(milliseconds: 500),
     );
 
     _animationController.addStatusListener((status) {
@@ -119,7 +117,7 @@ class _HigherLowerPageState extends State<HigherLowerPage>
 
   String getQuestionString(CO2ComparisonItem item) {
     if(item.id == 2) {
-      return item.preDescription+airports[item.flight1]+" and "+airports[item.flight2]+" ("+item.amount.toString()+" km) "+item.postDescription;
+      return "${item.preDescription+airports[item.flight1]} and ${airports[item.flight2]} (${item.amount.toString()} km) ${item.postDescription}";
     }
     else{
       return item.preDescription+item.amount.toString()+item.postDescription;
@@ -188,8 +186,8 @@ class _HigherLowerPageState extends State<HigherLowerPage>
   Widget build(BuildContext context) {
     if (items.isEmpty) {
       return Scaffold(
-        appBar: AppBar(title: Text("Loading questions...")),
-        body: Center(child: CircularProgressIndicator()),
+        appBar: AppBar(title: const Text("Loading questions...")),
+        body: const Center(child: CircularProgressIndicator()),
       );
     }
 
@@ -209,12 +207,12 @@ class _HigherLowerPageState extends State<HigherLowerPage>
             ),
           ),
           Container(
-            padding: EdgeInsets.symmetric(vertical: 10.0),
+            padding: const EdgeInsets.symmetric(vertical: 10.0),
             color: Colors.black87,
             child: Center(
               child: Text(
                 'Score: $score',
-                style: TextStyle(
+                style: const TextStyle(
                     fontSize: 24.0,
                     fontWeight: FontWeight.bold,
                     color: Colors.white),
@@ -230,105 +228,100 @@ class _HigherLowerPageState extends State<HigherLowerPage>
       BuildContext context,
       {required bool showCO2}) {
     return Expanded(
-      child: Container(
-        child: LayoutBuilder(
-          builder: (BuildContext context, BoxConstraints constraints) {
-            double containerWidth = constraints.maxWidth;
-            return Stack(
-              children: [
-                
-                SlideTransition(
-                  position: Tween<Offset>(
-                    begin: const Offset(0.0, 0.0),
-                    end: const Offset(-1.0, 0.0),
-                  ).animate(CurvedAnimation(
-                    parent: _animationController,
-                    curve: Curves.easeInOut,
-                  )),
-                  child: Container(
-                    child: Stack(
-                      children: [
-                        
-                        Positioned.fill(
-                          child: AspectRatio(
-                            aspectRatio: 1.0,
-                            child: Image.asset(
-                              item.imagePath,
-                              fit: BoxFit.cover,
-                            ),
-                          ),
+      child: LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) {
+          double containerWidth = constraints.maxWidth;
+          return Stack(
+            children: [
+              
+              SlideTransition(
+                position: Tween<Offset>(
+                  begin: const Offset(0.0, 0.0),
+                  end: const Offset(-1.0, 0.0),
+                ).animate(CurvedAnimation(
+                  parent: _animationController,
+                  curve: Curves.easeInOut,
+                )),
+                child: Stack(
+                  children: [
+                    Positioned.fill(
+                      child: AspectRatio(
+                        aspectRatio: 1.0,
+                        child: Image.asset(
+                          item.imagePath,
+                          fit: BoxFit.cover,
                         ),
-                        Container(
-                  color: Colors.black.withOpacity(0.6),
-                ),
-                        Positioned.fill(
-                          child: AspectRatio(
-                            aspectRatio: 1.0,
-                            child: Transform.translate(
-                              offset: Offset(containerWidth * 1, 0.0),
-                              child: Image.asset(
-                                futureItem.imagePath,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(  
-                            getQuestionString(item),
-                        style: TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white),
-                        textAlign: TextAlign.center,
                       ),
-                      if (showCO2)
-                        Text(
-                          '${item.co2Impact.toStringAsFixed(2)} kg CO2',
-                          style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.yellow),
+                    ),
+                    Container(
+                      color: Colors.black.withOpacity(0.6),
+                    ),
+                    Positioned.fill(
+                      child: AspectRatio(
+                        aspectRatio: 1.0,
+                        child: Transform.translate(
+                          offset: Offset(containerWidth * 1, 0.0),
+                          child: Image.asset(
+                            futureItem.imagePath,
+                            fit: BoxFit.cover,
+                          ),
                         ),
-                      if (!showCO2)
-                        ElevatedButton(
-                          onPressed: animationActive ? null : () =>
-                                  evaluateAnswer(true, item.co2Impact),
-                          child: Text('Higher'),
-                          style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.green),
-                        ),
-                      if (!showCO2)
-                        ElevatedButton(
-                          onPressed: animationActive ? null : () =>
-                                  evaluateAnswer(false, item.co2Impact),
-                          child: Text('Lower'),
-                          style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.red),
-                        ),
-
-                      if (animationActive & !showCO2)
-                        Text(
-                          '${item.co2Impact.toStringAsFixed(2)} kg CO2',
-                          style: TextStyle(
-                              fontSize: 35,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.yellow),
-                        ),
-                    ],
-                  ),
+                      ),
+                    ),
+                  ],
                 ),
-              ],
-            );
-          },
-        ),
+              ),
+              Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(  
+                      getQuestionString(item),
+                      style: const TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white),
+                      textAlign: TextAlign.center,
+                    ),
+                    if (showCO2)
+                      Text(
+                        '${item.co2Impact.toStringAsFixed(2)} kg CO2',
+                        style: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.yellow),
+                      ),
+                    if (!showCO2)
+                      ElevatedButton(
+                        onPressed: animationActive ? null : () =>
+                          evaluateAnswer(true, item.co2Impact),
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.green),
+                        child: const Text('Higher'),
+                      ),
+                    if (!showCO2)
+                      ElevatedButton(
+                        onPressed: animationActive ? null : () =>
+                                evaluateAnswer(false, item.co2Impact),
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.red),
+                        child: const Text('Lower'),
+                      ),
+
+                    if (animationActive & !showCO2)
+                      Text(
+                        '${item.co2Impact.toStringAsFixed(2)} kg CO2',
+                        style: const TextStyle(
+                            fontSize: 35,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.yellow),
+                      ),
+                  ],
+                ),
+              ),
+            ],
+          );
+        },
       ),
     );
   }
@@ -358,7 +351,7 @@ class _HigherLowerPageState extends State<HigherLowerPage>
       });
 
       // Delay the animation by 2 seconds
-      Future.delayed(Duration(seconds: 2), () {
+      Future.delayed(const Duration(seconds: 2), () {
         setState(() {
           score++;
           _animationController.forward();

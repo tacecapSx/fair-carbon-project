@@ -1,4 +1,3 @@
-import 'package:carbon_footprint/higher_lower_page.dart';
 import 'package:carbon_footprint/questionnaire.dart';
 import 'package:flutter/material.dart';
 import 'higher_lower_mode_page.dart';
@@ -23,14 +22,14 @@ class HeaderWidget extends StatelessWidget implements PreferredSizeWidget {
         TextButton(
             onPressed: () {
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => QuestionnairePage()));
+                  MaterialPageRoute(builder: (context) => const QuestionnairePage()));
             },
             child: const Text('Your footprint',
                 style: TextStyle(color: Colors.black))),
         TextButton(
             onPressed: () {
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => HigherLowerModePage()));
+                  MaterialPageRoute(builder: (context) => const HigherLowerModePage()));
             },
             child: const Text('Higher/Lower',
                 style: TextStyle(color: Colors.black))),
@@ -53,6 +52,7 @@ class ImageButtonWidget extends StatefulWidget {
   final String text;
   final String imagePath;
 
+  @override
   ImageButtonWidgetState createState() => ImageButtonWidgetState();
 }
 

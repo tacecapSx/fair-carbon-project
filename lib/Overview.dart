@@ -1,5 +1,3 @@
-
-
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
@@ -14,7 +12,7 @@ class OverviewPage extends StatelessWidget {
   final double totalCo2Impact;
 
   const OverviewPage({
-    Key? key,
+    super.key,
     this.beefCo2Impact = 0,
     this.chickenCo2Impact = 0,
     this.porkCo2Impact = 0,
@@ -23,7 +21,7 @@ class OverviewPage extends StatelessWidget {
     this.electricityCo2Impact = 0,
     this.gasCo2Impact = 0,
     required this.totalCo2Impact,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -152,25 +150,25 @@ class OverviewPage extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  LegendWidget(
+                  const LegendWidget(
                       color: Colors.red, text: 'Beef CO2 Impact'),
                   const SizedBox(height: 4),
-                  LegendWidget(
+                  const LegendWidget(
                       color: Colors.orange, text: 'Chicken CO2 Impact'),
                   const SizedBox(height: 4),
-                  LegendWidget(
+                  const LegendWidget(
                       color: Colors.pink, text: 'Pork CO2 Impact'),
                   const SizedBox(height: 4),
-                  LegendWidget(
+                  const LegendWidget(
                       color: Colors.blue, text: 'Flight CO2 Impact'),
                   const SizedBox(height: 4),
-                  LegendWidget(
+                  const LegendWidget(
                       color: Colors.green, text: 'Vehicle CO2 Impact'),
                   const SizedBox(height: 4),
-                  LegendWidget(
+                  const LegendWidget(
                       color: Colors.yellow, text: 'Electricity CO2 Impact'),
                   const SizedBox(height: 4),
-                  LegendWidget(
+                  const LegendWidget(
                       color: Colors.purple, text: 'Gas CO2 Impact'),
                   const SizedBox(height: 20),
                   Container(
@@ -183,7 +181,7 @@ class OverviewPage extends StatelessWidget {
                       difference > 0
                           ? 'Above average emissions'
                           : 'Below average emissions',
-                      style: TextStyle(color: Colors.white),
+                      style: const TextStyle(color: Colors.white),
                     ),
                   ),
                   const SizedBox(height: 8),
