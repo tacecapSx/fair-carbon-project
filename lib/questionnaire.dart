@@ -42,15 +42,11 @@ class QuestionnairePageState extends State<QuestionnairePage> {
     'Gas': TextEditingController(),
   };
 
-  bool _updating = false; // preventing infinite loop issue
+  bool _updating = false; 
 
   @override
   void dispose() {
-    // remove controllers with no use anymore
     _pageController.dispose();
-
-
-    
     _dailyControllers.values.forEach((controller) => controller.dispose());
     _weeklyControllers.values.forEach((controller) => controller.dispose());
     _yearlyControllers.values.forEach((controller) => controller.dispose());
@@ -60,7 +56,6 @@ class QuestionnairePageState extends State<QuestionnairePage> {
   @override
   void initState() {
     super.initState();
-    // Add listeners automatically to update textfields
     _dailyControllers.forEach((key, controller) {
       controller.addListener(() {
         if (!_updating) {
@@ -84,8 +79,8 @@ class QuestionnairePageState extends State<QuestionnairePage> {
     });
   }
 
-  // automatic update of each textfield when filling one 
-  void updateConsumptionValues(String key, TextEditingController controller, String type) {
+//convert autormatically between day, week or year with data
+ void updateConsumptionValues(String key, TextEditingController controller, String type) {
     double value = double.tryParse(controller.text) ?? 0.0;
     _updating = true; // preventing infinite loop issue
     if (type == 'daily') {
@@ -99,7 +94,9 @@ class QuestionnairePageState extends State<QuestionnairePage> {
       _weeklyControllers[key]?.text = (value / 52).toStringAsFixed(1);
     }
     _updating = false; // preventing infinite loop issue
-  }
+}
+
+
 
   // Function to navigate to the next page
   void nextPage() {
@@ -109,43 +106,69 @@ class QuestionnairePageState extends State<QuestionnairePage> {
     );
   }
 
-  //  the co2 cost for each kg
+//predefined values such as how much co2 1 kg of beef produces
   void navigateToOverview() {
-    final Map<String, double> meatCo2PerKg = {
-      'Beef': 27.0,
-      'Chicken': 6.9,
-      'Pork': 12.1,
-    };
+  final Map<String, double> meatCo2PerKg = {
+    'Beef': 27.0,
+    'Chicken': 6.9,
+    'Pork': 12.1,
+  };
 
-    // Calculate CO2 impact for each category
-    double beefCo2Impact = (double.tryParse(_yearlyControllers['Beef']?.text ?? '0') ?? 0.0) * meatCo2PerKg['Beef']!;
-    double chickenCo2Impact = (double.tryParse(_yearlyControllers['Chicken']?.text ?? '0') ?? 0.0) * meatCo2PerKg['Chicken']!;
-    double porkCo2Impact = (double.tryParse(_yearlyControllers['Pork']?.text ?? '0') ?? 0.0) * meatCo2PerKg['Pork']!;
-    double flightCo2Impact = (double.tryParse(_yearlyControllers['Flight']?.text ?? '0') ?? 0.0) * 0.115;
-    double vehicleCo2Impact = (double.tryParse(_yearlyControllers['Vehicle']?.text ?? '0') ?? 0.0) * 0.192;
-    double electricityCo2Impact = (double.tryParse(_yearlyControllers['Electricity']?.text ?? '0') ?? 0.0) * 0.527;
-    double gasCo2Impact = (double.tryParse(_yearlyControllers['Gas']?.text ?? '0') ?? 0.0) * 2.204;
+  //yearly co2 calculation from daily values
+  double dailyBeef = double.tryParse(_dailyControllers['Beef']?.text ?? '0') ?? 0.0;
+  double dailyChicken = double.tryParse(_dailyControllers['Chicken']?.text ?? '0') ?? 0.0;
+  double dailyPork = double.tryParse(_dailyControllers['Pork']?.text ?? '0') ?? 0.0;
 
-    // total sum of all CO2 ussage 
-    double totalCo2Impact = beefCo2Impact + chickenCo2Impact + porkCo2Impact + flightCo2Impact + vehicleCo2Impact + electricityCo2Impact + gasCo2Impact;
+  double yearlyBeef = dailyBeef * 365;
+  double yearlyChicken = dailyChicken * 365;
+  double yearlyPork = dailyPork * 365;
 
-    // Navigate to the overview page with the calculated data pushed 
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => OverviewPage(
-          beefCo2Impact: beefCo2Impact,
-          chickenCo2Impact: chickenCo2Impact,
-          porkCo2Impact: porkCo2Impact,
-          flightCo2Impact: flightCo2Impact,
-          vehicleCo2Impact: vehicleCo2Impact,
-          electricityCo2Impact: electricityCo2Impact,
-          gasCo2Impact: gasCo2Impact,
-          totalCo2Impact: totalCo2Impact,
-        ),
+  // Calculate CO2 impact question
+  double beefCo2Impact = yearlyBeef * meatCo2PerKg['Beef']!;
+  double chickenCo2Impact = yearlyChicken * meatCo2PerKg['Chicken']!;
+  double porkCo2Impact = yearlyPork * meatCo2PerKg['Pork']!;
+  double flightCo2Impact = (double.tryParse(_yearlyControllers['Flight']?.text ?? '0') ?? 0.0) * 0.18;
+  double vehicleCo2Impact = (double.tryParse(_yearlyControllers['Vehicle']?.text ?? '0') ?? 0.0) * 0.1;
+  double electricityCo2Impact = (double.tryParse(_yearlyControllers['Electricity']?.text ?? '0') ?? 0.0) * 2;
+  double gasCo2Impact = (double.tryParse(_yearlyControllers['Gas']?.text ?? '0') ?? 0.0) * 4;
+
+  // For the pie chart
+  double beefImpact = yearlyBeef;
+  double chickenImpact = yearlyChicken;
+  double porkImpact = yearlyPork;
+  double flightImpact = (double.tryParse(_yearlyControllers['Flight']?.text ?? '0') ?? 0.0);
+  double vehicleImpact = (double.tryParse(_yearlyControllers['Vehicle']?.text ?? '0') ?? 0.0);
+  double electricityImpact = (double.tryParse(_yearlyControllers['Electricity']?.text ?? '0') ?? 0.0);
+  double gasImpact = (double.tryParse(_yearlyControllers['Gas']?.text ?? '0') ?? 0.0);
+
+  // sum the totl co2
+  double totalCo2Impact = beefCo2Impact + chickenCo2Impact + porkCo2Impact + flightCo2Impact + vehicleCo2Impact + electricityCo2Impact + gasCo2Impact;
+
+  // send calculated data to overview page
+  Navigator.push(
+    context,
+    MaterialPageRoute(
+      builder: (context) => OverviewPage(
+        beefCo2Impact: beefCo2Impact,
+        chickenCo2Impact: chickenCo2Impact,
+        porkCo2Impact: porkCo2Impact,
+        flightCo2Impact: flightCo2Impact,
+        vehicleCo2Impact: vehicleCo2Impact,
+        electricityCo2Impact: electricityCo2Impact,
+        gasCo2Impact: gasCo2Impact,
+        totalCo2Impact: totalCo2Impact,
+        beefImpact: beefImpact,
+        chickenImpact: chickenImpact,
+        porkImpact: porkImpact,
+        flightImpact: flightImpact,
+        vehicleImpact: vehicleImpact,
+        electricityImpact: electricityImpact,
+        gasImpact: gasImpact,
       ),
-    );
-  }
+    ),
+  );
+}
+
 
   @override
   Widget build(BuildContext context) {
@@ -216,13 +239,13 @@ class QuestionnairePageState extends State<QuestionnairePage> {
               ],
             ),
           ),
-          // Page two   questions distance traveled
+          // Page two questions distance traveled
           SingleChildScrollView(
             padding: const EdgeInsets.all(16),
             child: Column(
               children: <Widget>[
                 const Text(
-                  'travel',
+                  'Travel',
                   style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 20),

@@ -10,9 +10,16 @@ class OverviewPage extends StatelessWidget {
   final double electricityCo2Impact;
   final double gasCo2Impact;
   final double totalCo2Impact;
+  final double beefImpact;
+  final double chickenImpact;
+  final double porkImpact;
+  final double flightImpact;
+  final double vehicleImpact;
+  final double electricityImpact;
+  final double gasImpact;
 
   const OverviewPage({
-    super.key,
+    Key? key,
     this.beefCo2Impact = 0,
     this.chickenCo2Impact = 0,
     this.porkCo2Impact = 0,
@@ -21,175 +28,255 @@ class OverviewPage extends StatelessWidget {
     this.electricityCo2Impact = 0,
     this.gasCo2Impact = 0,
     required this.totalCo2Impact,
-  });
+    required this.beefImpact,
+    required this.chickenImpact,
+    required this.porkImpact,
+    required this.flightImpact,
+    required this.vehicleImpact,
+    required this.electricityImpact,
+    required this.gasImpact,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    double averageCo2Emission = 4000;
+    double averageCo2Emission = 143942;
     double difference = totalCo2Impact - averageCo2Emission;
     double percentageDifference = (difference / averageCo2Emission) * 100;
 
-//scafold with the piechat form the fl_chart.dart package 
+
+
+
+//average data for consumption
+    double averageBeefImpact = 24.33;
+    double averageChickenImpact =13.46;
+    double averagePorkImpact = 24.56;
+
+    double averageFlightImpact = 2200;
+    double averageVehicleImpact = 5000;
+    double averageElectricityImpact = 5900;
+    double averageGasImpact = 600;
+
+//calculate the co2 impact by multipl... with the amount of co2 pr kg of each 
+    double averageBeefCo2Impact = averageBeefImpact*27.0;
+    // average co2 pr kg beef 27
+    double averageChickenCo2Impact = averageChickenImpact*6.9;
+    // average co2 pr kg chicken 6.9
+    double averagePorkCo2Impact = averagePorkImpact*12.1;
+    // average co2 pr kg pork 12.1
+    double averageFlightCo2Impact = averageFlightImpact*0.18;
+    // average co2 km for airplain 0.18
+    double averageVehicleCo2Impact = averageVehicleImpact*0.1;
+    // average co2 km for vehicle 0.1
+    double averageElectricityCo2Impact = averageElectricityImpact*2;
+    // average co2  kwh for ELec 2
+    double averageGasCo2Impact = averageGasImpact*4;
+    // average co2 kwh for Gas 4
+
+
+
+    double averageTotalCo2Impact = averageBeefCo2Impact +
+        averageChickenCo2Impact +
+        averagePorkCo2Impact +
+        averageFlightCo2Impact +
+        averageVehicleCo2Impact +
+        averageElectricityCo2Impact +
+        averageGasCo2Impact;
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('CO2 Impact Overview'),
+        title: const Text('CO2 Impact Overview Yearly'),
       ),
-      body: Center(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
           children: [
-            Expanded(
-              flex: 6,
-              child: PieChart(
-                PieChartData(
-                  pieTouchData: PieTouchData(
-                    touchCallback: (FlTouchEvent event, pieTouchResponse) {},
-                    enabled: true,
-                  ),
-                  sections: [
-                    PieChartSectionData(
-                      color: Colors.red,
-                      value: beefCo2Impact,
-                      title: beefCo2Impact > 0
-                          ? '${beefCo2Impact.toStringAsFixed(2)} kg CO2'
-                          : '',
-                      radius: 100,
-                      titleStyle: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white),
-                      badgePositionPercentageOffset: .98,
-                    ),
-                    PieChartSectionData(
-                      color: Colors.orange,
-                      value: chickenCo2Impact,
-                      title: chickenCo2Impact > 0
-                          ? '${chickenCo2Impact.toStringAsFixed(2)} kg CO2'
-                          : '',
-                      radius: 100,
-                      titleStyle: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white),
-                      badgePositionPercentageOffset: .98,
-                    ),
-                    PieChartSectionData(
-                      color: Colors.pink,
-                      value: porkCo2Impact,
-                      title: porkCo2Impact > 0
-                          ? '${porkCo2Impact.toStringAsFixed(2)} kg CO2'
-                          : '',
-                      radius: 100,
-                      titleStyle: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white),
-                      badgePositionPercentageOffset: .98,
-                    ),
-                    PieChartSectionData(
-                      color: Colors.blue,
-                      value: flightCo2Impact,
-                      title: flightCo2Impact > 0
-                          ? '${flightCo2Impact.toStringAsFixed(2)} kg CO2'
-                          : '',
-                      radius: 100,
-                      titleStyle: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white),
-                      badgePositionPercentageOffset: .98,
-                    ),
-                    PieChartSectionData(
-                      color: Colors.green,
-                      value: vehicleCo2Impact,
-                      title: vehicleCo2Impact > 0
-                          ? '${vehicleCo2Impact.toStringAsFixed(2)} kg CO2'
-                          : '',
-                      radius: 100,
-                      titleStyle: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white),
-                      badgePositionPercentageOffset: .98,
-                    ),
-                    PieChartSectionData(
-                      color: Colors.yellow,
-                      value: electricityCo2Impact,
-                      title: electricityCo2Impact > 0
-                          ? '${electricityCo2Impact.toStringAsFixed(2)} kg CO2'
-                          : '',
-                      radius: 100,
-                      titleStyle: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white),
-                      badgePositionPercentageOffset: .98,
-                    ),
-                    PieChartSectionData(
-                      color: Colors.purple,
-                      value: gasCo2Impact,
-                      title: gasCo2Impact > 0
-                          ? '${gasCo2Impact.toStringAsFixed(2)} kg CO2'
-                          : '',
-                      radius: 100,
-                      titleStyle: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white),
-                      badgePositionPercentageOffset: .98,
-                    ),
-                  ],
-                  sectionsSpace: 2,
-                  centerSpaceRadius: 200,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: const [
+                Text(
+                  'Your CO2 Impact',
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
-              ),
+                Text(
+                  'Average Danish Distribution',
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                ),
+              ],
             ),
             Expanded(
-              flex: 4,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+              child: Row(
                 children: [
-                  const LegendWidget(
-                      color: Colors.red, text: 'Beef CO2 Impact'),
-                  const SizedBox(height: 4),
-                  const LegendWidget(
-                      color: Colors.orange, text: 'Chicken CO2 Impact'),
-                  const SizedBox(height: 4),
-                  const LegendWidget(
-                      color: Colors.pink, text: 'Pork CO2 Impact'),
-                  const SizedBox(height: 4),
-                  const LegendWidget(
-                      color: Colors.blue, text: 'Flight CO2 Impact'),
-                  const SizedBox(height: 4),
-                  const LegendWidget(
-                      color: Colors.green, text: 'Vehicle CO2 Impact'),
-                  const SizedBox(height: 4),
-                  const LegendWidget(
-                      color: Colors.yellow, text: 'Electricity CO2 Impact'),
-                  const SizedBox(height: 4),
-                  const LegendWidget(
-                      color: Colors.purple, text: 'Gas CO2 Impact'),
-                  const SizedBox(height: 20),
-                  Container(
-                    padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      color: difference > 0 ? Colors.redAccent : Colors.green,
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Text(
-                      difference > 0
-                          ? 'Above average emissions'
-                          : 'Below average emissions',
-                      style: const TextStyle(color: Colors.white),
+                  Expanded(
+                    flex: 5,
+                    child: Column(
+                      children: [
+                        Expanded(
+                          //build first pie chart 
+                          child: PieChart(
+                            PieChartData(
+                              pieTouchData: PieTouchData(
+                                touchCallback: (FlTouchEvent event, pieTouchResponse) {},
+                                enabled: true,
+                              ),
+                              sections: _buildPieSections([
+                                beefCo2Impact,
+                                chickenCo2Impact,
+                                porkCo2Impact,
+                                flightCo2Impact,
+                                vehicleCo2Impact,
+                                electricityCo2Impact,
+                                gasCo2Impact,
+                              ], [
+                                Colors.red,
+                                Colors.orange,
+                                Colors.pink,
+                                Colors.blue,
+                                Colors.green,
+                                Colors.yellow,
+                                Colors.purple,
+                              ]),
+                              sectionsSpace: 2,
+                              centerSpaceRadius: 40,
+                            ),
+                          ),
+                        ),
+                        _buildLegend([
+                          'Beef',
+                          'Chicken',
+                          'Pork',
+                          'Flight',
+                          'Vehicle',
+                          'Electricity',
+                          'Gas',
+                        ], [
+                          beefImpact,
+                          chickenImpact,
+                          porkImpact,
+                          flightImpact,
+                          vehicleImpact,
+                          electricityImpact,
+                          gasImpact,
+                        ], [
+                          Colors.red,
+                          Colors.orange,
+                          Colors.pink,
+                          Colors.blue,
+                          Colors.green,
+                          Colors.yellow,
+                          Colors.purple,
+                        ]),
+                        const SizedBox(height: 20),
+                        Text(
+                          'Total CO2 Impact: ${totalCo2Impact.toStringAsFixed(2)} kg CO2',
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                  const SizedBox(height: 8),
-                  Text(
-                    '${percentageDifference.abs().toStringAsFixed(2)}% ${difference > 0 ? 'above' : 'below'} average',
-                    style: TextStyle(
-                      color: difference > 0 ? Colors.redAccent : Colors.green,
-                      fontWeight: FontWeight.bold,
+                  Expanded(
+                    flex: 2,
+                    child: Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                              color: difference > 0 ? Colors.redAccent : Colors.green,
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: Text(
+                              difference > 0
+                                  ? 'Above average emissions'
+                                  : 'Below average emissions',
+                              style: const TextStyle(color: Colors.white),
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            '${percentageDifference.abs().toStringAsFixed(2)}% ${difference > 0 ? 'above' : 'below'} average',
+                            style: TextStyle(
+                              color: difference > 0 ? Colors.redAccent : Colors.green,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    flex: 5,
+                    child: Column(
+                      children: [
+                        Expanded(
+                          //build pie chart number two
+                          child: PieChart(
+                            PieChartData(
+                              pieTouchData: PieTouchData(
+                                touchCallback: (FlTouchEvent event, pieTouchResponse) {},
+                                enabled: true,
+                              ),
+                              sections: _buildPieSections([
+                                averageBeefCo2Impact,
+                                averageChickenCo2Impact,
+                                averagePorkCo2Impact,
+                                averageFlightCo2Impact,
+                                averageVehicleCo2Impact,
+                                averageElectricityCo2Impact,
+                                averageGasCo2Impact,
+                              ], [
+                                Colors.red,
+                                Colors.orange,
+                                Colors.pink,
+                                Colors.blue,
+                                Colors.green,
+                                Colors.yellow,
+                                Colors.purple,
+                              ]),
+                              sectionsSpace: 2,
+                              centerSpaceRadius: 40,
+                            ),
+                          ),
+                        ),
+                        _buildLegend([
+                          'Beef',
+                          'Chicken',
+                          'Pork',
+                          'Flight',
+                          'Vehicle',
+                          'Electricity',
+                          'Gas',
+                        ], [
+                          averageBeefImpact,
+                          averageChickenImpact,
+                          averagePorkImpact,
+                          averageFlightImpact,
+                          averageVehicleImpact,
+                          averageElectricityImpact,
+                          averageGasImpact,
+                        ], [
+                          Colors.red,
+                          Colors.orange,
+                          Colors.pink,
+                          Colors.blue,
+                          Colors.green,
+                          Colors.yellow,
+                          Colors.purple,
+                        ]),
+                        const SizedBox(height: 20),
+                        Text(
+                          'Total CO2 Impact: ${averageTotalCo2Impact.toStringAsFixed(2)} kg CO2',
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ],
@@ -200,14 +287,59 @@ class OverviewPage extends StatelessWidget {
       ),
     );
   }
+
+  List<PieChartSectionData> _buildPieSections(List<double> values, List<Color> colors) {
+    return values.asMap().entries.map((entry) {
+      int index = entry.key;
+      double value = entry.value;
+      return PieChartSectionData(
+        color: colors[index],
+        value: value,
+        showTitle: false, // Hide titles inside the pie sections
+        radius: 100,
+      );
+    }).toList();
+  }
+
+  Widget _buildLegend(List<String> labels, List<double> values, List<Color> colors) {
+    return Column(
+      children: labels.asMap().entries.map((entry) {
+        int index = entry.key;
+        String label = entry.value;
+        return LegendWidget(
+          color: colors[index],
+          text: label,
+          value: '${values[index].toStringAsFixed(2)} ${_getUnit(label)}',
+        );
+      }).toList(),
+    );
+  }
+
+  String _getUnit(String label) {
+    switch (label) {
+      case 'Flight':
+      case 'Vehicle':
+        return 'km';
+      case 'Electricity':
+      case 'Gas':
+        return 'kWh';
+      default:
+        return 'kg';
+    }
+  }
 }
 
 class LegendWidget extends StatelessWidget {
   final Color color;
   final String text;
+  final String value;
 
-  const LegendWidget({Key? key, required this.color, required this.text})
-      : super(key: key);
+  const LegendWidget({
+    Key? key,
+    required this.color,
+    required this.text,
+    required this.value,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -223,9 +355,9 @@ class LegendWidget extends StatelessWidget {
         ),
         const SizedBox(width: 8),
         Text(text),
+        const SizedBox(width: 8),
+        Text(value),
       ],
     );
   }
 }
-
-
