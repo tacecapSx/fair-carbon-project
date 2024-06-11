@@ -8,9 +8,10 @@ import 'custom_widgets.dart';
 import 'dart:math';
 
 class HigherLowerLossPage extends StatefulWidget {
-  const HigherLowerLossPage({super.key, required this.finalScore, required this.correctAnswer, required this.isDaily});
+  const HigherLowerLossPage({super.key, required this.finalScore, required this.percentScore, required this.correctAnswer, required this.isDaily});
 
   final int finalScore;
+  final double percentScore;
   final String correctAnswer;
   final bool isDaily;
 
@@ -28,7 +29,6 @@ class HigherLowerLossPageState extends State<HigherLowerLossPage> {
 
   @override
   Widget build(BuildContext context) {
-    
 
     return Scaffold(
       appBar: const HeaderWidget(),
@@ -64,6 +64,17 @@ class HigherLowerLossPageState extends State<HigherLowerLossPage> {
                   style: const TextStyle(
                     color: AppColors.whiteTextColor,
                     fontSize: 16,
+                  ),
+                ),
+                if (widget.percentScore > 0)
+                Transform.translate(
+                  offset: const Offset(0, 20),
+                  child: Text(
+                    "You did better than ${widget.percentScore.floor()}% of players", 
+                    style: TextStyle(
+                      color: AppColors.whiteTextColor, 
+                      fontSize: 16
+                    ),
                   ),
                 ),
                 const SizedBox(height: 50,),

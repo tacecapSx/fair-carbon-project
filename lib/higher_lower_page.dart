@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'higher_lower_loss_page.dart';
 
+import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_core/firebase_core.dart';
+
 //Copenhagen;Paris;Tokyo;New York;Los Angeles;Sydney;London;Madrid
 List<String> airports = ["Copenhagen","Paris","Tokyo","New York","Los Angeles","Sydney","London","Madrid"];
 List<List<String>> flights = [];
@@ -75,6 +78,41 @@ class HigherLowerPageState extends State<HigherLowerPage>
   bool animationActive = false;
 
   late AnimationController _animationController;
+
+  final DatabaseReference _databaseReference = FirebaseDatabase.instance.reference();
+
+  void sendData(String path, int data) {
+    _databaseReference.child(path).set(data);
+  }
+
+  void sendDataList(String path, List<int> data) {
+    _databaseReference.child(path).set(data);
+  }
+
+  Future<int> getData(String path) async {
+    DatabaseEvent databaseEvent = await _databaseReference.child(path).once();
+    DataSnapshot dataSnapshot = databaseEvent.snapshot;
+    if (dataSnapshot.value != null) {
+      return dataSnapshot.value as int;
+    }
+
+    return 0;
+  }
+
+  Future<List<int>> getDataList(String path) async {
+    List<int> dataList = [];
+    DatabaseEvent databaseEvent = await _databaseReference.child(path).once();
+    DataSnapshot dataSnapshot = databaseEvent.snapshot;
+    if (dataSnapshot.value != null) {
+      List<dynamic> list = dataSnapshot.value as List<dynamic>;
+
+      for (dynamic value in list) {
+        dataList.add(value as int);
+      }
+    }
+    
+    return dataList;
+  }
 
   @override
   void initState() {
@@ -184,6 +222,7 @@ class HigherLowerPageState extends State<HigherLowerPage>
 
   @override
   Widget build(BuildContext context) {
+
     if (items.isEmpty) {
       return Scaffold(
         appBar: AppBar(title: const Text("Loading questions...")),
@@ -326,28 +365,29 @@ class HigherLowerPageState extends State<HigherLowerPage>
     );
   }
 
-  void evaluateAnswer(bool higher, double nextImpact) {
+  void evaluateAnswer(bool higher, double nextImpact) async {
     CO2ComparisonItem current = items[currentIndex];
     bool correct = (higher && nextImpact > current.co2Impact) ||
         (!higher && nextImpact < current.co2Impact);
 
     if (correct) {
       // check if the player has finished the daily
-      if(widget.isDaily && score + 1 == 10) {
+      if (widget.isDaily && score + 1 == 10) {
         Navigator.push(
           context,
           MaterialPageRoute(
             builder: (context) => HigherLowerLossPage(
               isDaily: widget.isDaily,
               finalScore: 10,
-              correctAnswer: ""
+              percentScore: 0,
+              correctAnswer: "",
             ),
           ),
         );
       }
 
       setState(() {
-        animationActive = true; // Set animationActive to true immediately
+        animationActive = true;
       });
 
       // Delay the animation by 2 seconds
@@ -358,12 +398,33 @@ class HigherLowerPageState extends State<HigherLowerPage>
         });
       });
     } else {
+
+      double scorePercent = 0;
+
+      if (!widget.isDaily){
+        List<int> databaseDataset = await getDataList('HigherOrLower/AllScores');
+        databaseDataset.add(score);
+        sendDataList('HigherOrLower/AllScores', databaseDataset);
+        
+        int dataLength = databaseDataset.length;
+
+        int rank = databaseDataset.length + 1;
+        for (int allScore in databaseDataset) {
+          if (allScore >= score && rank > 1) {
+            rank--;
+          }
+        }
+        
+        scorePercent = rank / dataLength * 100;
+      }
+
       Navigator.push(
         context,
         MaterialPageRoute(
           builder: (context) => HigherLowerLossPage(
             isDaily: widget.isDaily,
             finalScore: score,
+            percentScore: scorePercent,
             correctAnswer: nextImpact > items[currentIndex].co2Impact
                 ? "Higher"
                 : "Lower",
