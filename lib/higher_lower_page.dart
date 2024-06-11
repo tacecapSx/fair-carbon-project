@@ -3,9 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'higher_lower_loss_page.dart';
-
 import 'package:firebase_database/firebase_database.dart';
-import 'package:firebase_core/firebase_core.dart';
 
 //Copenhagen;Paris;Tokyo;New York;Los Angeles;Sydney;London;Madrid
 List<String> airports = ["Copenhagen","Paris","Tokyo","New York","Los Angeles","Sydney","London","Madrid"];
@@ -79,7 +77,7 @@ class HigherLowerPageState extends State<HigherLowerPage>
 
   late AnimationController _animationController;
 
-  final DatabaseReference _databaseReference = FirebaseDatabase.instance.reference();
+  final DatabaseReference _databaseReference = FirebaseDatabase.instance.ref();
 
   void sendData(String path, int data) {
     _databaseReference.child(path).set(data);
@@ -417,8 +415,9 @@ class HigherLowerPageState extends State<HigherLowerPage>
         
         scorePercent = rank / dataLength * 100;
       }
-
+      
       Navigator.push(
+        // ignore: use_build_context_synchronously
         context,
         MaterialPageRoute(
           builder: (context) => HigherLowerLossPage(

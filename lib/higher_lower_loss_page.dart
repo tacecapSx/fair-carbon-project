@@ -71,7 +71,7 @@ class HigherLowerLossPageState extends State<HigherLowerLossPage> {
                   offset: const Offset(0, 20),
                   child: Text(
                     "You did better than ${widget.percentScore.floor()}% of players", 
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: AppColors.whiteTextColor, 
                       fontSize: 16
                     ),
