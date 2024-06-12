@@ -41,38 +41,25 @@ class OverviewPage extends StatelessWidget {
   Widget build(BuildContext context) {
     double averageCo2Emission = 143942;
     double difference = totalCo2Impact - averageCo2Emission;
-    double percentageDifference = (difference / averageCo2Emission) * 100;
+    double percentageDifference = averageCo2Emission != 0 ? (difference / averageCo2Emission) * 100 : 0;
 
-
-
-
-//average data for consumption
+    // Average data for consumption
     double averageBeefImpact = 24.33;
-    double averageChickenImpact =13.46;
+    double averageChickenImpact = 13.46;
     double averagePorkImpact = 24.56;
-
     double averageFlightImpact = 2200;
     double averageVehicleImpact = 5000;
     double averageElectricityImpact = 5900;
     double averageGasImpact = 600;
 
-//calculate the co2 impact by multipl... with the amount of co2 pr kg of each 
-    double averageBeefCo2Impact = averageBeefImpact*27.0;
-    // average co2 pr kg beef 27
-    double averageChickenCo2Impact = averageChickenImpact*6.9;
-    // average co2 pr kg chicken 6.9
-    double averagePorkCo2Impact = averagePorkImpact*12.1;
-    // average co2 pr kg pork 12.1
-    double averageFlightCo2Impact = averageFlightImpact*0.18;
-    // average co2 km for airplain 0.18
-    double averageVehicleCo2Impact = averageVehicleImpact*0.1;
-    // average co2 km for vehicle 0.1
-    double averageElectricityCo2Impact = averageElectricityImpact*2;
-    // average co2  kwh for ELec 2
-    double averageGasCo2Impact = averageGasImpact*4;
-    // average co2 kwh for Gas 4
-
-
+    // Calculate the CO2 impact by multiplying with the amount of CO2 per kg of each 
+    double averageBeefCo2Impact = averageBeefImpact * 27.0;
+    double averageChickenCo2Impact = averageChickenImpact * 6.9;
+    double averagePorkCo2Impact = averagePorkImpact * 12.1;
+    double averageFlightCo2Impact = averageFlightImpact * 0.18;
+    double averageVehicleCo2Impact = averageVehicleImpact * 0.1;
+    double averageElectricityCo2Impact = averageElectricityImpact * 2;
+    double averageGasCo2Impact = averageGasImpact * 4;
 
     double averageTotalCo2Impact = averageBeefCo2Impact +
         averageChickenCo2Impact +
@@ -111,7 +98,7 @@ class OverviewPage extends StatelessWidget {
                     child: Column(
                       children: [
                         Expanded(
-                          //build first pie chart 
+                          // Build first pie chart 
                           child: PieChart(
                             PieChartData(
                               pieTouchData: PieTouchData(
@@ -213,7 +200,7 @@ class OverviewPage extends StatelessWidget {
                     child: Column(
                       children: [
                         Expanded(
-                          //build pie chart number two
+                          // Build pie chart number two
                           child: PieChart(
                             PieChartData(
                               pieTouchData: PieTouchData(
@@ -288,14 +275,28 @@ class OverviewPage extends StatelessWidget {
     );
   }
 
+
+//fixes zero exeption 
   List<PieChartSectionData> _buildPieSections(List<double> values, List<Color> colors) {
+    double totalValue = values.reduce((a, b) => a + b);
+    if (totalValue == 0) {
+      //  map some of the data from avarege dansih co2 emession to the piechart
+      return [
+        PieChartSectionData(
+          color: Colors.grey,
+          value: 1,
+          showTitle: false,  //remove titles so its more readable
+          radius: 100,
+        ),
+      ];
+    }
     return values.asMap().entries.map((entry) {
       int index = entry.key;
       double value = entry.value;
       return PieChartSectionData(
         color: colors[index],
         value: value,
-        showTitle: false, // Hide titles inside the pie sections
+        showTitle: false, //remove titles so its more readable
         radius: 100,
       );
     }).toList();
