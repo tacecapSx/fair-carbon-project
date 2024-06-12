@@ -1,4 +1,4 @@
-import 'package:carbon_footprint/questionnaire.dart';
+import 'package:carbon_footprint/questionnaire_page.dart';
 import 'package:flutter/material.dart';
 import 'higher_lower_mode_page.dart';
 

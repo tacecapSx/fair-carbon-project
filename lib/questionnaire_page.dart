@@ -1,7 +1,7 @@
 // ignore_for_file: avoid_function_literals_in_foreach_calls
 
 import 'package:flutter/material.dart';
-import 'Overview.dart';
+import 'overview_page.dart';
 
 class QuestionnairePage extends StatefulWidget {
   const QuestionnairePage({super.key});
@@ -122,14 +122,14 @@ class QuestionnairePageState extends State<QuestionnairePage> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text('Error'),
-            content: Text('Please fill all of the fields.'),
+            title: const Text('Error'),
+            content: const Text('Please fill all of the fields.'),
             actions: [
               TextButton(
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-                child: Text('OK'),
+                child: const Text('OK'),
               ),
             ],
           );
@@ -184,6 +184,49 @@ class QuestionnairePageState extends State<QuestionnairePage> {
   );
 }
 
+  Widget questionnaireField(TextEditingController controller, String defaultText) {
+    return SizedBox(
+      width: 120,
+      child: TextField(
+        controller: controller,
+        decoration: InputDecoration(
+          labelText: defaultText,
+          fillColor: Colors.white,
+          filled: true,
+        ),
+        keyboardType: const TextInputType.numberWithOptions(decimal: true),
+      ),
+    );
+  }
+
+  Widget questionnaireSection(String title, Widget f1, Widget f2, Widget f3) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Text(
+          title,
+          style: const TextStyle(fontSize: 18),
+        ),
+        const SizedBox(height: 20,),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            f1,
+            const SizedBox(width: 10,),
+            const Text("or"),
+            const SizedBox(width: 10,),
+            f2,
+            const SizedBox(width: 10,),
+            const Text("or"),
+            const SizedBox(width: 10,),
+            f3,
+          ],
+        ),
+        const SizedBox(height: 80,),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -206,46 +249,13 @@ class QuestionnairePageState extends State<QuestionnairePage> {
                 const SizedBox(height: 20),
                 // make the textfilds with the consumptions 
                 ..._dailyControllers.keys.where((key) => key != 'Flight' && key != 'Vehicle' && key != 'Electricity' && key != 'Gas').map((key) {
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        '$key eaten',
-                        style: const TextStyle(fontSize: 18),
-                      ),
-                      TextField(
-                        controller: _dailyControllers[key]!,
-                        decoration: const InputDecoration(
-                          labelText: 'Daily (kg)',
-                          fillColor: Colors.white,
-                          filled: true,
-                        ),
-                        keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                      ),
-                      const SizedBox(height: 10),
-                      TextField(
-                        controller: _weeklyControllers[key]!,
-                        decoration: const InputDecoration(
-                          labelText: 'Weekly (kg)',
-                          fillColor: Colors.white,
-                          filled: true,
-                        ),
-                        keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                      ),
-                      const SizedBox(height: 10),
-                      TextField(
-                        controller: _yearlyControllers[key]!,
-                        decoration: const InputDecoration(
-                          labelText: 'Yearly (kg)',
-                          fillColor: Colors.white,
-                          filled: true,
-                        ),
-                        keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                      ),
-                      const SizedBox(height: 20),
-                    ],
+                  return questionnaireSection(
+                    '$key eaten',
+                    questionnaireField(_dailyControllers[key]!, ("Daily (kg)")),
+                    questionnaireField(_weeklyControllers[key]!, ("Weekly (kg)")),
+                    questionnaireField(_yearlyControllers[key]!, ("Yearly (kg)")),
                   );
-                }).toList(),
+                }),
                 ElevatedButton(
                   onPressed: nextPage,
                   child: const Text('Next'),
@@ -263,74 +273,18 @@ class QuestionnairePageState extends State<QuestionnairePage> {
                   style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 20),
-                const Text(
+                questionnaireSection(
                   'Distance traveled (airplane)',
-                  style: TextStyle(fontSize: 18),
+                  questionnaireField(_dailyControllers['Flight']!, ("Daily (km)")),
+                  questionnaireField(_weeklyControllers['Flight']!, ("Weekly (km)")),
+                  questionnaireField(_yearlyControllers['Flight']!, ("Yearly (km)")),
                 ),
-                TextField(
-                  controller: _dailyControllers['Flight']!,
-                  decoration: const InputDecoration(
-                    labelText: 'Daily (km)',
-                    fillColor: Colors.white,
-                    filled: true,
-                  ),
-                  keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                ),
-                const SizedBox(height: 10),
-                TextField(
-                  controller: _weeklyControllers['Flight']!,
-                  decoration: const InputDecoration(
-                    labelText: 'Weekly (km)',
-                    fillColor: Colors.white,
-                    filled: true,
-                  ),
-                  keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                ),
-                const SizedBox(height: 10),
-                TextField(
-                  controller: _yearlyControllers['Flight']!,
-                  decoration: const InputDecoration(
-                    labelText: 'Yearly (km)',
-                    fillColor: Colors.white,
-                    filled: true,
-                  ),
-                  keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                ),
-                const SizedBox(height: 20),
-                const Text(
+                questionnaireSection(
                   'Distance traveled (motor vehicle)',
-                  style: TextStyle(fontSize: 18),
+                  questionnaireField(_dailyControllers['Vehicle']!, ("Daily (km)")),
+                  questionnaireField(_weeklyControllers['Vehicle']!, ("Weekly (km)")),
+                  questionnaireField(_yearlyControllers['Vehicle']!, ("Yearly (km)")),
                 ),
-                TextField(
-                  controller: _dailyControllers['Vehicle']!,
-                  decoration: const InputDecoration(
-                    labelText: 'Daily (km)',
-                    fillColor: Colors.white,
-                    filled: true,
-                  ),
-                  keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                ),
-                const SizedBox(height: 10),
-                TextField(
-                  controller: _weeklyControllers['Vehicle']!,
-                  decoration: const InputDecoration(
-                    labelText: 'Weekly (km)',
-                    fillColor: Colors.white,
-                    filled: true,
-                  ),
-                  keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                ),
-                const SizedBox(height: 10),
-                TextField(
-                  controller: _yearlyControllers['Vehicle']!,
-                  decoration: const InputDecoration(
-                    labelText: 'Yearly (km)',
-                    fillColor: Colors.white,
-                    filled: true,
-                  ),
-                  keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                ),
-                const SizedBox(height: 20),
                 ElevatedButton(
                   onPressed: nextPage,
                   child: const Text('Next'),
@@ -355,74 +309,18 @@ class QuestionnairePageState extends State<QuestionnairePage> {
                   style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 20),
-                const Text(
+                questionnaireSection(
                   'Electricity used',
-                  style: TextStyle(fontSize: 18),
+                  questionnaireField(_dailyControllers['Electricity']!, ("Daily (kWh)")),
+                  questionnaireField(_weeklyControllers['Electricity']!, ("Weekly (kWh)")),
+                  questionnaireField(_yearlyControllers['Electricity']!, ("Yearly (kWh)")),
                 ),
-                TextField(
-                  controller: _dailyControllers['Electricity']!,
-                  decoration: const InputDecoration(
-                    labelText: 'Daily (kWh)',
-                    fillColor: Colors.white,
-                    filled: true,
-                  ),
-                  keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                ),
-                const SizedBox(height: 10),
-                TextField(
-                  controller: _weeklyControllers['Electricity']!,
-                  decoration: const InputDecoration(
-                    labelText: 'Weekly (kWh)',
-                    fillColor: Colors.white,
-                    filled: true,
-                  ),
-                  keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                ),
-                const SizedBox(height: 10),
-                TextField(
-                  controller: _yearlyControllers['Electricity']!,
-                  decoration: const InputDecoration(
-                    labelText: 'Yearly (kWh)',
-                    fillColor: Colors.white,
-                    filled: true,
-                  ),
-                  keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                ),
-                const SizedBox(height: 20),
-                const Text(
+                questionnaireSection(
                   'Gas used',
-                  style: TextStyle(fontSize: 18),
+                  questionnaireField(_dailyControllers['Gas']!, ("Daily (kWh)")),
+                  questionnaireField(_weeklyControllers['Gas']!, ("Weekly (kWh)")),
+                  questionnaireField(_yearlyControllers['Gas']!, ("Yearly (kWh)")),
                 ),
-                TextField(
-                  controller: _dailyControllers['Gas']!,
-                  decoration: const InputDecoration(
-                    labelText: 'Daily (kWh)',
-                    fillColor: Colors.white,
-                    filled: true,
-                  ),
-                  keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                ),
-                const SizedBox(height: 10),
-                TextField(
-                  controller: _weeklyControllers['Gas']!,
-                  decoration: const InputDecoration(
-                    labelText: 'Weekly (kWh)',
-                    fillColor: Colors.white,
-                    filled: true,
-                  ),
-                  keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                ),
-                const SizedBox(height: 10),
-                TextField(
-                  controller: _yearlyControllers['Gas']!,
-                  decoration: const InputDecoration(
-                    labelText: 'Yearly (kWh)',
-                    fillColor: Colors.white,
-                    filled: true,
-                  ),
-                  keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                ),
-                const SizedBox(height: 20),
                 ElevatedButton(
                   onPressed: navigateToOverview,
                   child: const Text('Calculate and View Overview'),
