@@ -153,10 +153,10 @@ class HigherLowerPageState extends State<HigherLowerPage>
 
   String getQuestionString(CO2ComparisonItem item) {
     if(item.id == 2) {
-      return "${item.preDescription+airports[item.flight1]} and ${airports[item.flight2]} (${item.amount.toString()} km) ${item.postDescription}";
+      return "${item.preDescription} ${airports[item.flight1]} and ${airports[item.flight2]} (${item.amount.toString()} km)${item.postDescription}";
     }
     else{
-      return item.preDescription+item.amount.toString()+item.postDescription;
+      return item.preDescription+" "+item.amount.toString()+item.postDescription;
     }
   }
 
@@ -365,8 +365,16 @@ class HigherLowerPageState extends State<HigherLowerPage>
 
   void evaluateAnswer(bool higher, double nextImpact) async {
     CO2ComparisonItem current = items[currentIndex];
+    CO2ComparisonItem next = items[(currentIndex + 1) % items.length];
+
     bool correct = (higher && nextImpact > current.co2Impact) ||
         (!higher && nextImpact < current.co2Impact);
+
+    //Collect data from player
+    String dataCollectionPath = "HigherOrLower/PlayerCorrectness/" + current.preDescription + current.postDescription + " -- " + next.preDescription + next.postDescription
+    + "/" + (correct ? "Correct" : "Not correct");
+    int dataCollectionAmount = await getData(dataCollectionPath);
+    sendData(dataCollectionPath, dataCollectionAmount+1);
 
     if (correct) {
       // check if the player has finished the daily
