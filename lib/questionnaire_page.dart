@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'overview_page.dart';
+import 'database.dart';
 
 class QuestionnairePage extends StatefulWidget {
   const QuestionnairePage({super.key});
@@ -107,7 +108,7 @@ class QuestionnairePageState extends State<QuestionnairePage> {
   }
 
 //predefined values such as how much co2 1 kg of beef produces
- void navigateToOverview() {
+void navigateToOverview() {
   final Map<String, double> meatCo2PerKg = {
     'Beef': 27.0,
     'Chicken': 6.9,
@@ -158,6 +159,15 @@ class QuestionnairePageState extends State<QuestionnairePage> {
 
   // Total sum of all CO2 usage
   double totalCo2Impact = beefCo2Impact + chickenCo2Impact + porkCo2Impact + flightCo2Impact + vehicleCo2Impact + electricityCo2Impact + gasCo2Impact;
+
+  //Oskar (Update database)
+  updateDataList("Questionnaire/Beef", beefImpact);
+  updateDataList("Questionnaire/Chicken", chickenImpact);
+  updateDataList("Questionnaire/Pork", porkImpact);
+  updateDataList("Questionnaire/Flying", flightImpact);
+  updateDataList("Questionnaire/Vehicle", vehicleImpact);
+  updateDataList("Questionnaire/Electricity", electricityImpact);
+  updateDataList("Questionnaire/Gas", gasImpact);
 
   // sends data to overview page with the calculated data
   Navigator.push(

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'higher_lower_loss_page.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'database.dart';
 
 //Copenhagen;Paris;Tokyo;New York;Los Angeles;Sydney;London;Madrid
 List<String> airports = ["Copenhagen","Paris","Tokyo","New York","Los Angeles","Sydney","London","Madrid"];
@@ -76,41 +77,6 @@ class HigherLowerPageState extends State<HigherLowerPage>
   bool animationActive = false;
 
   late AnimationController _animationController;
-
-  final DatabaseReference _databaseReference = FirebaseDatabase.instance.ref();
-
-  void sendData(String path, int data) {
-    _databaseReference.child(path).set(data);
-  }
-
-  void sendDataList(String path, List<int> data) {
-    _databaseReference.child(path).set(data);
-  }
-
-  Future<int> getData(String path) async {
-    DatabaseEvent databaseEvent = await _databaseReference.child(path).once();
-    DataSnapshot dataSnapshot = databaseEvent.snapshot;
-    if (dataSnapshot.value != null) {
-      return dataSnapshot.value as int;
-    }
-
-    return 0;
-  }
-
-  Future<List<int>> getDataList(String path) async {
-    List<int> dataList = [];
-    DatabaseEvent databaseEvent = await _databaseReference.child(path).once();
-    DataSnapshot dataSnapshot = databaseEvent.snapshot;
-    if (dataSnapshot.value != null) {
-      List<dynamic> list = dataSnapshot.value as List<dynamic>;
-
-      for (dynamic value in list) {
-        dataList.add(value as int);
-      }
-    }
-    
-    return dataList;
-  }
 
   @override
   void initState() {
@@ -265,6 +231,7 @@ class HigherLowerPageState extends State<HigherLowerPage>
       BuildContext context,
       {required bool showCO2}) {
     return Expanded(
+      //Oskar (Design and Animation)
       child: LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints) {
           double containerWidth = constraints.maxWidth;
@@ -370,10 +337,10 @@ class HigherLowerPageState extends State<HigherLowerPage>
     bool correct = (higher && nextImpact > current.co2Impact) ||
         (!higher && nextImpact < current.co2Impact);
 
-    //Collect data from player
+    //Oskar (Collect data from player)
     String dataCollectionPath = "HigherOrLower/PlayerCorrectness/" + current.preDescription + current.postDescription + " -- " + next.preDescription + next.postDescription
     + "/" + (correct ? "Correct" : "Not correct");
-    int dataCollectionAmount = await getData(dataCollectionPath);
+    double dataCollectionAmount = await getData(dataCollectionPath);
     sendData(dataCollectionPath, dataCollectionAmount+1);
 
     if (correct) {
@@ -407,15 +374,16 @@ class HigherLowerPageState extends State<HigherLowerPage>
 
       double scorePercent = 0;
 
+      //Oskar (save and get user scores)
       if (!widget.isDaily){
-        List<int> databaseDataset = await getDataList('HigherOrLower/AllScores');
-        databaseDataset.add(score);
+        List<double> databaseDataset = await getDataList('HigherOrLower/AllScores');
+        databaseDataset.add(score as double);
         sendDataList('HigherOrLower/AllScores', databaseDataset);
         
         int dataLength = databaseDataset.length;
 
         int rank = databaseDataset.length + 1;
-        for (int allScore in databaseDataset) {
+        for (double allScore in databaseDataset) {
           if (allScore >= score && rank > 1) {
             rank--;
           }

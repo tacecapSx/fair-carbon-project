@@ -66,6 +66,7 @@ class HigherLowerLossPageState extends State<HigherLowerLossPage> {
                     fontSize: 16,
                   ),
                 ),
+                //Oskar (Show percent score)
                 if (widget.percentScore > 0)
                 Transform.translate(
                   offset: const Offset(0, 20),
