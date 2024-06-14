@@ -95,9 +95,9 @@ class OverviewPage extends StatelessWidget {
                     ],
                   ),
                   // Build first pie chart 
-                  Transform.scale(
-                    scale:2,
-                    child:PieChart(
+                  Transform.scale( //scale up the user's chart to achieve the chart-in-chart effect
+                    scale: 2,
+                    child: PieChart(
                       PieChartData(
                         pieTouchData: PieTouchData(
                           touchCallback: (FlTouchEvent event, pieTouchResponse) {},

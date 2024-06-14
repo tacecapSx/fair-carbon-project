@@ -1,10 +1,10 @@
+// Martin (website homepage)
+
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'package:carbon_footprint/custom_widgets.dart';
 import 'questionnaire_page.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'async_provider.dart';
 import 'higher_lower_mode_page.dart';
 
 void main() async{
@@ -16,10 +16,7 @@ void main() async{
   );
 
   runApp(
-    ChangeNotifierProvider(
-      create: (context) => AsyncProvider(),
-      child: const MainApp(),
-    ),
+    const MainApp(),
   );
 }
 

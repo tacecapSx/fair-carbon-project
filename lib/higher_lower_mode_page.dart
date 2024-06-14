@@ -1,3 +1,5 @@
+//Martin (simple page to choose higher/lower gamemode)
+
 import 'package:carbon_footprint/constants.dart';
 import 'package:carbon_footprint/higher_lower_page.dart';
 import 'package:flutter/material.dart';
@@ -27,7 +29,7 @@ class HigherLowerModePageState extends State<HigherLowerModePage> {
               ),
             ),
           ),
-          Container(
+          Container( // dark overlay on top of the background image
             color: Colors.black.withOpacity(0.6),
           ),
           Center(
@@ -38,7 +40,7 @@ class HigherLowerModePageState extends State<HigherLowerModePage> {
                 const Text("Choose a game mode", style: TextStyle(color: AppColors.whiteTextColor, fontSize: 36),),
                 TextButton(
                   onPressed: () {
-                    Navigator.pushReplacement(
+                    Navigator.pushReplacement( // daily mode chosen, pass true into the higher/lower page
                       context,
                       MaterialPageRoute(builder: (context) => const HigherLowerPage(isDaily: true),),
                     );
@@ -56,7 +58,7 @@ class HigherLowerModePageState extends State<HigherLowerModePage> {
                 const SizedBox(height: 50,),
                 TextButton(
                   onPressed: () {
-                    Navigator.pushReplacement( //push replacement to make sure the score reinitializes as 0
+                    Navigator.pushReplacement( // endless mode chosen, pass false into the higher/lower page
                       context,
                       MaterialPageRoute(builder: (context) => const HigherLowerPage(isDaily: false),),
                     );

@@ -41,6 +41,8 @@ class HeaderWidget extends StatelessWidget implements PreferredSizeWidget {
   }
 }
 
+// Martin
+// A widget for a generic button comprised of text overlayed on top of a darkened image that leads to another page.
 class ImageButtonWidget extends StatefulWidget {
   const ImageButtonWidget(
       {super.key,
@@ -67,7 +69,7 @@ class ImageButtonWidgetState extends State<ImageButtonWidget> {
         onExit: (_) => setState(() => _isHovered = false),
         child: InkWell(
           onTap: () {
-            Navigator.push(
+            Navigator.push( //navigate to the widget's assigned page
               context,
               MaterialPageRoute(builder: (context) => widget.page),
             );
@@ -85,7 +87,7 @@ class ImageButtonWidgetState extends State<ImageButtonWidget> {
                           fit: BoxFit.cover,
                           height: constraints.maxHeight,
                         ),
-                        AnimatedContainer(
+                        AnimatedContainer( //the dark overlay on top of the background image, animated to lighten when hovered.
                           duration: const Duration(milliseconds: 300),
                           color:
                               Colors.black.withOpacity(_isHovered ? 0.5 : 0.75),
@@ -94,9 +96,14 @@ class ImageButtonWidgetState extends State<ImageButtonWidget> {
                     ),
                   ),
                   Center(
-                      child: Text(widget.text,
-                          style: const TextStyle(
-                              fontSize: 36, color: AppColors.whiteTextColor)))
+                    child: Text(
+                      widget.text,
+                      style: const TextStyle(
+                        fontSize: 36,
+                        color: AppColors.whiteTextColor
+                      ),
+                    ),
+                  ),
                 ],
               );
             },

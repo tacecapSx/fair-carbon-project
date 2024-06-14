@@ -1,6 +1,8 @@
+//Martin (simple app-wide constants for style consistency)
+
 import 'package:flutter/material.dart';
 
-// Access by importing constants.dart and referencing statically like:
+// Access by referencing statically like:
 // AppColors.primaryColor;
 class AppColors {
   static const primaryColor = Color.fromARGB(255, 120, 150, 120);
