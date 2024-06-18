@@ -246,6 +246,7 @@ class HigherLowerPageState extends State<HigherLowerPage>
                   parent: _animationController,
                   curve: Curves.easeInOut,
                 )),
+                
                 child: Stack(
                   children: [
                     Positioned.fill(
@@ -257,9 +258,7 @@ class HigherLowerPageState extends State<HigherLowerPage>
                         ),
                       ),
                     ),
-                    Container(
-                      color: Colors.black.withOpacity(0.6),
-                    ),
+
                     Positioned.fill(
                       child: AspectRatio(
                         aspectRatio: 1.0,
@@ -272,9 +271,23 @@ class HigherLowerPageState extends State<HigherLowerPage>
                         ),
                       ),
                     ),
+
+                    Container(
+                      color: Colors.black.withOpacity(0.6),
+                    ),
+
+                    Center(
+                      child: Transform.translate(
+                        offset: Offset(containerWidth, 0), // Set your desired x and y offset here
+                        child: Container(
+                          color: Colors.black.withOpacity(0.6),
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),
+
               Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
