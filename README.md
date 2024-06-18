@@ -1,16 +1,10 @@
-# carbon_footprint
+# Fair Carbon Project
 
-A new Flutter project!
+A website by Christian Rumle Kjær Ulsø [s214923] ([@Rumle33](https://github.com/Rumle33)), Martin Handest [s224755] ([@tacecapSx](https://github.com/tacecapSx)), Oskar William Ulrich Holland [s224768] ([@pandekagee](https://github.com/pandekagee)) and Sigurd Fajstrup Jørgensen [s224760] ([@sigurdjoergensen](https://github.com/sigurdjoergensen)).
 
-## Getting Started
+## Description
+This is a website that models the user's carbon footprint via a survey, and also has a minigame called Higher/Lower, where different CO2 emission sources are pitted against each other, and the user's knowledge will be tested. This project was designed and implemented as a solution to the project raised by Fair Carbon Footprint for the course 02122 Software Technology Project.
 
-This project is a starting point for a Flutter application.
+## Running and debugging
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+This project is coded in the Dart language using the Flutter framework. As such, you'll need the [Flutter SDK](https://docs.flutter.dev/get-started/install) to run and debug.
