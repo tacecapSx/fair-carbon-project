@@ -1,11 +1,11 @@
 {
-    "name": "carbon_footprint",
-    "short_name": "carbon_footprint",
+    "name": "Fair Carbon Footprint",
+    "short_name": "Fair Carbon Footprint",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "description": "Fair Carbon Footprint project, test your knowledge of carbon footprints!",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
