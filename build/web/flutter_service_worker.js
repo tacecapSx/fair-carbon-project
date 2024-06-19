@@ -20,7 +20,7 @@ const RESOURCES = {"assets/AssetManifest.bin": "6ee0e26aa9660c4432720e9663bfb238
 "assets/assets/forest_fire.jpg": "8239798fdb1edc2bcad866658d586a44",
 "assets/assets/higherlowerpage.png": "b96ceecbd795c510a29f35a25be046df",
 "assets/assets/hydro.jpg": "a59e2d31f4d6c0c36b2e3395de8ecdc2",
-"assets/assets/Logo.png": "387a6d9ffea1a381f2cd21d871239ea4",
+"assets/assets/Logo.png": "154da86b54decd38e37bf737046a5f7c",
 "assets/assets/Meat.jpg": "02cc5a338d92682978689828bd39a877",
 "assets/assets/naturalgas.jpg": "f5893f8fcbf9e4da3503ad695306baea",
 "assets/assets/nuclear.jpg": "d940ae0211b4a1bd647fe800232bb8bd",
@@ -53,9 +53,9 @@ const RESOURCES = {"assets/AssetManifest.bin": "6ee0e26aa9660c4432720e9663bfb238
 "icons/Icon-512.png": "96e752610906ba2a93c65f8abe1645f1",
 "icons/Icon-maskable-192.png": "c457ef57daa1d16f64b27b786ec2ea3c",
 "icons/Icon-maskable-512.png": "301a7604d45b3e739efc881eb04896ea",
-"index.html": "f6aaa1f2ae6a4d2e402c2daa656ba256",
-"/": "f6aaa1f2ae6a4d2e402c2daa656ba256",
-"main.dart.js": "f8fd29a5729b0318c81d6ad843a2ca6d",
+"index.html": "759e6f334dad4854c124f386e2a876d7",
+"/": "759e6f334dad4854c124f386e2a876d7",
+"main.dart.js": "0ac79a82c7529d4abda5f8836cb830e3",
 "manifest.json": "12496b7b2beead4b4e28617a4cd614a9",
 "version.json": "d4ea58f2ac136174b8d5ba63472c81a7"};
 // The application shell files that are downloaded before a service worker can

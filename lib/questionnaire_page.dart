@@ -1,5 +1,6 @@
 // Christian s214923
 // ignore_for_file: avoid_function_literals_in_foreach_calls
+import 'package:carbon_footprint/custom_widgets.dart';
 import 'package:flutter/material.dart';
 import 'overview_page.dart';
 import 'database.dart';
@@ -240,9 +241,7 @@ void navigateToOverview() {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Questionnaire'),
-      ),
+      appBar: const HeaderWidget(),
       body: PageView(
         controller: _pageController,
         physics: const NeverScrollableScrollPhysics(),
