@@ -8,10 +8,9 @@ import 'package:flutter/services.dart';
 import 'main.dart';
 import 'custom_widgets.dart';
 import 'dart:math';
-
+  final dday = DateTime(2024, 06, 18);
 class HigherLowerLossPage extends StatefulWidget {
   const HigherLowerLossPage({super.key, required this.finalScore, required this.percentScore, required this.correctAnswer, required this.isDaily});
-
   final int finalScore;
   final double percentScore;
   final String correctAnswer;
@@ -88,6 +87,21 @@ class HigherLowerLossPageState extends State<HigherLowerLossPage> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                    TextButton(
+                      onPressed: () async {
+                        await Clipboard.setData(ClipboardData(text: "#Footprint Higher / Lower #${DateTime.now().difference(dday)}\n$widget.finalScore/10"));
+                      },
+                      style: TextButton.styleFrom(
+                        backgroundColor: AppColors.whiteTextColor,
+                        foregroundColor: AppColors.blackTextColor,
+                        textStyle: const TextStyle(fontSize: 18),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                      ),
+                      child: const Text("Share results"),
+                    ),
+                    if(widget.isDaily)
                     TextButton(
                       onPressed: () {
                         Navigator.push(
