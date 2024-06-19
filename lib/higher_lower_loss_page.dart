@@ -89,7 +89,7 @@ class HigherLowerLossPageState extends State<HigherLowerLossPage> {
                   children: [
                     TextButton( //Sigurd
                       onPressed: () async {
-                        await Clipboard.setData(ClipboardData(text: "#Footprint Higher / Lower #${(DateTime.now().difference(dday).inHours / 24).round()} (${DateTime.now().toString()})\n${widget.finalScore}/10\nhttps://tacecapsx.github.io/fair-carbon-project/"));
+                        await Clipboard.setData(ClipboardData(text: "#Footprint Higher / Lower #${(DateTime.now().difference(dday).inHours / 24).round()} (${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year})\n${widget.finalScore}/10\nhttps://tacecapsx.github.io/fair-carbon-project/"));
                       },
                       style: TextButton.styleFrom(
                         backgroundColor: AppColors.whiteTextColor,
