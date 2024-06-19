@@ -1,0 +1,147 @@
+[
+    {
+      "id": 1,
+      "preDescription": "Buying",
+      "postDescription": " plastic bag(s)",
+      "eCO2": 21.51,
+      "minQuant": 1,
+      "maxQuant": 5,
+      "imagePath": "assets/PlasticBag.jpg"
+    },
+    {
+      "id": 2,
+      "preDescription": "Flying between",
+      "postDescription": " in economy",
+      "eCO2": 0.146,
+      "minQuant": 100,
+      "maxQuant": 10000,
+      "imagePath": "assets/Flying.jpg"
+    },
+    {
+        "id": 3,
+        "preDescription": "Buying",
+        "postDescription": " gram(s) of beef",
+        "eCO2": 0.155,
+        "minQuant": 400,
+        "maxQuant": 2000,
+        "imagePath": "assets/Meat.jpg"
+    },
+    {
+      "id": 4,
+      "preDescription": "Producing",
+      "postDescription": " day(s) of a households power with coal",
+      "eCO2": 25.0,
+      "minQuant": 1,
+      "maxQuant": 4,
+      "imagePath": "assets/coal.jpg"
+  },
+  {
+    "id": 5,
+    "preDescription": "Buying",
+    "postDescription": " Apple Macbook Pro 16",
+    "eCO2": 394.0,
+    "minQuant": 1,
+    "maxQuant": 2,
+    "imagePath": "assets/apple_macbook_pro_16.jpg"
+  },
+  {
+    "id": 6,
+    "preDescription": "Producing",
+    "postDescription": " day(s) of household power with natural gas",
+    "eCO2": 15.0,
+    "minQuant": 1,
+    "maxQuant": 14,
+    "imagePath": "assets/naturalgas.jpg"
+  },
+  {
+    "id": 7,
+    "preDescription": "Buying",
+    "postDescription": " square meter(s) of wool fabric",
+    "eCO2": 6.945,
+    "minQuant": 1,
+    "maxQuant": 10,
+    "imagePath": "assets/sheep.jpg"
+  },
+  {
+    "id": 8,
+    "preDescription": "Buying",
+    "postDescription": " gram(s) of pork",
+    "eCO2": 0.024,
+    "minQuant": 100,
+    "maxQuant": 4000,
+    "imagePath": "assets/Meat.jpg"
+  },
+  {
+    "id": 9,
+    "preDescription": "Driving",
+    "postDescription": " kilometers in a VW Golf 2020",
+    "eCO2": 0.209,
+    "minQuant": 10,
+    "maxQuant": 300,
+    "imagePath": "assets/vwgolf.png"
+  },
+  {
+    "id": 10,
+    "preDescription": "Travelling",
+    "postDescription": " kilometers on a bus",
+    "eCO2": 0.103,
+    "minQuant": 10,
+    "maxQuant": 300,
+    "imagePath": "assets/bus.jpeg"
+  },
+  {
+    "id": 11,
+    "preDescription": "Travelling",
+    "postDescription": " kilometers on a train",
+    "eCO2": 0.037,
+    "minQuant": 10,
+    "maxQuant": 300,
+    "imagePath": "assets/train.jpg"
+  },
+  {
+    "id": 12,
+    "preDescription": "Producing",
+    "postDescription": " day(s) of household power with nuclear",
+    "eCO2": 0.36,
+    "minQuant": 1,
+    "maxQuant": 14,
+    "imagePath": "assets/nuclear.jpg"
+  },
+  {
+    "id": 13,
+    "preDescription": "Producing",
+    "postDescription": " day(s) of household power with hydroelectric",
+    "eCO2": 0.72,
+    "minQuant": 1,
+    "maxQuant": 14,
+    "imagePath": "assets/hydro.jpg"
+  },
+  {
+    "id": 14,
+    "preDescription": "Producing",
+    "postDescription": " day(s) of household power with wind",
+    "eCO2": 0.36,
+    "minQuant": 1,
+    "maxQuant": 14,
+    "imagePath": "assets/wind.jpg"
+  },
+  {
+    "id": 15,
+    "preDescription": "Buying",
+    "postDescription": " grams of cheese",
+    "eCO2": 0.0279,
+    "minQuant": 100,
+    "maxQuant": 4000,
+    "imagePath": "assets/cheese.jpg"
+  },
+  {
+    "id": 16,
+    "preDescription": "Washing and drying",
+    "postDescription": " load(s) of laundry",
+    "eCO2": 2.4,
+    "minQuant": 1,
+    "maxQuant": 10,
+    "imagePath": "assets/washer.jpg"
+  }
+]
+  
