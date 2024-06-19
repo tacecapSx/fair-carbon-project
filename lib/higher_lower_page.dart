@@ -8,7 +8,7 @@ import 'database.dart';
 
 //Copenhagen;Paris;Tokyo;New York;Los Angeles;Sydney;London;Madrid
 List<String> airports = ["Copenhagen","Paris","Tokyo","New York","Los Angeles","Sydney","London","Madrid"];
-List<List<String>> flights = [];
+
 class CO2ComparisonItem {
   final int id; // the unique id of the question
   final String preDescription; //the string before the randomized amount
@@ -19,6 +19,7 @@ class CO2ComparisonItem {
   final String imagePath; //the image for the background
   int amount; //the amount, between minQuant and maxQuant, that gives co2impact when multipliplied with eCO2
   double co2Impact; //amount multiplied with eCO2
+  List<List<String>> flights;
   int flight1;
   int flight2;
 
@@ -32,16 +33,17 @@ class CO2ComparisonItem {
     required this.imagePath,
     this.amount = 0,
     required this.co2Impact,
+    required this.flights,
     this.flight1 = 0,
     this.flight2 = 0
   });
 
   void flightAmount() async{
-    int tempInt = (flights[flight1][flight2] as num).toInt();
+    int tempInt = double.parse(flights[flight1][flight2]).toInt();
     amount = tempInt;
   }
 
-  factory CO2ComparisonItem.fromJson(Map<String, dynamic> json, Random random) {
+  factory CO2ComparisonItem.fromJson(Map<String, dynamic> json, List<List<String>> flights, Random random) {
     return CO2ComparisonItem(
       id: json['id'],
       preDescription: json['preDescription'],
@@ -52,6 +54,7 @@ class CO2ComparisonItem {
       imagePath: json['imagePath'],
       amount: random.nextInt((json['maxQuant'] as num).toInt()-(json['minQuant'] as num).toInt())+(json['minQuant'] as num).toInt(),
       co2Impact: 0,
+      flights: flights,
       flight1: random.nextInt(airports.length),
       flight2: random.nextInt(airports.length)
     );
@@ -82,13 +85,9 @@ class HigherLowerPageState extends State<HigherLowerPage>
   void initState() {
     super.initState();
     loadFlights().then((loadedFlights) {
-      setState(() {
         flights = loadedFlights;
-        
-      });
-      
     });
-    loadQuestions(widget.isDaily).then((loadedItems) {
+    loadQuestions(widget.isDaily, flights).then((loadedItems) {
       setState(() {
         items = loadedItems;
       });
@@ -141,7 +140,7 @@ class HigherLowerPageState extends State<HigherLowerPage>
     return (flights[item.flight1][item.flight2] as num).toInt();
   }
 
-  Future<List<CO2ComparisonItem>> loadQuestions(isDaily) async {
+  Future<List<CO2ComparisonItem>> loadQuestions(bool isDaily, List<List<String>> flights) async {
     //create the Random to use based on if daily
     Random random = createRandom(isDaily);
 
@@ -149,7 +148,7 @@ class HigherLowerPageState extends State<HigherLowerPage>
         await rootBundle.loadString('assets/questions.json');
     final data = await json.decode(response);
     final temp = List<CO2ComparisonItem>.from(
-        data.map((item) => CO2ComparisonItem.fromJson(item, random)));
+        data.map((item) => CO2ComparisonItem.fromJson(item, flights, random)));
     for (CO2ComparisonItem tempitem in temp) {
       if(tempitem.id == 2){
         while(tempitem.flight1 == tempitem.flight2){
