@@ -1,4 +1,5 @@
 // Christian s214923
+import 'package:carbon_footprint/custom_widgets.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
@@ -71,9 +72,7 @@ class OverviewPage extends StatelessWidget {
     double percentageDifference = averageTotalCo2Impact != 0 ? (difference / averageTotalCo2Impact) * 100 : 0;
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('CO2 Impact Overview Yearly'),
-      ),
+      appBar: const HeaderWidget(),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(

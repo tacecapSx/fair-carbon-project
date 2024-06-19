@@ -1,6 +1,7 @@
 import 'package:carbon_footprint/questionnaire_page.dart';
 import 'package:flutter/material.dart';
 import 'higher_lower_mode_page.dart';
+import 'main.dart';
 
 import 'constants.dart';
 
@@ -13,11 +14,29 @@ class HeaderWidget extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      leading: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Image.asset('assets/Logo.png'),
+      leading: MouseRegion(
+        cursor: SystemMouseCursors.click,
+        child: GestureDetector(
+          onTap: () {
+            //go back to homepage
+            Navigator.popUntil(context, ModalRoute.withName('/'));
+          },
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Image.asset('assets/Logo.png'),
+          ),
+        ),
       ),
-      title: const Text('FOOTPRINT CALCULATOR'),
+      title: MouseRegion(
+        cursor: SystemMouseCursors.click,
+        child: GestureDetector(
+          onTap: () {
+            //go back to homepage
+            Navigator.popUntil(context, ModalRoute.withName('/'));
+          },
+          child: const Text('Fair Carbon Website'),
+        ),
+      ),
       actions: [
         TextButton(
             onPressed: () {
