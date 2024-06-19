@@ -3,9 +3,9 @@ const MANIFEST = 'flutter-app-manifest';
 const TEMP = 'flutter-temp-cache';
 const CACHE_NAME = 'flutter-app-cache';
 
-const RESOURCES = {"assets/AssetManifest.bin": "6ee0e26aa9660c4432720e9663bfb238",
-"assets/AssetManifest.bin.json": "02d3a7b0d10da1f315255a909d16ab21",
-"assets/AssetManifest.json": "9fe6a2f01e1f14c9c53e1d236fdbdb0f",
+const RESOURCES = {"assets/AssetManifest.bin": "397272275649547ad9db1743b6078530",
+"assets/AssetManifest.bin.json": "8087dbb6690fcefe93e23673d2d75aa7",
+"assets/AssetManifest.json": "134e77136846d9a32246c912c4edff1d",
 "assets/assets/apple_macbook_pro_16.jpg": "f1effaa76c3e2cf2642bbb93f0e99741",
 "assets/assets/apple_macbook_pro_16_2.jpg": "bda6a73a714255a42be02580f193a1e4",
 "assets/assets/Background.png": "e2a80f7eceaf1cabe2add6956e8b28c0",
@@ -13,7 +13,7 @@ const RESOURCES = {"assets/AssetManifest.bin": "6ee0e26aa9660c4432720e9663bfb238
 "assets/assets/bus.jpeg": "b115ac5b7944d9fc0ef4a73894cea2fc",
 "assets/assets/calculator.jpg": "b144d396c4869bc7ba1d5d1e46308c33",
 "assets/assets/cheese.jpg": "142c8d0e083e60f5bd2f44448c0b962a",
-"assets/assets/coal.JPG": "cd3b2d32faaf38b1bb538803f1f87ff0",
+"assets/assets/coals.jpg": "cd3b2d32faaf38b1bb538803f1f87ff0",
 "assets/assets/facts.json": "a000ab2c3ba2e4d5d468833491bc16fe",
 "assets/assets/flights.txt": "8d2e0f6e7c26854cffee58eafd88e6e5",
 "assets/assets/Flying.jpg": "d7d7fd9584bdaed04f21051d2c6e9f4c",
@@ -26,7 +26,7 @@ const RESOURCES = {"assets/AssetManifest.bin": "6ee0e26aa9660c4432720e9663bfb238
 "assets/assets/nuclear.jpg": "d940ae0211b4a1bd647fe800232bb8bd",
 "assets/assets/PlasticBag.jpg": "a7f8dff611954a5f19ddc6b6b1446172",
 "assets/assets/private_jet.jpg": "fe6fb690feece052cc00fb30a81c9142",
-"assets/assets/questions.json": "a9cf8f7f198b14a1cf537c48a5874e6e",
+"assets/assets/questions.json": "04a128a79f294370db7d7774a4af8d7e",
 "assets/assets/sheep.jpg": "4f1227d658f613735226773c1e1cf09e",
 "assets/assets/train.jpg": "1e00446341a466a76efc49eb9f49465c",
 "assets/assets/vwgolf.png": "c64cde21884b5399026c1154499203df",
@@ -53,9 +53,9 @@ const RESOURCES = {"assets/AssetManifest.bin": "6ee0e26aa9660c4432720e9663bfb238
 "icons/Icon-512.png": "96e752610906ba2a93c65f8abe1645f1",
 "icons/Icon-maskable-192.png": "c457ef57daa1d16f64b27b786ec2ea3c",
 "icons/Icon-maskable-512.png": "301a7604d45b3e739efc881eb04896ea",
-"index.html": "759e6f334dad4854c124f386e2a876d7",
-"/": "759e6f334dad4854c124f386e2a876d7",
-"main.dart.js": "0ac79a82c7529d4abda5f8836cb830e3",
+"index.html": "3336a31bc2cac20dfbf151ac0c879871",
+"/": "3336a31bc2cac20dfbf151ac0c879871",
+"main.dart.js": "5f7ba25075abf9700130afff24588703",
 "manifest.json": "12496b7b2beead4b4e28617a4cd614a9",
 "version.json": "d4ea58f2ac136174b8d5ba63472c81a7"};
 // The application shell files that are downloaded before a service worker can
