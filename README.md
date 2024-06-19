@@ -1,5 +1,4 @@
-# URL
-# https://tacecapsx.github.io/fair-carbon-project/
+# URL: https://tacecapsx.github.io/fair-carbon-project/
 
 # Fair Carbon Project
 
