@@ -170,6 +170,8 @@ void navigateToOverview() {
   updateDataList("Questionnaire/Electricity", electricityImpact);
   updateDataList("Questionnaire/Gas", gasImpact);
 
+
+  //christian s214923
   // sends data to overview page with the calculated data
   Navigator.push(
     context,
