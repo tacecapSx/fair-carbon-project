@@ -125,6 +125,7 @@ class ImageButtonWidgetState extends State<ImageButtonWidget> {
                         children: [
                         Text(
                           widget.text,
+                          textAlign: TextAlign.center,
                           style: const TextStyle(
                             fontSize: 36,
                             color: AppColors.whiteTextColor
@@ -132,6 +133,7 @@ class ImageButtonWidgetState extends State<ImageButtonWidget> {
                         ),
                         Text(
                           widget.description,
+                          textAlign: TextAlign.center,
                           style: const TextStyle(
                             fontSize: 20,
                             color: Color.fromARGB(255, 200, 200, 200)
