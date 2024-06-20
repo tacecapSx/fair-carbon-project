@@ -41165,10 +41165,12 @@ m.push(B.hM)
 m.push(A.iQ(A.e6(A.b([B.T1,B.N9,new A.q9(r.pE(),new A.a_U(),q,t.jz)],s),B.a4,B.bY,B.af),q,500))
 return A.rh(B.de,A.fE(B.b9,A.b([p,o,A.eJ(A.e6(m,B.a4,B.bY,B.af),q,q)],s),B.a2,B.b6))}}
 A.a_R.prototype={
-$0(){var s=0,r=A.R(t.H),q=this
+$0(){var s=0,r=A.R(t.H),q=this,p,o
 var $async$$0=A.N(function(a,b){if(a===1)return A.O(b,r)
-while(true)switch(s){case 0:s=2
-return A.U(A.v6(new A.mZ("#Footprint Higher / Lower #"+B.c.ag(B.h.ca(A.cJ(0,Date.now()-$.ayQ().a).a,36e8)/24)+" ("+A.anF(new A.eq(Date.now(),!1))+"/"+A.anG(new A.eq(Date.now(),!1))+"/"+A.anH(new A.eq(Date.now(),!1))+")\n"+q.a.a.c+"/10\nhttps://tacecapsx.github.io/fair-carbon-project/")),$async$$0)
+while(true)switch(s){case 0:p=q.a
+o=p.a
+s=2
+return A.U(A.v6(new A.mZ(o.f?"#Footprint Higher / Lower #"+B.c.ag(B.h.ca(A.cJ(0,Date.now()-$.ayQ().a).a,36e8)/24)+" ("+A.anF(new A.eq(Date.now(),!1))+"/"+A.anG(new A.eq(Date.now(),!1))+"/"+A.anH(new A.eq(Date.now(),!1))+")\n"+p.a.c+"/10\nhttps://tacecapsx.github.io/fair-carbon-project/":"#Footprint Higher / Lower Endless\nHighscore: "+o.c+"\nhttps://tacecapsx.github.io/fair-carbon-project/")),$async$$0)
 case 2:A.awp(new A.a_Q(),q.b,t.z)
 return A.P(null,r)}})
 return A.Q($async$$0,r)},

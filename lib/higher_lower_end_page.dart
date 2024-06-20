@@ -89,7 +89,12 @@ class HigherLowerEndPageState extends State<HigherLowerEndPage> {
                   children: [
                     TextButton( //Sigurd
                       onPressed: () async {
-                        await Clipboard.setData(ClipboardData(text: "#Footprint Higher / Lower #${(DateTime.now().difference(dday).inHours / 24).round()} (${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year})\n${widget.finalScore}/10\nhttps://tacecapsx.github.io/fair-carbon-project/"));
+                        await Clipboard.setData(ClipboardData(
+                            text: widget.isDaily
+                            ? "#Footprint Higher / Lower #${(DateTime.now().difference(dday).inHours / 24).round()} (${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year})\n${widget.finalScore}/10\nhttps://tacecapsx.github.io/fair-carbon-project/"
+                            : "#Footprint Higher / Lower Endless\nHighscore: ${widget.finalScore}\nhttps://tacecapsx.github.io/fair-carbon-project/"
+                          ),
+                        );
                         showDialog(
                           context: context,
                           builder: (BuildContext context) {
