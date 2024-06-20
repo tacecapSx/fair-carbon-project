@@ -38,6 +38,7 @@ class HigherLowerModePageState extends State<HigherLowerModePage> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const Text("Choose a game mode", style: TextStyle(color: AppColors.whiteTextColor, fontSize: 36),),
+                const SizedBox(height: 50,),
                 TextButton(
                   onPressed: () {
                     Navigator.pushReplacement( // daily mode chosen, pass true into the higher/lower page
@@ -46,15 +47,18 @@ class HigherLowerModePageState extends State<HigherLowerModePage> {
                     );
                   },
                   style: TextButton.styleFrom(
+                    padding: const EdgeInsets.all(16),
                     backgroundColor: AppColors.whiteTextColor,
                     foregroundColor: AppColors.blackTextColor,
-                    textStyle: const TextStyle(fontSize: 18),
+                    textStyle: const TextStyle(fontSize: 28),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(4),
+                      borderRadius: BorderRadius.circular(8),
                     ),
                   ),
                   child: const Text("Daily"),
                 ),
+                const SizedBox(height: 10,),
+                const Text("10 unique new questions are presented every day. Try to complete them all!", style: TextStyle(fontSize: 20, color: AppColors.whiteTextColor),),
                 const SizedBox(height: 50,),
                 TextButton(
                   onPressed: () {
@@ -64,15 +68,18 @@ class HigherLowerModePageState extends State<HigherLowerModePage> {
                     );
                   },
                   style: TextButton.styleFrom(
+                    padding: const EdgeInsets.all(16),
                     backgroundColor: AppColors.whiteTextColor,
                     foregroundColor: AppColors.blackTextColor,
-                    textStyle: const TextStyle(fontSize: 18),
+                    textStyle: const TextStyle(fontSize: 28),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(4),
+                      borderRadius: BorderRadius.circular(8),
                     ),
                   ),
                   child: const Text("Endless"),
                 ),
+                const SizedBox(height: 10,),
+                const Text("Play forever with randomly generated questions. Go for a high score!", style: TextStyle(fontSize: 20, color: AppColors.whiteTextColor),),
               ],
             ),
           ),

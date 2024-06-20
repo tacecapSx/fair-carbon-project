@@ -1,7 +1,7 @@
 import 'package:carbon_footprint/questionnaire_page.dart';
 import 'package:flutter/material.dart';
 import 'higher_lower_mode_page.dart';
-import 'main.dart';
+import 'about_page.dart';
 
 import 'constants.dart';
 
@@ -53,7 +53,10 @@ class HeaderWidget extends StatelessWidget implements PreferredSizeWidget {
             child: const Text('Higher/Lower',
                 style: TextStyle(color: Colors.black))),
         TextButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const AboutPageWidget()));
+            },
             child: const Text('About', style: TextStyle(color: Colors.black))),
       ],
     );
@@ -67,10 +70,12 @@ class ImageButtonWidget extends StatefulWidget {
       {super.key,
       required this.page,
       required this.text,
+      required this.description,
       required this.imagePath});
 
   final Widget page;
   final String text;
+  final String description;
   final String imagePath;
 
   @override
@@ -109,18 +114,30 @@ class ImageButtonWidgetState extends State<ImageButtonWidget> {
                         AnimatedContainer( //the dark overlay on top of the background image, animated to lighten when hovered.
                           duration: const Duration(milliseconds: 300),
                           color:
-                              Colors.black.withOpacity(_isHovered ? 0.5 : 0.75),
+                              Colors.black.withOpacity(_isHovered ? 0.6 : 0.8),
                         )
                       ],
                     ),
                   ),
                   Center(
-                    child: Text(
-                      widget.text,
-                      style: const TextStyle(
-                        fontSize: 36,
-                        color: AppColors.whiteTextColor
-                      ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                        Text(
+                          widget.text,
+                          style: const TextStyle(
+                            fontSize: 36,
+                            color: AppColors.whiteTextColor
+                          ),
+                        ),
+                        Text(
+                          widget.description,
+                          style: const TextStyle(
+                            fontSize: 20,
+                            color: Color.fromARGB(255, 200, 200, 200)
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ],

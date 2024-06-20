@@ -2,8 +2,7 @@ import 'dart:convert';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'higher_lower_loss_page.dart';
-import 'package:firebase_database/firebase_database.dart';
+import 'higher_lower_end_page.dart';
 import 'database.dart';
 
 //Copenhagen;Paris;Tokyo;New York;Los Angeles;Sydney;London;Madrid
@@ -121,7 +120,7 @@ class HigherLowerPageState extends State<HigherLowerPage>
       return "${item.preDescription} ${airports[item.flight1]} and ${airports[item.flight2]} (${item.amount.toString()} km)${item.postDescription}";
     }
     else{
-      return item.preDescription+" "+item.amount.toString()+item.postDescription;
+      return "${item.preDescription} ${item.amount.toString()}${item.postDescription}";
     }
   }
 
@@ -307,21 +306,25 @@ class HigherLowerPageState extends State<HigherLowerPage>
                             fontWeight: FontWeight.bold,
                             color: Colors.yellow),
                       ),
+                    if (!showCO2) const SizedBox(height: 20,),
                     if (!showCO2)
                       ElevatedButton(
                         onPressed: animationActive ? null : () =>
                           evaluateAnswer(true, item.co2Impact),
                         style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.green),
-                        child: const Text('Higher'),
+                            backgroundColor: Colors.green,
+                            padding: const EdgeInsets.fromLTRB(40,16,40,16)),
+                        child: const Text('Higher', style: TextStyle(fontSize: 24, color: Colors.black),),
                       ),
+                    if (!showCO2) const SizedBox(height: 20,),
                     if (!showCO2)
                       ElevatedButton(
                         onPressed: animationActive ? null : () =>
                                 evaluateAnswer(false, item.co2Impact),
                         style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.red),
-                        child: const Text('Lower'),
+                            backgroundColor: Colors.red,
+                            padding: const EdgeInsets.fromLTRB(40,16,40,16)),
+                        child: const Text('Lower', style: TextStyle(fontSize: 24, color: Colors.black),),
                       ),
 
                     if (animationActive & !showCO2)
@@ -350,8 +353,8 @@ class HigherLowerPageState extends State<HigherLowerPage>
         (!higher && nextImpact < current.co2Impact);
 
     //Oskar (Collect data from player)
-    String dataCollectionPath = "HigherOrLower/PlayerCorrectness/" + current.preDescription + current.postDescription + " -- " + next.preDescription + next.postDescription
-    + "/" + (correct ? "Correct" : "Not correct");
+
+    String dataCollectionPath = "HigherOrLower/PlayerCorrectness/${current.preDescription}${current.postDescription} -- ${next.preDescription}${next.postDescription}/${correct ? "Correct" : "Not correct"}";
     double dataCollectionAmount = await getData(dataCollectionPath);
     sendData(dataCollectionPath, dataCollectionAmount+1);
 
@@ -361,7 +364,7 @@ class HigherLowerPageState extends State<HigherLowerPage>
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => HigherLowerLossPage(
+            builder: (context) => HigherLowerEndPage(
               isDaily: widget.isDaily,
               finalScore: 10,
               percentScore: 0,
@@ -408,7 +411,7 @@ class HigherLowerPageState extends State<HigherLowerPage>
         // ignore: use_build_context_synchronously
         context,
         MaterialPageRoute(
-          builder: (context) => HigherLowerLossPage(
+          builder: (context) => HigherLowerEndPage(
             isDaily: widget.isDaily,
             finalScore: score,
             percentScore: scorePercent,

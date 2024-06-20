@@ -51,8 +51,8 @@ class HomePageWidgetState extends State<HomePageWidget> {
         body: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            ImageButtonWidget(text: "Footprint Calculator", imagePath: "assets/calculator.jpg", page: QuestionnairePage()),
-            ImageButtonWidget(text: "Higher / Lower", imagePath: "assets/higherlowerpage.png", page: HigherLowerModePage())
+            ImageButtonWidget(text: "Footprint Calculator", description: "Model your carbon footprint!", imagePath: "assets/calculator.jpg", page: QuestionnairePage()),
+            ImageButtonWidget(text: "Higher / Lower", description: "Test your knowledge!", imagePath: "assets/higherlowerpage.png", page: HigherLowerModePage())
           ]
         ),
     );
