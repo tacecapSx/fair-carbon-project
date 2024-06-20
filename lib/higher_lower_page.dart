@@ -313,8 +313,8 @@ class HigherLowerPageState extends State<HigherLowerPage>
                           evaluateAnswer(true, item.co2Impact),
                         style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.green,
-                            padding: const EdgeInsets.fromLTRB(40,16,40,16)),
-                        child: const Text('Higher', style: TextStyle(fontSize: 24, color: Colors.black),),
+                            padding: const EdgeInsets.fromLTRB(30,12,30,12)),
+                        child: const Text('Higher', style: TextStyle(fontSize: 20, color: Colors.black),),
                       ),
                     if (!showCO2) const SizedBox(height: 20,),
                     if (!showCO2)
@@ -323,8 +323,8 @@ class HigherLowerPageState extends State<HigherLowerPage>
                                 evaluateAnswer(false, item.co2Impact),
                         style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.red,
-                            padding: const EdgeInsets.fromLTRB(40,16,40,16)),
-                        child: const Text('Lower', style: TextStyle(fontSize: 24, color: Colors.black),),
+                            padding: const EdgeInsets.fromLTRB(30,12,30,12)),
+                        child: const Text('Lower', style: TextStyle(fontSize: 20, color: Colors.black),),
                       ),
 
                     if (animationActive & !showCO2)

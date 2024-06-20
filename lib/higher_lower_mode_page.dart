@@ -30,14 +30,14 @@ class HigherLowerModePageState extends State<HigherLowerModePage> {
             ),
           ),
           Container( // dark overlay on top of the background image
-            color: Colors.black.withOpacity(0.6),
+            color: Colors.black.withOpacity(0.65),
           ),
           Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const Text("Choose a game mode", style: TextStyle(color: AppColors.whiteTextColor, fontSize: 36),),
+                const Text("Choose a game mode", style: TextStyle(color: AppColors.whiteTextColor, fontSize: 28),),
                 const SizedBox(height: 50,),
                 TextButton(
                   onPressed: () {
@@ -47,10 +47,10 @@ class HigherLowerModePageState extends State<HigherLowerModePage> {
                     );
                   },
                   style: TextButton.styleFrom(
-                    padding: const EdgeInsets.all(16),
+                    padding: const EdgeInsets.all(12),
                     backgroundColor: AppColors.whiteTextColor,
                     foregroundColor: AppColors.blackTextColor,
-                    textStyle: const TextStyle(fontSize: 28),
+                    textStyle: const TextStyle(fontSize: 20),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8),
                     ),
@@ -58,7 +58,7 @@ class HigherLowerModePageState extends State<HigherLowerModePage> {
                   child: const Text("Daily"),
                 ),
                 const SizedBox(height: 10,),
-                const Text("10 unique new questions are presented every day. Try to complete them all!", style: TextStyle(fontSize: 20, color: AppColors.whiteTextColor),),
+                const Text("10 unique new questions are presented every day. Try to complete them all!", style: TextStyle(fontSize: 14, color: AppColors.whiteTextColor),),
                 const SizedBox(height: 50,),
                 TextButton(
                   onPressed: () {
@@ -68,10 +68,10 @@ class HigherLowerModePageState extends State<HigherLowerModePage> {
                     );
                   },
                   style: TextButton.styleFrom(
-                    padding: const EdgeInsets.all(16),
+                    padding: const EdgeInsets.all(12),
                     backgroundColor: AppColors.whiteTextColor,
                     foregroundColor: AppColors.blackTextColor,
-                    textStyle: const TextStyle(fontSize: 28),
+                    textStyle: const TextStyle(fontSize: 20),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8),
                     ),
@@ -79,7 +79,7 @@ class HigherLowerModePageState extends State<HigherLowerModePage> {
                   child: const Text("Endless"),
                 ),
                 const SizedBox(height: 10,),
-                const Text("Play forever with randomly generated questions. Go for a high score!", style: TextStyle(fontSize: 20, color: AppColors.whiteTextColor),),
+                const Text("Play forever with randomly generated questions. Go for a high score!", style: TextStyle(fontSize: 14, color: AppColors.whiteTextColor),),
               ],
             ),
           ),

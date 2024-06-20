@@ -109,10 +109,10 @@ class HigherLowerEndPageState extends State<HigherLowerEndPage> {
                         );
                       },
                       style: TextButton.styleFrom(
-                        padding: const EdgeInsets.all(20),
+                        padding: const EdgeInsets.all(10),
                         backgroundColor: AppColors.whiteTextColor,
                         foregroundColor: AppColors.blackTextColor,
-                        textStyle: const TextStyle(fontSize: 18),
+                        textStyle: const TextStyle(fontSize: 16),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(4),
                         ),
@@ -129,10 +129,10 @@ class HigherLowerEndPageState extends State<HigherLowerEndPage> {
                         );
                       },
                       style: TextButton.styleFrom(
-                        padding: const EdgeInsets.all(20),
+                        padding: const EdgeInsets.all(10),
                         backgroundColor: AppColors.whiteTextColor,
                         foregroundColor: AppColors.blackTextColor,
-                        textStyle: const TextStyle(fontSize: 18),
+                        textStyle: const TextStyle(fontSize: 16),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(4),
                         ),
@@ -150,10 +150,10 @@ class HigherLowerEndPageState extends State<HigherLowerEndPage> {
                         );
                       },
                       style: TextButton.styleFrom(
-                        padding: const EdgeInsets.all(20),
+                        padding: const EdgeInsets.all(10),
                         backgroundColor: AppColors.whiteTextColor,
                         foregroundColor: AppColors.blackTextColor,
-                        textStyle: const TextStyle(fontSize: 18),
+                        textStyle: const TextStyle(fontSize: 16),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(4),
                         ),
