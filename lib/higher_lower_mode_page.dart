@@ -58,7 +58,7 @@ class HigherLowerModePageState extends State<HigherLowerModePage> {
                   child: const Text("Daily"),
                 ),
                 const SizedBox(height: 10,),
-                const Text("10 unique new questions are presented every day. Try to complete them all!", style: TextStyle(fontSize: 14, color: AppColors.whiteTextColor),),
+                const Text("10 unique new questions are presented every day. Try to complete them all!", textAlign: TextAlign.center, style: TextStyle(fontSize: 14, color: AppColors.whiteTextColor),),
                 const SizedBox(height: 50,),
                 TextButton(
                   onPressed: () {
@@ -79,7 +79,7 @@ class HigherLowerModePageState extends State<HigherLowerModePage> {
                   child: const Text("Endless"),
                 ),
                 const SizedBox(height: 10,),
-                const Text("Play forever with randomly generated questions. Go for a high score!", style: TextStyle(fontSize: 14, color: AppColors.whiteTextColor),),
+                const Text("Play forever with randomly generated questions. Go for a high score!", textAlign: TextAlign.center, style: TextStyle(fontSize: 14, color: AppColors.whiteTextColor),),
               ],
             ),
           ),
