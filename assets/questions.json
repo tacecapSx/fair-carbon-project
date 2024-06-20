@@ -24,7 +24,7 @@
         "eCO2": 0.155,
         "minQuant": 400,
         "maxQuant": 2000,
-        "imagePath": "assets/Meat.jpg"
+        "imagePath": "assets/beef.jpg"
     },
     {
       "id": 4,
@@ -69,7 +69,7 @@
     "eCO2": 0.024,
     "minQuant": 100,
     "maxQuant": 4000,
-    "imagePath": "assets/Meat.jpg"
+    "imagePath": "assets/bacon.jpg"
   },
   {
     "id": 9,
