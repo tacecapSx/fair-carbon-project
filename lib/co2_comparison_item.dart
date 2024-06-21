@@ -38,19 +38,19 @@ class CO2ComparisonItem {
 
   void shuffle(Random random) {
     if(id == 2) { //is flight question
-      flight1 = random.nextInt(airports.length);
+      flight1 = random.nextInt(airports.length); //choose a random first destination
       do {
-        flight2 = random.nextInt(airports.length);
+        flight2 = random.nextInt(airports.length); //keep randomizing the second flight destination until its different from the first destination(should not take too long)
       }
       while(flight1 == flight2);
 
       flightAmount();
     }
     else {
-      amount = random.nextInt(maxQuant - minQuant) + minQuant;
+      amount = random.nextInt(maxQuant - minQuant) + minQuant; //if its not a flight, just get a random amount withing the quantity bounds
     }
 
-    co2Impact = amount * eCO2;
+    co2Impact = amount * eCO2; //calculate the co2 from multipling the amount with the equivalent co2 factor
   }
 
   factory CO2ComparisonItem.fromJson(Map<String, dynamic> json, List<List<String>> flights, List<String> airports, Random random) {
@@ -62,9 +62,9 @@ class CO2ComparisonItem {
       minQuant: (json['minQuant'] as num).toInt(),
       maxQuant: (json['maxQuant'] as num).toInt(),
       imagePath: json['imagePath'],
-      amount: random.nextInt((json['maxQuant'] as num).toInt()-(json['minQuant'] as num).toInt())+(json['minQuant'] as num).toInt(),
+      amount: random.nextInt((json['maxQuant'] as num).toInt()-(json['minQuant'] as num).toInt())+(json['minQuant'] as num).toInt(), //generating within the bounds
       airports: airports,
-      co2Impact: 0,
+      co2Impact: 0, //placeholder
       flights: flights,
       flight1: random.nextInt(airports.length),
       flight2: random.nextInt(airports.length)
