@@ -2,6 +2,8 @@
 import 'package:carbon_footprint/custom_widgets.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'constants.dart';
+import 'package:flutter/services.dart';
 
 class OverviewPage extends StatelessWidget {
   final double beefCo2Impact;
@@ -224,6 +226,41 @@ class OverviewPage extends StatelessWidget {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
+                      TextButton( //Sigurd (Clipboard share results)
+                      onPressed: () async {
+                        await Clipboard.setData(ClipboardData(
+                            text: "My carbon footprint (${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}):\nBeef: $beefCo2Impact kg CO2\nChicken: $chickenCo2Impact kg CO2\nPork: $porkCo2Impact kg CO2\nFlights: $flightCo2Impact kg CO2\nVehicle: $vehicleCo2Impact kg CO2\nElectricity: $electricityCo2Impact kg CO2\nGas: $gasCo2Impact kg CO2\nhttps://tacecapsx.github.io/fair-carbon-project/" //string formatting for our clipboard
+                          ),
+                        );
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: const Text("Success!"),
+                              content: const Text("Copied to clipboard! Paste anywhere!"),
+                              actions: [
+                                TextButton(
+                                  child: const Text("OK"),
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      },
+                      style: TextButton.styleFrom(
+                        padding: const EdgeInsets.all(10),
+                        backgroundColor: AppColors.whiteTextColor,
+                        foregroundColor: AppColors.blackTextColor,
+                        textStyle: const TextStyle(fontSize: 16),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                      ),
+                      child: const Text("Save results"),
+                    ),
                     ],
                   ),
                   _buildLegend(
