@@ -23,7 +23,7 @@ class HigherLowerPageState extends State<HigherLowerPage>
   List<List<String>> flights= [];
   int currentIndex = 0;
   int score = 0;
-  final int maxQuestions = 20; //unused?
+  final int dailyQuestionAmount = 10; //used to specify the score required to complete the daily puzzle
   Random? random;
   bool animationActive = false;
 
@@ -296,15 +296,16 @@ class HigherLowerPageState extends State<HigherLowerPage>
 
     if (correct) {
       // check if the player has finished the daily
-      if (widget.isDaily && score + 1 == 10) {
+      if (widget.isDaily && score + 1 == dailyQuestionAmount) {
         Navigator.push(
           context,
           MaterialPageRoute(
             builder: (context) => HigherLowerEndPage(
               isDaily: widget.isDaily,
-              finalScore: 10,
+              finalScore: dailyQuestionAmount,
               percentScore: 0,
               correctAnswer: "",
+              dailyQuestionAmount: dailyQuestionAmount,
             ),
           ),
         );
@@ -354,6 +355,7 @@ class HigherLowerPageState extends State<HigherLowerPage>
             correctAnswer: nextImpact > items[currentIndex].co2Impact
                 ? "Higher"
                 : "Lower",
+            dailyQuestionAmount: dailyQuestionAmount,
           ),
         ),
       );

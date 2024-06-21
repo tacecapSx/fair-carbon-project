@@ -105,42 +105,13 @@ class OverviewPage extends StatelessWidget {
               centerSpaceRadius: 150,
             ),
           ),
-          /*Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    color: difference > 0 ? Colors.redAccent : Colors.green,
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Text(
-                    difference > 0
-                        ? 'Above average emissions'
-                        : 'Below average emissions',
-                    style: const TextStyle(color: Colors.white),
-                  ),
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  '${percentageDifference.abs().toStringAsFixed(2)}% ${difference > 0 ? 'above' : 'below'} average',
-                  style: TextStyle(
-                    color: difference > 0 ? Colors.redAccent : Colors.green,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
-            ),
-          ),*/
           Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               const SizedBox(height: 220,), //used to line up the pie charts
               Expanded(
                 // Build pie chart number two
-                child: Transform.scale( //scale up the user's chart to achieve the chart-in-chart effect
+                child: Transform.scale( //scale down the average chart to achieve the chart-in-chart effect
                   scale: 0.75,
                   child: PieChart(
                     PieChartData(

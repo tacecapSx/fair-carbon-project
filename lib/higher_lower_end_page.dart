@@ -10,11 +10,12 @@ import 'custom_widgets.dart';
 import 'dart:math';
   final dday = DateTime(2024, 06, 18);
 class HigherLowerEndPage extends StatefulWidget {
-  const HigherLowerEndPage({super.key, required this.finalScore, required this.percentScore, required this.correctAnswer, required this.isDaily});
+  const HigherLowerEndPage({super.key, required this.finalScore, required this.percentScore, required this.correctAnswer, required this.isDaily, required this.dailyQuestionAmount});
   final int finalScore;
   final double percentScore;
   final String correctAnswer;
   final bool isDaily;
+  final int dailyQuestionAmount;
 
   @override
   HigherLowerEndPageState createState() => HigherLowerEndPageState();
@@ -64,7 +65,7 @@ class HigherLowerEndPageState extends State<HigherLowerEndPage> {
                   ),
                 ),
                 Text(
-                  "${widget.isDaily && widget.finalScore == 10 ? "You completed the daily challenge! Go brag to your friends!" : "The correct answer was: ${widget.correctAnswer}!"}${widget.isDaily ? "\nTry again tomorrow!" : ""}",
+                  "${widget.isDaily && widget.finalScore == widget.dailyQuestionAmount ? "You completed the daily challenge! Go brag to your friends!" : "The correct answer was: ${widget.correctAnswer}!"}${widget.isDaily ? "\nTry again tomorrow!" : ""}",
                   textAlign: TextAlign.center,
                   style: const TextStyle(
                     color: AppColors.whiteTextColor,
@@ -91,7 +92,7 @@ class HigherLowerEndPageState extends State<HigherLowerEndPage> {
                       onPressed: () async {
                         await Clipboard.setData(ClipboardData(
                             text: widget.isDaily
-                            ? "#Footprint Higher / Lower #${(DateTime.now().difference(dday).inHours / 24).round()} (${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year})\n${widget.finalScore}/10\nhttps://tacecapsx.github.io/fair-carbon-project/" //string formatting for our clipboard, when daily
+                            ? "#Footprint Higher / Lower #${(DateTime.now().difference(dday).inHours / 24).round()} (${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year})\n${widget.finalScore}/${widget.dailyQuestionAmount}\nhttps://tacecapsx.github.io/fair-carbon-project/" //string formatting for our clipboard, when daily
                             : "#Footprint Higher / Lower Endless\nHighscore: ${widget.finalScore}\nhttps://tacecapsx.github.io/fair-carbon-project/" //string formatting when endless
                           ),
                         );
