@@ -1,5 +1,5 @@
 import 'dart:math';
-
+//Sigurd
 class CO2ComparisonItem {
   final int id; // the unique id of the question
   final String preDescription; //the string before the randomized amount

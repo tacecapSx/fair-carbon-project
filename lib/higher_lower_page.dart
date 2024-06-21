@@ -6,8 +6,8 @@ import 'higher_lower_end_page.dart';
 import 'database.dart';
 import 'co2_comparison_item.dart';
 
-List<String> airports = ["Copenhagen","Paris","Tokyo","New York","Los Angeles","Sydney","London","Madrid"];
-
+List<String> airports = ["Copenhagen","Paris","Tokyo","New York","Los Angeles","Sydney","London","Madrid"]; //sigurd, this is for flights.txt
+//Sigurd = questions.json, flights.txt
 class HigherLowerPage extends StatefulWidget {
   const HigherLowerPage({super.key, required this.isDaily});
 
@@ -19,24 +19,24 @@ class HigherLowerPage extends StatefulWidget {
 
 class HigherLowerPageState extends State<HigherLowerPage>
     with SingleTickerProviderStateMixin {
-  List<CO2ComparisonItem> items = [];
+  List<CO2ComparisonItem> items = []; //initialising our values
   List<List<String>> flights= [];
   int currentIndex = 0;
   int score = 0;
-  final int maxQuestions = 20;
+  final int maxQuestions = 20; //unused?
   bool animationActive = false;
 
   late AnimationController _animationController;
 
   @override
-  void initState() {
+  void initState() { 
     super.initState();
     loadFlights().then((loadedFlights) {
-        flights = loadedFlights;
+        flights = loadedFlights; //load the flights from flight.txt first
     });
     loadQuestions(widget.isDaily, flights).then((loadedItems) {
       setState(() {
-        items = loadedItems;
+        items = loadedItems; //then load our comparisonitems from questions.json
       });
     });
     
@@ -63,43 +63,43 @@ class HigherLowerPageState extends State<HigherLowerPage>
     super.dispose();
   }
 
-  String getQuestionString(CO2ComparisonItem item) {
-    if(item.id == 2) {
+  String getQuestionString(CO2ComparisonItem item) { //Sigurd
+    if(item.id == 2) { //check if the question is the flight question, which needs city names in the string
       return "${item.preDescription} ${airports[item.flight1]} and ${airports[item.flight2]} (${item.amount.toString()} km)${item.postDescription}";
     }
     else{
-      return "${item.preDescription} ${item.amount.toString()}${item.postDescription}";
+      return "${item.preDescription} ${item.amount.toString()}${item.postDescription}"; //or return the simple description
     }
   }
 
-  Future<List<List<String>>> loadFlights() async {
+  Future<List<List<String>>> loadFlights() async { //Sigurd
     final String flightString = 
-      await rootBundle.loadString('assets/flights.txt');
-      
-    List<String> flightArr = flightString.split('\n');
+      await rootBundle.loadString('assets/flights.txt'); //flights.txt is a 2d array seperated by spaces and \n representing the distance between cities i and j in km
+      //we need to convert the text string that we import from flights.txt to a 2d array.
+    List<String> flightArr = flightString.split('\n'); //split the array into rows
     
     for(String line in flightArr) {
-      flights.add(line.split(' '));
+      flights.add(line.split(' ')); //for every row, split into columns by spaces. its now a 2d array.
     }
-    return flights;
+    return flights; //return the 2d array
   }
-    int getFlightAmount(CO2ComparisonItem item, List<List<String>> flights) {
-    return (flights[item.flight1][item.flight2] as num).toInt();
+    int getFlightAmount(CO2ComparisonItem item, List<List<String>> flights) { //Sigurd
+    return (flights[item.flight1][item.flight2] as num).toInt(); //get the distance between the two flight destinations from our flights 2d array
   }
 
-  Future<List<CO2ComparisonItem>> loadQuestions(bool isDaily, List<List<String>> flights) async {
+  Future<List<CO2ComparisonItem>> loadQuestions(bool isDaily, List<List<String>> flights) async { //Sigurd
     //create the Random to use based on if daily
     Random random = createRandom(isDaily);
 
     final String response =
-        await rootBundle.loadString('assets/questions.json');
+        await rootBundle.loadString('assets/questions.json'); //Load our questions from the questions.json
     final data = await json.decode(response);
     final temp = List<CO2ComparisonItem>.from(
-        data.map((item) => CO2ComparisonItem.fromJson(item, flights, airports, random)));
+        data.map((item) => CO2ComparisonItem.fromJson(item, flights, airports, random))); //create a list of items
     for (CO2ComparisonItem co2item in temp) {
-      co2item.shuffle();
+      co2item.shuffle(); //randomize the values of all the items in our list
     }
-    temp.shuffle(random);
+    temp.shuffle(random); //shuffle the order of the list
     return temp;
   }
 

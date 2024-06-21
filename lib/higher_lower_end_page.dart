@@ -87,12 +87,12 @@ class HigherLowerEndPageState extends State<HigherLowerEndPage> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    TextButton( //Sigurd
+                    TextButton( //Sigurd (Clipboard share results)
                       onPressed: () async {
                         await Clipboard.setData(ClipboardData(
                             text: widget.isDaily
-                            ? "#Footprint Higher / Lower #${(DateTime.now().difference(dday).inHours / 24).round()} (${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year})\n${widget.finalScore}/10\nhttps://tacecapsx.github.io/fair-carbon-project/"
-                            : "#Footprint Higher / Lower Endless\nHighscore: ${widget.finalScore}\nhttps://tacecapsx.github.io/fair-carbon-project/"
+                            ? "#Footprint Higher / Lower #${(DateTime.now().difference(dday).inHours / 24).round()} (${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year})\n${widget.finalScore}/10\nhttps://tacecapsx.github.io/fair-carbon-project/" //string formatting for our clipboard, when daily
+                            : "#Footprint Higher / Lower Endless\nHighscore: ${widget.finalScore}\nhttps://tacecapsx.github.io/fair-carbon-project/" //string formatting when endless
                           ),
                         );
                         showDialog(
