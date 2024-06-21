@@ -229,7 +229,7 @@ class OverviewPage extends StatelessWidget {
                       TextButton( //Sigurd (Clipboard share results)
                       onPressed: () async {
                         await Clipboard.setData(ClipboardData(
-                            text: "My carbon footprint (${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}):\nBeef: $beefCo2Impact kg CO2\nChicken: $chickenCo2Impact kg CO2\nPork: $porkCo2Impact kg CO2\nFlights: $flightCo2Impact kg CO2\nVehicle: $vehicleCo2Impact kg CO2\nElectricity: $electricityCo2Impact kg CO2\nGas: $gasCo2Impact kg CO2\nhttps://tacecapsx.github.io/fair-carbon-project/" //string formatting for our clipboard
+                            text: "My carbon footprint (${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}):\nBeef: ${beefCo2Impact.round()} kg CO2\nChicken: ${chickenCo2Impact.round()} kg CO2\nPork: ${porkCo2Impact.round()} kg CO2\nFlights: ${flightCo2Impact.round()} kg CO2\nVehicle: ${vehicleCo2Impact.round()} kg CO2\nElectricity: ${electricityCo2Impact.round()} kg CO2\nGas: ${gasCo2Impact.round()} kg CO2\n Total: ${totalCo2Impact.round()} kg CO2\nhttps://tacecapsx.github.io/fair-carbon-project/" //string formatting for our clipboard
                           ),
                         );
                         showDialog(
