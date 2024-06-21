@@ -170,6 +170,13 @@ void navigateToOverview() {
   updateDataList("Questionnaire/Electricity", electricityImpact);
   updateDataList("Questionnaire/Gas", gasImpact);
 
+  updateDataList("Questionnaire/Beef CO2", beefCo2Impact);
+  updateDataList("Questionnaire/Chicken CO2", chickenCo2Impact);
+  updateDataList("Questionnaire/Pork CO2", porkCo2Impact);
+  updateDataList("Questionnaire/Flying CO2", flightCo2Impact);
+  updateDataList("Questionnaire/Vehicle CO2", vehicleCo2Impact);
+  updateDataList("Questionnaire/Electricity CO2", electricityCo2Impact);
+  updateDataList("Questionnaire/Gas CO2", gasCo2Impact);
 
   //christian s214923
   // sends data to overview page with the calculated data
