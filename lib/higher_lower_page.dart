@@ -4,61 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'higher_lower_end_page.dart';
 import 'database.dart';
+import 'co2_comparison_item.dart';
 
-//Copenhagen;Paris;Tokyo;New York;Los Angeles;Sydney;London;Madrid
 List<String> airports = ["Copenhagen","Paris","Tokyo","New York","Los Angeles","Sydney","London","Madrid"];
-
-class CO2ComparisonItem {
-  final int id; // the unique id of the question
-  final String preDescription; //the string before the randomized amount
-  final String postDescription; //the string after the randomized amount
-  final double eCO2; //the amount of equivalent CO2 pr amount
-  final int minQuant; //the smallest possible amount
-  final int maxQuant; //the largest possible ammount
-  final String imagePath; //the image for the background
-  int amount; //the amount, between minQuant and maxQuant, that gives co2impact when multipliplied with eCO2
-  double co2Impact; //amount multiplied with eCO2
-  List<List<String>> flights;
-  int flight1;
-  int flight2;
-
-  CO2ComparisonItem({
-    required this.id,
-    required this.preDescription,
-    required this.postDescription,
-    required this.eCO2,
-    required this.minQuant,
-    required this.maxQuant,
-    required this.imagePath,
-    this.amount = 0,
-    required this.co2Impact,
-    required this.flights,
-    this.flight1 = 0,
-    this.flight2 = 0
-  });
-
-  void flightAmount() async{
-    int tempInt = double.parse(flights[flight1][flight2]).toInt();
-    amount = tempInt;
-  }
-
-  factory CO2ComparisonItem.fromJson(Map<String, dynamic> json, List<List<String>> flights, Random random) {
-    return CO2ComparisonItem(
-      id: json['id'],
-      preDescription: json['preDescription'],
-      postDescription: json['postDescription'],
-      eCO2: (json['eCO2'] as num).toDouble(),
-      minQuant: (json['minQuant'] as num).toInt(),
-      maxQuant: (json['maxQuant'] as num).toInt(),
-      imagePath: json['imagePath'],
-      amount: random.nextInt((json['maxQuant'] as num).toInt()-(json['minQuant'] as num).toInt())+(json['minQuant'] as num).toInt(),
-      co2Impact: 0,
-      flights: flights,
-      flight1: random.nextInt(airports.length),
-      flight2: random.nextInt(airports.length)
-    );
-  }
-}
 
 class HigherLowerPage extends StatefulWidget {
   const HigherLowerPage({super.key, required this.isDaily});
@@ -147,23 +95,9 @@ class HigherLowerPageState extends State<HigherLowerPage>
         await rootBundle.loadString('assets/questions.json');
     final data = await json.decode(response);
     final temp = List<CO2ComparisonItem>.from(
-        data.map((item) => CO2ComparisonItem.fromJson(item, flights, random)));
-    for (CO2ComparisonItem tempitem in temp) {
-      if(tempitem.id == 2){
-        while(tempitem.flight1 == tempitem.flight2){
-          tempitem.flight2 = random.nextInt(airports.length);
-        }
-        //int tempAmount = getFlightAmount(tempitem,flights);
-        
-        tempitem.flightAmount();
-        //tempitem.amount = 1;
-        tempitem.co2Impact = tempitem.amount*tempitem.eCO2;
-        
-        
-      }
-      else{
-      tempitem.co2Impact = tempitem.amount*tempitem.eCO2;
-    }
+        data.map((item) => CO2ComparisonItem.fromJson(item, flights, airports, random)));
+    for (CO2ComparisonItem co2item in temp) {
+      co2item.shuffle();
     }
     temp.shuffle(random);
     return temp;
@@ -424,8 +358,20 @@ class HigherLowerPageState extends State<HigherLowerPage>
     }
   }
 
-  void evaluateNext() {
+  void evaluateNext() { // Martin
     setState(() {
+      items[currentIndex].shuffle(); //set new random values for the just passed item
+
+      // make sure we're shuffling things that aren't onscreen because of a wrap
+      final int subListStart = currentIndex - (items.length - 3) < 0 ? 0 : currentIndex - (items.length - 3);
+
+      List<CO2ComparisonItem> subList = items.sublist(subListStart, currentIndex + 1); // get the previous questions
+      subList.shuffle(); // shuffle them
+
+      for(int i = 0; i < subList.length; i++) { // ...and put the shuffled sublist into the items list.
+        items[i + subListStart] = subList[i];
+      }
+
       currentIndex = (currentIndex + 1) % items.length;
     });
   }
