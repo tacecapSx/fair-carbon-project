@@ -36,18 +36,18 @@ class CO2ComparisonItem {
     amount = tempInt;
   }
 
-  void shuffle() {
+  void shuffle(Random random) {
     if(id == 2) { //is flight question
-      flight1 = Random().nextInt(airports.length);
+      flight1 = random.nextInt(airports.length);
       do {
-        flight2 = Random().nextInt(airports.length);
+        flight2 = random.nextInt(airports.length);
       }
       while(flight1 == flight2);
 
       flightAmount();
     }
     else {
-      amount = Random().nextInt(maxQuant - minQuant) + minQuant;
+      amount = random.nextInt(maxQuant - minQuant) + minQuant;
     }
 
     co2Impact = amount * eCO2;

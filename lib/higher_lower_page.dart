@@ -24,6 +24,7 @@ class HigherLowerPageState extends State<HigherLowerPage>
   int currentIndex = 0;
   int score = 0;
   final int maxQuestions = 20; //unused?
+  Random? random;
   bool animationActive = false;
 
   late AnimationController _animationController;
@@ -31,10 +32,14 @@ class HigherLowerPageState extends State<HigherLowerPage>
   @override
   void initState() { 
     super.initState();
+
+    //create the Random to use based on if daily
+    random = createRandom(widget.isDaily);
+
     loadFlights().then((loadedFlights) {
         flights = loadedFlights; //load the flights from flight.txt first
     });
-    loadQuestions(widget.isDaily, flights).then((loadedItems) {
+    loadQuestions(widget.isDaily, flights, random!).then((loadedItems) {
       setState(() {
         items = loadedItems; //then load our comparisonitems from questions.json
       });
@@ -87,17 +92,14 @@ class HigherLowerPageState extends State<HigherLowerPage>
     return (flights[item.flight1][item.flight2] as num).toInt(); //get the distance between the two flight destinations from our flights 2d array
   }
 
-  Future<List<CO2ComparisonItem>> loadQuestions(bool isDaily, List<List<String>> flights) async { //Sigurd
-    //create the Random to use based on if daily
-    Random random = createRandom(isDaily);
-
+  Future<List<CO2ComparisonItem>> loadQuestions(bool isDaily, List<List<String>> flights, Random random) async {
     final String response =
         await rootBundle.loadString('assets/questions.json'); //Load our questions from the questions.json
     final data = await json.decode(response);
     final temp = List<CO2ComparisonItem>.from(
         data.map((item) => CO2ComparisonItem.fromJson(item, flights, airports, random))); //create a list of items
     for (CO2ComparisonItem co2item in temp) {
-      co2item.shuffle(); //randomize the values of all the items in our list
+      co2item.shuffle(random); //randomize the values of all the items in our list
     }
     temp.shuffle(random); //shuffle the order of the list
     return temp;
@@ -360,13 +362,13 @@ class HigherLowerPageState extends State<HigherLowerPage>
 
   void evaluateNext() { // Martin
     setState(() {
-      items[currentIndex].shuffle(); //set new random values for the just passed item
+      items[currentIndex].shuffle(random!); //set new random values for the just passed item
 
       // make sure we're shuffling things that aren't onscreen because of a wrap
       final int subListStart = currentIndex - (items.length - 3) < 0 ? 0 : currentIndex - (items.length - 3);
 
       List<CO2ComparisonItem> subList = items.sublist(subListStart, currentIndex + 1); // get the previous questions
-      subList.shuffle(); // shuffle them
+      subList.shuffle(random!); // shuffle them
 
       for(int i = 0; i < subList.length; i++) { // ...and put the shuffled sublist into the items list.
         items[i + subListStart] = subList[i];
