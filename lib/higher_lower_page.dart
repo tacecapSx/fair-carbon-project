@@ -92,7 +92,7 @@ class HigherLowerPageState extends State<HigherLowerPage>
     return (flights[item.flight1][item.flight2] as num).toInt(); //get the distance between the two flight destinations from our flights 2d array
   }
 
-  Future<List<CO2ComparisonItem>> loadQuestions(bool isDaily, List<List<String>> flights, Random random) async {
+  Future<List<CO2ComparisonItem>> loadQuestions(bool isDaily, List<List<String>> flights, Random random) async { //Sigurd
     final String response =
         await rootBundle.loadString('assets/questions.json'); //Load our questions from the questions.json
     final data = await json.decode(response);
