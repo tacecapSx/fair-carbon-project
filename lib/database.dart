@@ -4,41 +4,76 @@ import 'package:firebase_database/firebase_database.dart';
 
 final DatabaseReference _databaseReference = FirebaseDatabase.instance.ref();
 
-void sendData(String path, double data) {
-    _databaseReference.child(path).set(data);
+Future<void> sendData(String path, double data) async {
+  try {
+    await _databaseReference
+        .child(path)
+        .set(data)
+        .timeout(const Duration(seconds: 2));
+  } catch (e) {
+    // timeout, permission error, offline
+  }
 }
 
-void sendDataList(String path, List<double> data) {
-    _databaseReference.child(path).set(data);
+
+Future<void> sendDataList(String path, List<double> data) async {
+  try {
+    await _databaseReference
+        .child(path)
+        .set(data)
+        .timeout(const Duration(seconds: 2));
+  } catch (e) {
+    // timeout, permission error, offline
+  }
 }
 
-Future<double> getData(String path) async {
-    DatabaseEvent databaseEvent = await _databaseReference.child(path).once();
-    DataSnapshot dataSnapshot = databaseEvent.snapshot;
+
+Future<double?> getData(String path) async {
+  try {
+    final databaseEvent = await _databaseReference
+        .child(path)
+        .once()
+        .timeout(const Duration(seconds: 2));
+
+    final dataSnapshot = databaseEvent.snapshot;
+
     if (dataSnapshot.value != null) {
-        return dataSnapshot.value as double;
+      return (dataSnapshot.value as num).toDouble();
     }
+  } catch (e) {
+    // timeout, permission error, offline
+  }
 
-    return 0;
+  return null;
 }
 
 Future<List<double>> getDataList(String path) async {
-    List<double> dataList = [];
-    DatabaseEvent databaseEvent = await _databaseReference.child(path).once();
-    DataSnapshot dataSnapshot = databaseEvent.snapshot;
-    if (dataSnapshot.value != null) {
-        List<dynamic> list = dataSnapshot.value as List<dynamic>;
+  try {
+    final databaseEvent = await _databaseReference
+        .child(path)
+        .once()
+        .timeout(const Duration(seconds: 2));
 
-        for (dynamic value in list) {
-        dataList.add(value as double);
-        }
+    final snapshot = databaseEvent.snapshot;
+    final value = snapshot.value;
+
+    if (value is List) {
+      return value
+          .whereType<num>()
+          .map((e) => e.toDouble())
+          .toList();
     }
+  } catch (e) {
+    // timeout, permission error, offline
+  }
 
-    return dataList;
+  return [];
 }
+
 
 void updateDataList(String path, double data) async{
     List<double> update = await getDataList(path);
+
     update.add(data);
     sendDataList(path, update);
 }

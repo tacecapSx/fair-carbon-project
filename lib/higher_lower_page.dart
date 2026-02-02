@@ -291,8 +291,8 @@ class HigherLowerPageState extends State<HigherLowerPage>
     //Oskar (Collect data from player)
 
     String dataCollectionPath = "HigherOrLower/PlayerCorrectness/${current.preDescription}${current.postDescription} -- ${next.preDescription}${next.postDescription}/${correct ? "Correct" : "Not correct"}";
-    double dataCollectionAmount = await getData(dataCollectionPath);
-    sendData(dataCollectionPath, dataCollectionAmount+1);
+    double? dataCollectionAmount = await getData(dataCollectionPath);
+    sendData(dataCollectionPath, (dataCollectionAmount ?? 0) + 1);
 
     if (correct) {
       // check if the player has finished the daily
